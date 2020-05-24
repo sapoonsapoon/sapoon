@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("login")
+@RequestMapping("/sapoon/login")
 public class LoginController {
 
     @RequestMapping(method = RequestMethod.POST, value = "")

@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-ds
+  labels:
+    app: hello-ds
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello-ds
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: hello-ds
+        version: v1
+    spec:
+      serviceAccountName: test-hello-ds
+      containers:
+      - name: hello-ds
+        image: gcr.io/versatile-gist-272000/saphoon:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: tmp
+          mountPath: /tmp
+      volumes:
+      - name: tmp
+        emptyDir: {}

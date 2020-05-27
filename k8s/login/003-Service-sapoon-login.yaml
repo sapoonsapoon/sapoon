@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-ds
+  labels:
+    app: hello-ds
+    service: hello-ds
+spec:
+  ports:
+  - port: 8080
+    name: http
+  selector:
+    app: hello-ds

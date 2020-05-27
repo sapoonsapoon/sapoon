@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hello-ds
+  name: sapoon-login
   labels:
-    app: hello-ds
+    app: sapoon-login
     version: v1
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: hello-ds
+      app: sapoon-login
       version: v1
   template:
     metadata:
       labels:
-        app: hello-ds
+        app: sapoon-login
         version: v1
     spec:
-      serviceAccountName: test-hello-ds
+      serviceAccountName: account-sapoon-login
       containers:
-      - name: hello-ds
-        image: gcr.io/versatile-gist-272000/saphoon:latest
+      - name: sapoon-login
+        image: gcr.io/sapoon/sapoon-login:latest
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080

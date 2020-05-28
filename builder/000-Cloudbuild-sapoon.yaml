@@ -1,0 +1,73 @@
+# Copyright 2018 Google LLC
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#     https://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.dock
+steps:
+
+    ### Build
+    
+      - id: 'build'
+        name: 'gcr.io/cloud-builders/docker'
+        entrypoint: 'bash'
+        args: 
+          - '-c'
+          - |
+              mvn clean install
+              docker build -t gcr.io/$PROJECT_ID/saphoon:$TAG_NAME .
+    
+    
+    
+    ### Test
+    
+    
+    ### Publish
+      - id: 'publish'
+        name: 'gcr.io/cloud-builders/docker'
+        entrypoint: 'bash'
+        args: 
+          - '-c'
+          - |
+              docker push gcr.io/$PROJECT_ID/saphoon:$TAG_NAME
+    
+    
+    
+    ### Deploy
+      - id: 'deploy'
+        name: 'gcr.io/cloud-builders/gcloud'
+        env:
+          - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
+          - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
+          - 'KUBECONFIG=/kube/config'
+        entrypoint: 'bash'
+        args:
+          - '-c'
+          - |
+              CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}
+              PROJECT=$$(gcloud config get-value core/project)
+              ZONE=${_CLOUDSDK_COMPUTE_ZONE}
+    
+              gcloud container clusters get-credentials "$${CLUSTER}" \
+                --project "$${PROJECT}" \
+                --zone "$${ZONE}"  
+    
+    
+    
+              sed -i 's|gcr.io/cloud-solutions-images/saphoon:.*|gcr.io/$PROJECT_ID/saphoon:$TAG_NAME|' ./kubernetes/deployments/prod/*.yaml
+              
+              kubectl get ns test-ds || kubectl create ns test-ds
+              kubectl apply --namespace test-ds --recursive -f k8s/account-hello-ds.yaml
+              kubectl apply --namespace test-ds --recursive -f k8s/deployment-hello-ds.yaml
+              kubectl apply --namespace test-ds --recursive -f k8s/service-hello-ds.yaml
+              kubectl apply --namespace test-ds --recursive -f k8s/gateway-hello-ds.yaml
+              kubectl apply --namespace test-ds --recursive -f k8s/virtualservice-hello-ds.yaml
+    
+    

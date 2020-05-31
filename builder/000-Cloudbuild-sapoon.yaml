@@ -21,7 +21,6 @@ steps:
         args: 
           - '-c'
           - |
-              ./back/login-memb-service/gradlew build
               docker build -t gcr.io/$PROJECT_ID/sapoon-login:$TAG_NAME ./login-memb-service/
     
     

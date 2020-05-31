@@ -21,8 +21,8 @@ steps:
         args: 
           - '-c'
           - |
-              ../back/login-memb-service/gradlew build
-              docker build -t gcr.io/$PROJECT_ID/sapoon-login:$TAG_NAME .
+              ./back/login-memb-service/gradlew build
+              docker build -t gcr.io/$PROJECT_ID/sapoon-login:$TAG_NAME ./login-memb-service/
     
     
     
@@ -60,6 +60,10 @@ steps:
                 --zone "$${ZONE}"  
     
               kubectl get ns sapoon || kubectl create ns sapoon
-              kubectl apply --namespace sapoon --recursive -f ../k8s/login/*.yaml
+              kubectl apply -f ./k8s/login/001*.yaml -n sapoon
+              kubectl apply -f ./k8s/login/002*.yaml -n sapoon
+              kubectl apply -f ./k8s/login/003*.yaml -n sapoon
+              kubectl apply -f ./k8s/login/004*.yaml -n sapoon
+              kubectl apply -f ./k8s/login/005*.yaml -n sapoon
     
     

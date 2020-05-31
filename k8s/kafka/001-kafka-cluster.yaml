@@ -9,7 +9,7 @@ spec:
       plain: {}
       tls: {}
       external:
-        type: nodebalance
+        type: loadbalancer
         tls: false
     storage:
       type: jbod

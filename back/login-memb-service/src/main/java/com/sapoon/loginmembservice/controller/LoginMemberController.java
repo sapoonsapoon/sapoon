@@ -1,5 +1,6 @@
 package com.sapoon.loginmembservice.controller;
 
+import com.sapoon.loginmembservice.common.exception.InvalidDataException;
 import com.sapoon.loginmembservice.vo.MemberInfoVO;
 import com.sapoon.loginmembservice.service.LoginMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,16 @@ public class LoginMemberController {
             return ResponseEntity.ok().build();
             //return ResponseEntity.ok().headers(getSuccessHeader()).body("");
         }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(getErrorHeader()).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("member/regist")
+    public ResponseEntity<?> insertMember(@RequestBody MemberInfoVO memberInfoVO){
+        try{
+            loginMemberService.insertMember(memberInfoVO);
+            return ResponseEntity.ok().build();
+        }catch (InvalidDataException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(getErrorHeader()).body(e.getMessage());
         }
     }

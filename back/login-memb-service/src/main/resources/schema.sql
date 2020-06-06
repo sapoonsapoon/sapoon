@@ -16,6 +16,7 @@ CREATE TABLE member_info(
     reg_date TIMESTAMP NOT NULL DEFAULT now(),
     upd_id varchar(20),
     upd_date TIMESTAMP,
+    regist_path varchar(1) Not null,
     CONSTRAINT member_info_pk PRIMARY KEY (id)
 );
 

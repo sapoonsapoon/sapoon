@@ -19,4 +19,5 @@ public class MemberInfoVO {
     private String loginIp;
     private String loginLocation;
     private String loginToken;
+    private String registPath;
 }

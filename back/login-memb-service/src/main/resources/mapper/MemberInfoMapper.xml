@@ -11,4 +11,32 @@
             id = #{id}
     </select>
 
+    <insert id="insertMember" parameterType="MemberInfoVO" >
+        INSERT INTO
+        MEMBER_INFO(
+            ID,
+            PW,
+            NAME,
+            NICKNAME,
+            EMAIL,
+            GENDER,
+            LOGIN_TOKEN,
+            REG_ID,
+            REG_DATE,
+            REGIST_PATH
+            )
+        VALUES(
+            #{id},
+            #{password},
+            #{name},
+            #{nickname},
+            #{email},
+            #{gender},
+            1,
+            #{id},
+            now(),
+            #{registPath}
+            )
+    </insert>
+
 </mapper>

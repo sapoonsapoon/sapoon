@@ -1,1 +1,10 @@
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://chunodb.cgnrtbr54etn.ap-northeast-2.rds.amazonaws.com:3306/chuno
+    username: kimdragonhee
+    password: dydrkfl1
+
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
 

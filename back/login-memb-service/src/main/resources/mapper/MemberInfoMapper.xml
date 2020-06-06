@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sapoon.loginmembservice.mapper.MemberInfoMapper">
+
+    <select id="selectId" parameterType="String" resultType="String">
+        SELECT
+            count(id)
+        FROM
+            member_info
+        WHERE
+            id = #{id}
+    </select>
+
+    <insert id="insertMember" parameterType="MemberInfoVO" >
+        INSERT INTO
+        MEMBER_INFO(
+            ID,
+            PW,
+            NAME,
+            NICKNAME,
+            EMAIL,
+            GENDER,
+            LOGIN_TOKEN,
+            REG_ID,
+            REG_DATE,
+            REGIST_PATH
+            )
+        VALUES(
+            #{id},
+            #{password},
+            #{name},
+            #{nickname},
+            #{email},
+            #{gender},
+            1,
+            #{id},
+            now(),
+            #{registPath}
+            )
+    </insert>
+
+</mapper>

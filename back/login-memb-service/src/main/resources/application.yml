@@ -8,3 +8,10 @@ spring:
     console:
       enabled: true
       path: /h2
+
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: com.sapoon.loginmembservice.vo
+
+server:
+  port: 7192

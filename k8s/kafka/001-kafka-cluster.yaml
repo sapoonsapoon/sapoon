@@ -9,14 +9,14 @@ spec:
       plain: {}
       tls: {}
       external:
-        type: nodeport
+        type: loadbalancer
         tls: false
     storage:
       type: jbod
       volumes:
       - id: 0
         type: persistent-claim
-        class: nfs-client
+        class: standard
         size: 5Gi
         deleteClaim: false
     config:
@@ -27,7 +27,7 @@ spec:
     replicas: 1
     storage:
       type: persistent-claim
-      class: nfs-client
+      class: standard
       size: 5Gi
       deleteClaim: false
   entityOperator:

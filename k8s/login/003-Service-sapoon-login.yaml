@@ -11,5 +11,3 @@ spec:
     name: http
   selector:
     app: sapoon-login
-
-    sdf

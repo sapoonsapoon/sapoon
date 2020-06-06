@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="sapoon.communityservice.mapper.NoticeMapper">
+    <insert id="insertNoticePost" parameterType="sapoon.communityservice.vo.NoticeVo">
+        INSERT INTO notice_post(seq, title, comment, file_yn, img_yn, reg_id)
+        Values(#{seq}, #{title}, #{comment}, #{fileYn}, #{imgYn}, 'system')
+    </insert>
+</mapper>

@@ -32,8 +32,7 @@ public class LoginMemberController {
         try{
             loginMemberService.selectId(id);
             return ResponseEntity.ok().build();
-            //return ResponseEntity.ok().headers(getSuccessHeader()).body("");
-        }catch (Exception e){
+        }catch (InvalidDataException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(getErrorHeader()).body(e.getMessage());
         }
     }
@@ -45,6 +44,55 @@ public class LoginMemberController {
             return ResponseEntity.ok().build();
         }catch (InvalidDataException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(getErrorHeader()).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("member/modify/password")
+    public ResponseEntity<?> updatePassword(@RequestBody MemberInfoVO memberInfoVO){
+        try{
+            loginMemberService.updatePassword(memberInfoVO);
+            return ResponseEntity.ok().build();
+        }catch (InvalidDataException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(getErrorHeader()).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("member/modify/info")
+    public ResponseEntity<?> updateInfo(@RequestBody MemberInfoVO memberInfoVO){
+        try{
+            loginMemberService.updateInfo(memberInfoVO);
+            return ResponseEntity.ok().build();
+        }catch (InvalidDataException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(getErrorHeader()).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("member/get/{id}")
+    public ResponseEntity<?> getMember(@PathVariable("id") String id){
+        try{
+            return ResponseEntity.ok().headers(getSuccessHeader()).body(loginMemberService.selectMember(id));
+        }catch (InvalidDataException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(getErrorHeader()).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("member/find/id")
+    public ResponseEntity<?> getId(@RequestBody MemberInfoVO memberInfoVO){
+        try{
+            return ResponseEntity.ok().headers(getSuccessHeader()).body(loginMemberService.selectIdUsingNameEmailBirthday(memberInfoVO));
+        }catch (InvalidDataException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(getErrorHeader()).body(e.getMessage());
+
+        }
+    }
+
+    @PostMapping("member/find/password")
+    public ResponseEntity<?> changePw(@RequestBody MemberInfoVO memberInfoVO){
+        try{
+            return ResponseEntity.ok().headers(getSuccessHeader()).body(loginMemberService.FindPassword(memberInfoVO));
+        }catch (InvalidDataException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(getErrorHeader()).body(e.getMessage());
+
         }
     }
 

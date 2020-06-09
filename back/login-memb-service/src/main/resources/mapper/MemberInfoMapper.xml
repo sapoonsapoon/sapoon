@@ -23,7 +23,8 @@
             LOGIN_TOKEN,
             REG_ID,
             REG_DATE,
-            REGIST_PATH
+            REGIST_PATH,
+            BIRTHDAY
             )
         VALUES(
             #{id},
@@ -35,8 +36,61 @@
             1,
             #{id},
             now(),
-            #{registPath}
+            #{registPath},
+            #{birthday}
             )
     </insert>
+    
+    <update id="updatePassword" parameterType="MemberInfoVO">
+        update
+            MEMBER_INFO
+        set
+            PW = #{password},
+            UPD_ID = #{id},
+            UPD_DATE = now()
+        where
+            ID = #{id}
+    </update>
+
+    <update id="updateInfo" parameterType="MemberInfoVO">
+        update
+            MEMBER_INFO
+        set
+            ID = #{id},
+            BIRTHDAY = #{birthday},
+            NICKNAME = #{nickname},
+            email = #{email}
+            UPD_ID = #{id},
+            UPD_DATE = now()
+        where
+            ID = #{id}
+    </update>
+
+    <select id="selectMember" parameterType="String" resultType="MemberInfoVO">
+        select
+            ID,
+            NICKNAME,
+            EMAIL,
+            BIRTHDAY,
+            REG_DATE as regDate,
+            UPD_DATe as updDate
+        FROM
+            MEMBER_INFO
+        WHERE
+            ID = #{id}
+    </select>
+
+    <select id="selectIdUsingNameEmailBirthday" parameterType="MemberInfoVO" resultType="MemberInfoVO">
+        select
+            ID
+        FROM
+            MEMBER_INFO
+        WHERE
+            NAME = #{name}
+            AND
+            EMAIL = #{email}
+            AND
+            BIRTHDAY = #{birthday}
+    </select>
 
 </mapper>

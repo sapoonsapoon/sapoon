@@ -7,4 +7,8 @@ import org.apache.ibatis.annotations.Mapper;
 public interface MemberInfoMapper {
     String selectId(String id);
     int insertMember(MemberInfoVO memberInfoVO);
+    int updatePassword(MemberInfoVO memberInfoVO);
+    int updateInfo(MemberInfoVO memberInfoVO);
+    MemberInfoVO selectMember(String id);
+    MemberInfoVO selectIdUsingNameEmailBirthday(MemberInfoVO memberInfoVO);
 }

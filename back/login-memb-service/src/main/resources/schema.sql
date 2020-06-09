@@ -11,6 +11,7 @@ CREATE TABLE member_info(
     nickname varchar(15) Not NULL,
     email varchar(30) Not NULL,
     gender varchar(1) NOT NULL,
+    birthday varchar(10) NOT NULL,
     login_token varchar(100) Not NULL,
     reg_id varchar(20) Not NULL,
     reg_date TIMESTAMP NOT NULL DEFAULT now(),

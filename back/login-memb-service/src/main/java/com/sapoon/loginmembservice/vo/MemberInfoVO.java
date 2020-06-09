@@ -1,5 +1,6 @@
 package com.sapoon.loginmembservice.vo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -7,6 +8,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class MemberInfoVO {
     private String id;
     private String password;
@@ -20,4 +22,8 @@ public class MemberInfoVO {
     private String loginLocation;
     private String loginToken;
     private String registPath;
+    private String regDate;
+    private String regId;
+    private String updId;
+    private String updDate;
 }

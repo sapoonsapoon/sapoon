@@ -12,6 +12,3 @@ spring:
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
   type-aliases-package: com.sapoon.loginmembservice.vo
-
-server:
-  port: 7192

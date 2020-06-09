@@ -34,7 +34,9 @@ class _SignUpPageState extends State<SignUpPage> {
   var locationOptions =
   LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 10);
 
-  String show_log='';
+  String show_log='생일을 입력해주세요';
+
+  String dropdownValue = '    남자';
 
   void _incrementCounter(String value) {
     setState(() {
@@ -46,256 +48,378 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
 
-    StreamSubscription<Position> positionStream = geolocator
-        .getPositionStream(locationOptions)
-        .listen((Position position) {
-      print(position == null
-          ? 'Unknown'
-          : position.latitude.toString() +
-          ', ' +
-          position.longitude.toString());
-    });
 
     return Scaffold(
+
         appBar: AppBar(
           title: Text('회원가입 화면', textAlign: TextAlign.right,),
 
         ),
         body: Builder(builder: (BuildContext context) {
-      return SafeArea(
+            return SingleChildScrollView(
+
+              child: SafeArea(
         child:  Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Text(
-                    'SAPOON 회원가입',
-                    style: TextStyle(
-                        fontFamily: "NanumSquareExtraBold",
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black45),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(10.0),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.744,
-                    height: MediaQuery.of(context).size.width * 0.100,
-                    child: TextFormField(
-                      style: TextStyle(
-                          color: Colors.black45, fontWeight: FontWeight.bold),
-                      controller: _idController,
-                      decoration: getTextFieldDecor('아이디'),
-                      validator: (String value) {
-                        //pw input 조건
-                        if (value.isEmpty) {
-                          return "빈칸은 허용할 수 없어요:)";
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.744,
-                    height: MediaQuery.of(context).size.width * 0.100,
-                    child: TextFormField(
-                      style: TextStyle(
-                          color: Colors.black45, fontWeight: FontWeight.bold),
-                      obscureText: true,
-                      controller: _pwController,
-                      decoration: getTextFieldDecor('Password'),
-                      validator: (String value) {
-                        //pw input 조건
-                        if (value.isEmpty) {
-                          return "빈칸은 허용할 수 없어요:)";
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.744,
-                    height: MediaQuery.of(context).size.width * 0.100,
-                    child: TextFormField(
-                      style: TextStyle(
-                          color: Colors.black45, fontWeight: FontWeight.bold),
-                      controller: _pwControllerCf,
-                      decoration: getTextFieldDecor('비밀번호 확인'),
-                      validator: (String value) {
-                        //pw input 조건
-                        if (value.isEmpty) {
-                          return "인빈칸은 허용할 수 없어요:)";
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.372,
-                        height: MediaQuery.of(context).size.width * 0.100,
-                        child: TextFormField(
-                          style: TextStyle(
-                              color: Colors.black45, fontWeight: FontWeight.bold),
-                          controller: _nameController,
-                          decoration: getTextFieldDecor('이름'),
-                          validator: (String value) {
-                            //pw input 조건
-                            if (value.isEmpty) {
-                              return "인빈칸은 허용할 수 없어요:)";
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.372,
-                        height: MediaQuery.of(context).size.width * 0.100,
-                        child: TextFormField(
-                          style: TextStyle(
-                              color: Colors.black45, fontWeight: FontWeight.bold),
-                          controller: _sexController,
-                          decoration: getTextFieldDecor('성별'),
-                          validator: (String value) {
-                            //pw input 조건
-                            if (value.isEmpty) {
-                              return "인빈칸은 허용할 수 없어요:)";
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  InkWell(
-                    onTap: () {
-                      DatePicker.showDatePicker(
-                        context,
-                        showTitleActions: true,
-                        onChanged: (date) {
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
 
-                        },
-                        onConfirm: (date) {
-                          print('완료 $date');
-                          String sss = DateFormat("yyyy-MM-dd").format(date);
-                          _incrementCounter(sss);
-                          print(sss);
-                        },
-                        currentTime: DateTime.now(),
-                        locale: LocaleType.ko,
-
-                      );
-                    },
-                    child: Container(
+                    Padding(
+                      padding: EdgeInsets.all(30.0),
+                    ),
+                    Text(
+                      'SAPOON 회원가입',
+                      style: TextStyle(
+                          fontFamily: "NanumSquareExtraBold",
+                          fontSize: 40.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.green),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(20.0),
+                    ),
+                    Container(
                       width: MediaQuery.of(context).size.width * 0.744,
                       height: MediaQuery.of(context).size.width * 0.100,
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Color(0XFFA3C0F1),
-                          )),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.edit,
-                            size: 10,
-                            color: Colors.green,
+                      child: TextFormField(
+                        style: TextStyle(
+                            color: Colors.black45, fontWeight: FontWeight.bold),
+                        controller: _idController,
+                        decoration: InputDecoration(
+                          hintText: '아이디',
+                          hintStyle: TextStyle(color: Colors.black45),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.blueGrey,
+                              width: 1,
+                            ),
                           ),
-                          Text(
-                            show_log,
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.blueGrey,
+                              width: 1,
+                            ),
+                          ),
+                          fillColor: Colors.transparent,
+                          filled: true,
+                          prefixIcon: Icon(Icons.account_circle),
+                        ),
+
+                        validator: (String value) {
+                          //pw input 조건
+                          if (value.isEmpty) {
+                            return "빈칸은 허용할 수 없어요:)";
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.744,
+                      height: MediaQuery.of(context).size.width * 0.100,
+                      child: TextFormField(
+                        style: TextStyle(
+                            color: Colors.black45, fontWeight: FontWeight.bold),
+                        obscureText: true,
+                        controller: _pwController,
+                        decoration: InputDecoration(
+                          hintText: '비밀번호 ',
+                          hintStyle: TextStyle(color: Colors.black45),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.blueGrey,
+                              width: 1,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.blueGrey,
+                              width: 1,
+                            ),
+                          ),
+                          fillColor: Colors.transparent,
+                          filled: true,
+                          prefixIcon: Icon(Icons.fiber_pin),
+                        ),
+
+                        validator: (String value) {
+                          //pw input 조건
+                          if (value.isEmpty) {
+                            return "빈칸은 허용할 수 없어요:)";
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.744,
+                      height: MediaQuery.of(context).size.width * 0.100,
+                      child: TextFormField(
+                        style: TextStyle(
+                            color: Colors.black45, fontWeight: FontWeight.bold),
+                        controller: _pwControllerCf,
+                        decoration: InputDecoration(
+                          hintText: '비밀번호 확인 ',
+                          hintStyle: TextStyle(color: Colors.black45),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.blueGrey,
+                              width: 1,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.blueGrey,
+                              width: 1,
+                            ),
+                          ),
+                          fillColor: Colors.transparent,
+                          filled: true,
+                          prefixIcon: Icon(Icons.fiber_pin),
+                        ),
+                        validator: (String value) {
+                          //pw input 조건
+                          if (value.isEmpty) {
+                            return "인빈칸은 허용할 수 없어요:)";
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.372,
+                          height: MediaQuery.of(context).size.width * 0.100,
+                          child: TextFormField(
                             style: TextStyle(
+                                color: Colors.black45, fontWeight: FontWeight.bold),
+                            controller: _nameController,
+                            decoration: InputDecoration(
+                             hintText: '이름 ',
+                              hintStyle: TextStyle(color: Colors.black45),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Colors.blueGrey,
+                                  width: 1,
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Colors.blueGrey,
+                                  width: 1,
+                                ),
+                              ),
+                              fillColor: Colors.transparent,
+                              filled: true,
+                              prefixIcon: Icon(Icons.child_care),
+                            ),
+                            validator: (String value) {
+                              //pw input 조건
+                              if (value.isEmpty) {
+                                return "인빈칸은 허용할 수 없어요:)";
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.372,
+                          height: MediaQuery.of(context).size.width * 0.100,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.blueGrey)
+                          ),
+                          child: DropdownButton<String>(
+                            value: dropdownValue,
+                            iconSize: 24,
+                            elevation: 1,
+                            hint: Container(
+                                alignment: Alignment.centerRight,
+                                width: 100,
+                                child: Text("Hint text", textAlign: TextAlign.end)
+                            ),
+                            style: TextStyle(color: Colors.black),
+                            onChanged: (String newValue) {
+                              setState(() {
+                                dropdownValue = newValue;
+                              });
+                            },
+                            items: <String>['    남자','    여자']
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value,textAlign: TextAlign.right),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ],
+                    ),
+                    InkWell(
+                      onTap: () {
+                        DatePicker.showDatePicker(
+                          context,
+                          showTitleActions: true,
+                          onChanged: (date) {
+
+                          },
+                          onConfirm: (date) {
+                            print('완료 $date');
+                            String sss = DateFormat("yyyy-MM-dd").format(date);
+                            _incrementCounter(sss);
+                            print(sss);
+                          },
+                          currentTime: DateTime.now(),
+                          locale: LocaleType.ko,
+
+                        );
+                      },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.744,
+                        height: MediaQuery.of(context).size.width * 0.100,
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.blueGrey)
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(
+                              Icons.cake,
+                              size: 30,
+                              color: Colors.green,
+                            ),
+                            Text(
+                              show_log,
+                              style: TextStyle(
+                                color: Colors.black45,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.744,
+                      height: MediaQuery.of(context).size.width * 0.100,
+                      child: TextFormField(
+                        style: TextStyle(
+                            color: Colors.black38, fontWeight: FontWeight.bold),
+                        controller: _nicknameController,
+                        decoration: InputDecoration(
+                          hintText: '닉네임',
+                          hintStyle: TextStyle(color: Colors.black45),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.blueGrey,
+                              width: 1,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.blueGrey,
+                              width: 1,
+                            ),
+                          ),
+                          fillColor: Colors.transparent,
+                          filled: true,
+                          prefixIcon: Icon(Icons.face),
+                        ),
+                        validator: (String value) {
+                          //pw input 조건
+                          if (value.isEmpty) {
+                            return "빈칸은 허용할 수 없어요:)";
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.744,
+                      height: MediaQuery.of(context).size.width * 0.100,
+                      child: TextFormField(
+                        style: TextStyle(
+                            color: Colors.black45, fontWeight: FontWeight.bold),
+                        controller: _emailController,
+                        decoration: InputDecoration(
+                          hintText: '이메일 ',
+                          hintStyle: TextStyle(color: Colors.black45),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.blueGrey,
+                              width: 1,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.blueGrey,
+                              width: 1,
+                            ),
+                          ),
+                          fillColor: Colors.transparent,
+                          filled: true,
+                          prefixIcon: Icon(Icons.email),
+                        ),
+                        validator: (String value) {
+                          //pw input 조건
+                          if (value.isEmpty) {
+                            return "빈칸은 허용할 수 없어요:)";
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(10.0),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        print('눌렀어요ㅃ');
+                        final snackbar = SnackBar(content: Text('계정이 없습니다.'));
+                        Scaffold.of(context).showSnackBar(snackbar);
+                        createAlbum(context,
+                           _idController.text,
+                         _pwController.text,
+                         _nameController.text,
+                         _sexController.text,
+                         _nicknameController.text,
+                       _emailController.text,
+                        show_log,
+                          show_log,
+                        );
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.green,
+                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                        ),
+                        width: MediaQuery.of(context).size.width * 0.744,
+                        height: MediaQuery.of(context).size.width * 0.125,
+                        child: Center(
+                          child: Text(
+                            "회원가입",
+                            style: TextStyle(
+                              fontSize: 15.0,
                               color: Colors.black45,
                               fontWeight: FontWeight.w600,
-                              fontSize: 13,
                             ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.744,
-                    height: MediaQuery.of(context).size.width * 0.100,
-                    child: TextFormField(
-                      style: TextStyle(
-                          color: Colors.black38, fontWeight: FontWeight.bold),
-                      controller: _nicknameController,
-                      decoration: getTextFieldDecor('닉네임'),
-                      validator: (String value) {
-                        //pw input 조건
-                        if (value.isEmpty) {
-                          return "빈칸은 허용할 수 없어요:)";
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.744,
-                    height: MediaQuery.of(context).size.width * 0.100,
-                    child: TextFormField(
-                      style: TextStyle(
-                          color: Colors.black45, fontWeight: FontWeight.bold),
-                      controller: _emailController,
-                      decoration: getTextFieldDecor('이메일'),
-                      validator: (String value) {
-                        //pw input 조건
-                        if (value.isEmpty) {
-                          return "빈칸은 허용할 수 없어요:)";
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(10.0),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      print('눌렀어요ㅃ');
-                      final snackbar = SnackBar(content: Text('계정이 없습니다.'));
-                      Scaffold.of(context).showSnackBar(snackbar);
-                      createAlbum(context,
-                         _idController.text,
-                       _pwController.text,
-                       _nameController.text,
-                       _sexController.text,
-                       _nicknameController.text,
-                     _emailController.text,
-                      show_log,
-                        show_log,
-                      );
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.green,
-                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                      ),
-                      width: MediaQuery.of(context).size.width * 0.744,
-                      height: MediaQuery.of(context).size.width * 0.125,
-                      child: Center(
-                        child: Text(
-                          "회원가입",
-                          style: TextStyle(
-                            fontSize: 15.0,
-                            color: Colors.black45,
-                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              )),
-      );
+                  ],
+                )),
+      ),
+            );
     }));
   }
 }
 
 InputDecoration getTextFieldDecor(String hint) {
+
   return InputDecoration(
     hintText: hint,
     hintStyle: TextStyle(color: Colors.black45),

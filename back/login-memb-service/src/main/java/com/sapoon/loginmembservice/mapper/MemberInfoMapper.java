@@ -11,4 +11,5 @@ public interface MemberInfoMapper {
     int updateInfo(MemberInfoVO memberInfoVO);
     MemberInfoVO selectMember(String id);
     MemberInfoVO selectIdUsingNameEmailBirthday(MemberInfoVO memberInfoVO);
+    int selectMemberUsingIdPassword(MemberInfoVO memberInfoVO);
 }

@@ -5,9 +5,11 @@ import com.sapoon.loginmembservice.mapper.MemberInfoMapper;
 import com.sapoon.loginmembservice.mapper.MemberLoginMapper;
 import com.sapoon.loginmembservice.util.ValidChecker;
 import com.sapoon.loginmembservice.vo.MemberInfoVO;
+import org.apache.ibatis.reflection.wrapper.MapWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Random;
@@ -20,6 +22,9 @@ public class LoginMemberService {
 
     @Autowired
     MemberLoginMapper memberLoginMapper;
+
+    @Autowired
+    JwtService jwtService;
 
     public String base64encoder(String str){
         Base64.Encoder encoder = Base64.getEncoder();
@@ -183,5 +188,33 @@ public class LoginMemberService {
             }
         }
         return sb.toString();
+    }
+
+    public String login(MemberInfoVO memberInfoVO) throws InvalidDataException, UnsupportedEncodingException {
+        ValidChecker validChecker = new ValidChecker();
+        String Keys = "id;pw;macId";
+        HashMap<String, Object> values = new HashMap<>();
+        values.put("id", memberInfoVO.getId());
+        values.put("pw", memberInfoVO.getPassword());
+        values.put("macId", memberInfoVO.getMacId());
+
+        if (!validChecker.validcheck(Keys, values)) {
+            throw new InvalidDataException("필수 입력 값을 다시 확인 하십시오.");
+        }
+        memberInfoVO.setPassword(base64encoder(memberInfoVO.getPassword()));
+
+        int result = memberInfoMapper.selectMemberUsingIdPassword(memberInfoVO);
+
+        if(result != 1){
+            throw new InvalidDataException("ID나 PW를 확인하세요.");
+        }
+
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("macId", memberInfoVO.getMacId());
+        data.put("role", "user");
+
+        String Token = jwtService.create(data);
+
+        return Token;
     }
 }

@@ -36,7 +36,12 @@
             1,
             #{id},
             now(),
+        <if test='registPath != null and registPath != ""'>
             #{registPath},
+        </if>
+        <if test='registPath == null || registPath == ""'>
+            '0',
+        </if>
             #{birthday}
             )
     </insert>
@@ -92,5 +97,17 @@
             AND
             BIRTHDAY = #{birthday}
     </select>
+
+    <select id="selectMemberUsingIdPassword" parameterType="MemberInfoVO" resultType="integer">
+        SELECT
+            count(id)
+        FROM
+            MEMBER_INFO
+        where
+            ID = #{id}
+            AND
+            PW = #{password}
+    </select>
+
 
 </mapper>

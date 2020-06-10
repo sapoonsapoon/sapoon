@@ -19,9 +19,8 @@ public class LoginMemberController {
 
     @PostMapping("/login")
     public ResponseEntity<?> getLogin(@RequestBody MemberInfoVO memberInfoVO){
-        System.out.println(memberInfoVO.getId());
         try{
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok().headers(getTokenHeader()).body(loginMemberService.login(memberInfoVO));
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(getErrorHeader()).body(e.getMessage());
         }
@@ -105,6 +104,11 @@ public class LoginMemberController {
     private HttpHeaders getSuccessHeader() {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        return httpHeaders;
+    }
+    private HttpHeaders getTokenHeader() {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.TEXT_PLAIN);
         return httpHeaders;
     }
 

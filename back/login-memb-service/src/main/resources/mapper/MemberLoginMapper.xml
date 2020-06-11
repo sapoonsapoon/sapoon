@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sapoon.loginmembservice.mapper.MemberLoginMapper">
+    <insert id="insertBaseLoginInfo" parameterType="MemberInfoVO" >
+        INSERT INTO
+        MEMBER_LOGIN_INFO(
+            MEMB_ID
+        )
+        VALUES(
+            #{id}
+        )
+    </insert>
+    
+    <select id="selectLoginFailCount" parameterType="MemberInfoVO" resultType="integer">
+        SELECT
+            LOGIN_FAIL_CNT
+        FROM
+            MEMBER_LOGIN_INFO
+        WHERE
+            memb_id = #{id}
+    </select>
+
+    <update id="updateWhenFail" parameterType="MemberInfoVO">
+        UPDATE
+            MEMBER_LOGIN_INFO
+        SET
+            LOGIN_FAIL_CNT = LOGIN_FAIL_CNT+1
+        where
+            memb_id = #{id}
+    </update>
+
+    <update id="updateWhenSuccess" parameterType="MemberInfoVO">
+        UPDATE
+            MEMBER_LOGIN_INFO
+        SET
+            LOGIN_FAIL_CNT = 0,
+            LAST_LOGIN_MAC_ID = #{macId},
+            LAST_LOGIN_DATE = now(),
+            MAC_ID_1 = #{macId}
+        where
+            memb_id = #{id}
+    </update>
+</mapper>

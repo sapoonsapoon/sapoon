@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sapoon.loginmembservice.mapper.MemberInfoHstMapper">
+    <insert id="insertMemberInfoHst" parameterType="MemberInfoVO" >
+        INSERT INTO
+        MEMBER_INFO_HST(
+            id,
+            pw,
+            name,
+            nickname,
+            email,
+            gender,
+            upd_status,
+            reg_id,
+            reg_date,
+            upd_id,
+            upd_date
+        )
+        VALUES(
+            #{id},
+            #{password},
+            #{name},
+            #{nickname},
+            #{email},
+            #{gender},
+            '00',
+            #{id},
+            now(),
+            #{id},
+            now()
+        )
+    </insert>
+
+
+
+</mapper>

@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/sapoon")
+@RequestMapping("/sapoon/member")
 public class LoginMemberController {
 
     Logger logger = LoggerFactory.getLogger(LoginMemberController.class);
@@ -23,7 +23,7 @@ public class LoginMemberController {
 
     @PostMapping("/login")
     public ResponseEntity<?> getLogin(@RequestBody MemberInfoVO memberInfoVO){
-        logger.info("loginMemberController - sapoon/login");
+        logger.debug("loginMemberController - sapoon/login");
         try{
             return ResponseEntity.ok().headers(getTokenHeader(loginMemberService.login(memberInfoVO))).build();
         }catch (Exception e){
@@ -31,9 +31,9 @@ public class LoginMemberController {
         }
     }
 
-    @GetMapping("member/overlap/{id}")
+    @GetMapping("/overlap/{id}")
     public ResponseEntity<?> idOverlapCheck(@PathVariable("id") String id){
-        logger.info("loginMemberController - sapoon/member/overlap/" + id);
+        logger.debug("loginMemberController - sapoon/member/overlap/" + id);
 
         try{
             loginMemberService.selectId(id);
@@ -43,9 +43,9 @@ public class LoginMemberController {
         }
     }
 
-    @PostMapping("member/regist")
+    @PostMapping("/regist")
     public ResponseEntity<?> insertMember(@RequestBody MemberInfoVO memberInfoVO){
-        logger.info("loginMemberController - sapoon/member/regist");
+        logger.debug("loginMemberController - sapoon/member/regist");
         try{
             loginMemberService.insertMember(memberInfoVO);
             return ResponseEntity.ok().build();
@@ -54,9 +54,9 @@ public class LoginMemberController {
         }
     }
 
-    @PostMapping("member/modify/password")
+    @PostMapping("/modify/password")
     public ResponseEntity<?> updatePassword(@RequestBody MemberInfoVO memberInfoVO){
-        logger.info("loginMemberController - sapoon/member/modify/password");
+        logger.debug("loginMemberController - sapoon/member/modify/password");
         try{
             loginMemberService.updatePassword(memberInfoVO);
             return ResponseEntity.ok().build();
@@ -65,9 +65,9 @@ public class LoginMemberController {
         }
     }
 
-    @PostMapping("member/modify/info")
+    @PostMapping("/modify/info")
     public ResponseEntity<?> updateInfo(@RequestBody MemberInfoVO memberInfoVO){
-        logger.info("loginMemberController - sapoon/member/modify/info");
+        logger.debug("loginMemberController - sapoon/member/modify/info");
         try{
             loginMemberService.updateInfo(memberInfoVO);
             return ResponseEntity.ok().build();
@@ -76,9 +76,9 @@ public class LoginMemberController {
         }
     }
 
-    @GetMapping("member/get/{id}")
+    @GetMapping("/get/{id}")
     public ResponseEntity<?> getMember(@PathVariable("id") String id){
-        logger.info("loginMemberController - sapoon/member/get/" + id);
+        logger.debug("loginMemberController - sapoon/member/get/" + id);
         try{
             return ResponseEntity.ok().headers(getSuccessHeader()).body(loginMemberService.selectMember(id));
         }catch (InvalidDataException e){
@@ -86,9 +86,9 @@ public class LoginMemberController {
         }
     }
 
-    @PostMapping("member/find/id")
+    @PostMapping("/find/id")
     public ResponseEntity<?> getId(@RequestBody MemberInfoVO memberInfoVO){
-        logger.info("loginMemberController - sapoon/member/find/id");
+        logger.debug("loginMemberController - sapoon/member/find/id");
         try{
             return ResponseEntity.ok().headers(getSuccessHeader()).body(loginMemberService.selectIdUsingNameEmailBirthday(memberInfoVO));
         }catch (InvalidDataException e){
@@ -97,9 +97,9 @@ public class LoginMemberController {
         }
     }
 
-    @PostMapping("member/find/password")
+    @PostMapping("/find/password")
     public ResponseEntity<?> changePw(@RequestBody MemberInfoVO memberInfoVO){
-        logger.info("loginMemberController - sapoon/member/find/password");
+        logger.debug("loginMemberController - sapoon/member/find/password");
         try{
             return ResponseEntity.ok().headers(getSuccessHeader()).body(loginMemberService.FindPassword(memberInfoVO));
         }catch (InvalidDataException e){

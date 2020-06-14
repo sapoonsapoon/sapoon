@@ -469,14 +469,13 @@ Future createAlbum(BuildContext context,
       'Content-Type': 'application/json; charset=UTF-8',
     },
     body: jsonEncode(<String, String>{
-      'id': '513',
+      'id': '$id',
       'password':"$password",
       'name':'$name',
-      'gender':'1',
+      'gender':'$gender',
       'birthday':'$birthday',
-      'email': 'ss',
-      'nickname': 'ss',
-      'registPath': "1"
+      'email': '$email',
+      'nickname': '$nickname',
     }),
   );
   if (response.statusCode == 200) {

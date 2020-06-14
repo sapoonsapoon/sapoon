@@ -48,25 +48,26 @@ class _IdFindResultPageState extends State<IdFindResultPage> {
                             fontFamily: "NanumSquareRegular",
                             fontSize: 40.0,
                             fontWeight: FontWeight.normal,
-                            color: Colors.black),
+                          color: Colors.black54,),
                       ),
                       Padding(
                         padding: EdgeInsets.all(20.0),
                       ),
+
                       Container(
                         width: MediaQuery.of(context).size.width * 1,
                         height: MediaQuery.of(context).size.width * 0.372,
                         margin: const EdgeInsets.all(10.0),
                         padding: const EdgeInsets.all(10.0),
-                        decoration: myBoxDecoration(), //
                         child: Center(
                           child: Text(
                               "고객님의 아이디는 \n\n"
                                   "화이트크리스마스 입니다",
                             style: TextStyle(
-                              fontFamily: "NanumSquareRegular",
+                              fontFamily: "NanumSquareExtraBold",
                               fontWeight: FontWeight.normal,
-                              fontSize: 14.0,
+                              fontSize: 18.0,
+                              color: Colors.black54,
                             ),textAlign: TextAlign.center,
                       ),
                         ),

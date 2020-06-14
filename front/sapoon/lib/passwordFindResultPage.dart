@@ -46,7 +46,7 @@ class _PasswordFindResultPageState extends State<PasswordFindResultPage> {
                             fontFamily: "NanumSquareRegular",
                             fontSize: 40.0,
                             fontWeight: FontWeight.normal,
-                            color: Colors.black),
+                          color: Colors.black54),
                       ),
                       Padding(
                         padding: EdgeInsets.all(20.0),
@@ -56,17 +56,15 @@ class _PasswordFindResultPageState extends State<PasswordFindResultPage> {
                         height: MediaQuery.of(context).size.width * 0.372,
                         margin: const EdgeInsets.all(10.0),
                         padding: const EdgeInsets.all(10.0),
-                        decoration: myBoxDecoration(), //
                         child: Center(
-
                           child: Text(
                             "고객님의 새로운 비밀번호를 \n\n"
-                                "qortkdn@naver.com \n\n"
-                                "로 전송하였습니다.",
+                                "고객님의 이메일로 전송하였습니다.",
                             style: TextStyle(
-                                fontFamily: "NanumSquareRegular",
+                                fontFamily: "NanumSquareExtraBold",
                                 fontWeight: FontWeight.normal,
-                                fontSize: 14.0,
+                                fontSize: 17.0,
+                                color: Colors.black54
                             ),textAlign: TextAlign.center,
                           ),
                         ),

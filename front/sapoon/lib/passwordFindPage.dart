@@ -69,18 +69,20 @@ class _PasswordFindPageState extends State<PasswordFindPage> {
                       ),
                       Container(
                         width: MediaQuery.of(context).size.width * 0.744,
-                        height: MediaQuery.of(context).size.width * 0.100,
+                        height: MediaQuery.of(context).size.width * 0.13,
                         child: TextFormField(
                           style: TextStyle(
+                              fontFamily: "NanumSquareExtraBold",
                               color: Colors.black45, fontWeight: FontWeight.bold),
+                          textAlignVertical: TextAlignVertical.bottom,
                           controller: _idController,
                           decoration: InputDecoration(
                             hintText: '아이디',
-                            hintStyle: TextStyle(color: Colors.black45),
+                            hintStyle: TextStyle(color: Colors.black45,),
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: Colors.blueGrey,
-                                width: 1,
+                                color: Colors.black12,
+                                width: 0.6,
                               ),
                             ),
                             focusedBorder: OutlineInputBorder(
@@ -103,14 +105,21 @@ class _PasswordFindPageState extends State<PasswordFindPage> {
                           },
                         ),
                       ),
+                      Padding(
+                        padding: EdgeInsets.all(2.0),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(2.0),
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Container(
                             width: MediaQuery.of(context).size.width * 0.744,
-                            height: MediaQuery.of(context).size.width * 0.100,
+                            height: MediaQuery.of(context).size.width * 0.13,
                             child: TextFormField(
                               style: TextStyle(
+                                  fontFamily: "NanumSquareExtraBold",
                                   color: Colors.black45, fontWeight: FontWeight.bold),
                               controller: _nameController,
                               decoration: InputDecoration(
@@ -118,8 +127,8 @@ class _PasswordFindPageState extends State<PasswordFindPage> {
                                 hintStyle: TextStyle(color: Colors.black45),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: Colors.blueGrey,
-                                    width: 1,
+                                    color: Colors.black12,
+                                    width: 0.6,
                                   ),
                                 ),
                                 focusedBorder: OutlineInputBorder(
@@ -130,7 +139,7 @@ class _PasswordFindPageState extends State<PasswordFindPage> {
                                 ),
                                 fillColor: Colors.transparent,
                                 filled: true,
-                                prefixIcon: Icon(Icons.child_care),
+                                prefixIcon: Icon(Icons.person_outline),
                               ),
                               validator: (String value) {
                                 //pw input 조건
@@ -142,6 +151,9 @@ class _PasswordFindPageState extends State<PasswordFindPage> {
                             ),
                           ),
                         ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(2.0),
                       ),
                       InkWell(
                         onTap: () {
@@ -164,21 +176,13 @@ class _PasswordFindPageState extends State<PasswordFindPage> {
                         },
                         child: Container(
                           width: MediaQuery.of(context).size.width * 0.744,
-                          height: MediaQuery.of(context).size.width * 0.100,
+                          height: MediaQuery.of(context).size.width * 0.12,
                           decoration: BoxDecoration(
-                              border: Border.all(color: Colors.blueGrey)
+                              border: Border.all(color: Colors.black12,)
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Icon(
-                                Icons.cake,
-                                size: 30,
-                                color: Colors.green,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(10.0),
-                              ),
                               Text(
                                 show_log,
                                 style: TextStyle(
@@ -191,9 +195,12 @@ class _PasswordFindPageState extends State<PasswordFindPage> {
                           ),
                         ),
                       ),
+                      Padding(
+                        padding: EdgeInsets.all(2.0),
+                      ),
                       Container(
                         width: MediaQuery.of(context).size.width * 0.744,
-                        height: MediaQuery.of(context).size.width * 0.100,
+                        height: MediaQuery.of(context).size.width * 0.13,
                         child: TextFormField(
                           style: TextStyle(
                               color: Colors.black45, fontWeight: FontWeight.bold),
@@ -203,8 +210,8 @@ class _PasswordFindPageState extends State<PasswordFindPage> {
                             hintStyle: TextStyle(color: Colors.black45),
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: Colors.blueGrey,
-                                width: 1,
+                                color: Colors.black12,
+                                width: 0.6,
                               ),
                             ),
                             focusedBorder: OutlineInputBorder(

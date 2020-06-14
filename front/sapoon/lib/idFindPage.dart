@@ -69,18 +69,20 @@ class _IdFindPageState extends State<IdFindPage> {
                       ),
                       Container(
                         width: MediaQuery.of(context).size.width * 0.744,
-                        height: MediaQuery.of(context).size.width * 0.100,
+                        height: MediaQuery.of(context).size.width * 0.13,
                         child: TextFormField(
                           style: TextStyle(
+                              fontFamily: "NanumSquareExtraBold",
                               color: Colors.black45, fontWeight: FontWeight.bold),
+                          textAlignVertical: TextAlignVertical.bottom,
                           controller: _idController,
                           decoration: InputDecoration(
                             hintText: '아이디',
-                            hintStyle: TextStyle(color: Colors.black45),
+                            hintStyle: TextStyle(color: Colors.black45,),
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: Colors.green,
-                                width: 1,
+                                color: Colors.black12,
+                                width: 0.6,
                               ),
                             ),
                             focusedBorder: OutlineInputBorder(
@@ -92,7 +94,6 @@ class _IdFindPageState extends State<IdFindPage> {
                             fillColor: Colors.transparent,
                             filled: true,
                             prefixIcon: Icon(Icons.account_circle),
-
                           ),
 
                           validator: (String value) {
@@ -104,6 +105,9 @@ class _IdFindPageState extends State<IdFindPage> {
                           },
                         ),
                       ),
+                      Padding(
+                        padding: EdgeInsets.all(2.0),
+                      ),
                       InkWell(
                         onTap: () {
                           DatePicker.showDatePicker(
@@ -113,9 +117,9 @@ class _IdFindPageState extends State<IdFindPage> {
 
                             },
                             onConfirm: (date) {
-                              print('완료 $date');
                               String sss = DateFormat("yyyy-MM-dd").format(date);
                               _incrementCounter(sss);
+                              print(sss);
                             },
                             currentTime: DateTime.now(),
                             locale: LocaleType.ko,
@@ -124,18 +128,13 @@ class _IdFindPageState extends State<IdFindPage> {
                         },
                         child: Container(
                           width: MediaQuery.of(context).size.width * 0.744,
-                          height: MediaQuery.of(context).size.width * 0.100,
+                          height: MediaQuery.of(context).size.width * 0.12,
                           decoration: BoxDecoration(
-                              border: Border.all(color: Colors.green)
+                              border: Border.all(color: Colors.black12,)
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Icon(
-                                Icons.cake,
-                                size: 30,
-                                color: Colors.green,
-                              ),
                               Text(
                                 show_log,
                                 style: TextStyle(
@@ -148,9 +147,12 @@ class _IdFindPageState extends State<IdFindPage> {
                           ),
                         ),
                       ),
+                      Padding(
+                        padding: EdgeInsets.all(2.0),
+                      ),
                       Container(
                         width: MediaQuery.of(context).size.width * 0.744,
-                        height: MediaQuery.of(context).size.width * 0.100,
+                        height: MediaQuery.of(context).size.width * 0.13,
                         child: TextFormField(
                           style: TextStyle(
                               color: Colors.black45, fontWeight: FontWeight.bold),
@@ -160,8 +162,8 @@ class _IdFindPageState extends State<IdFindPage> {
                             hintStyle: TextStyle(color: Colors.black45),
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: Colors.green,
-                                width: 1,
+                                color: Colors.black12,
+                                width: 0.6,
                               ),
                             ),
                             focusedBorder: OutlineInputBorder(

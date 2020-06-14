@@ -10,9 +10,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
     private static final String[] EXCLUDE_PATHS = {
             "/sapoon/member/regist",
-            "/sapoon/login",
+            "/sapoon/member/login",
             "/sapoon/member/find/*",
-            "/sapoon/member/overlap/*"
+            "/sapoon/member/overlap/*",
+            "/sapoon/member/test"
     };
 
     @Autowired

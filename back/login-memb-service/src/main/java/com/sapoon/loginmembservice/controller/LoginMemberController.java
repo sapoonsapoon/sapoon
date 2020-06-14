@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/sapoon")
+@RequestMapping("/sapoon/member")
 public class LoginMemberController {
 
     Logger logger = LoggerFactory.getLogger(LoginMemberController.class);
@@ -21,9 +21,15 @@ public class LoginMemberController {
     @Autowired
     private LoginMemberService loginMemberService;
 
+    @GetMapping("/test")
+    public String test(){
+        logger.info("connection test");
+        return "hello world";
+    }
+
     @PostMapping("/login")
     public ResponseEntity<?> getLogin(@RequestBody MemberInfoVO memberInfoVO){
-        logger.info("loginMemberController - sapoon/login");
+        logger.info("loginMemberController - sapoon/member/login");
         try{
             return ResponseEntity.ok().headers(getTokenHeader(loginMemberService.login(memberInfoVO))).build();
         }catch (Exception e){
@@ -31,7 +37,7 @@ public class LoginMemberController {
         }
     }
 
-    @GetMapping("member/overlap/{id}")
+    @GetMapping("/overlap/{id}")
     public ResponseEntity<?> idOverlapCheck(@PathVariable("id") String id){
         logger.info("loginMemberController - sapoon/member/overlap/" + id);
 
@@ -43,7 +49,7 @@ public class LoginMemberController {
         }
     }
 
-    @PostMapping("member/regist")
+    @PostMapping("/regist")
     public ResponseEntity<?> insertMember(@RequestBody MemberInfoVO memberInfoVO){
         logger.info("loginMemberController - sapoon/member/regist");
         try{
@@ -54,7 +60,7 @@ public class LoginMemberController {
         }
     }
 
-    @PostMapping("member/modify/password")
+    @PostMapping("/modify/password")
     public ResponseEntity<?> updatePassword(@RequestBody MemberInfoVO memberInfoVO){
         logger.info("loginMemberController - sapoon/member/modify/password");
         try{
@@ -65,7 +71,7 @@ public class LoginMemberController {
         }
     }
 
-    @PostMapping("member/modify/info")
+    @PostMapping("/modify/info")
     public ResponseEntity<?> updateInfo(@RequestBody MemberInfoVO memberInfoVO){
         logger.info("loginMemberController - sapoon/member/modify/info");
         try{
@@ -76,7 +82,7 @@ public class LoginMemberController {
         }
     }
 
-    @GetMapping("member/get/{id}")
+    @GetMapping("/get/{id}")
     public ResponseEntity<?> getMember(@PathVariable("id") String id){
         logger.info("loginMemberController - sapoon/member/get/" + id);
         try{
@@ -86,7 +92,7 @@ public class LoginMemberController {
         }
     }
 
-    @PostMapping("member/find/id")
+    @PostMapping("/find/id")
     public ResponseEntity<?> getId(@RequestBody MemberInfoVO memberInfoVO){
         logger.info("loginMemberController - sapoon/member/find/id");
         try{
@@ -97,7 +103,7 @@ public class LoginMemberController {
         }
     }
 
-    @PostMapping("member/find/password")
+    @PostMapping("/find/password")
     public ResponseEntity<?> changePw(@RequestBody MemberInfoVO memberInfoVO){
         logger.info("loginMemberController - sapoon/member/find/password");
         try{

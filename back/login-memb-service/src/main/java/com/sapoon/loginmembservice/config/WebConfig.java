@@ -12,7 +12,8 @@ public class WebConfig implements WebMvcConfigurer {
             "/sapoon/member/regist",
             "/sapoon/member/login",
             "/sapoon/member/find/*",
-            "/sapoon/member/overlap/*"
+            "/sapoon/member/overlap/*",
+            "/sapoon/member/test"
     };
 
     @Autowired

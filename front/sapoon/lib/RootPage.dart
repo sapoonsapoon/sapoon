@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:sapoon/SignUpPage.dart';
+import 'package:sapoon/idFindPage.dart';
+import 'package:sapoon/passwordFindPage.dart';
 
 class RootPage extends StatefulWidget {
   @override
@@ -27,7 +29,7 @@ class _RootPageState extends State<RootPage> {
         child: DecoratedBox(
           decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("lib/assets/images/walktowalk.jpg"),
+                image: AssetImage("lib/assets/images/main.jpg"),
                 fit: BoxFit.cover),
           ),
           child: Center(
@@ -126,6 +128,11 @@ class _RootPageState extends State<RootPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     InkWell(
+                      onTap: (){
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context)=>IdFindPage()
+                      ));
+                    },
                       child: Text(
                           '아이디 찾기 |  ', style: TextStyle(
                             fontFamily: "NanumSquareRegular",
@@ -135,6 +142,11 @@ class _RootPageState extends State<RootPage> {
                       ),
                       ),
                     InkWell(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(
+                            builder: (context)=>PasswordFindPage()
+                        ));
+                      },
                       child: Text(
                         '비밀번호 찾기  |  ', style: TextStyle(
                           fontFamily: "NanumSquareRegular",

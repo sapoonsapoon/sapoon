@@ -64,35 +64,25 @@ class _SignUpPageState extends State<SignUpPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
-
-                    Padding(
-                      padding: EdgeInsets.all(30.0),
-                    ),
-                    Text(
-                      'SAPOON 회원가입',
-                      style: TextStyle(
-                          fontFamily: "NanumSquareExtraBold",
-                          fontSize: 40.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.green),
-                    ),
                     Padding(
                       padding: EdgeInsets.all(20.0),
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width * 0.744,
-                      height: MediaQuery.of(context).size.width * 0.100,
+                      height: MediaQuery.of(context).size.width * 0.13,
                       child: TextFormField(
                         style: TextStyle(
+                            fontFamily: "NanumSquareExtraBold",
                             color: Colors.black45, fontWeight: FontWeight.bold),
+                        textAlignVertical: TextAlignVertical.bottom,
                         controller: _idController,
                         decoration: InputDecoration(
                           hintText: '아이디',
-                          hintStyle: TextStyle(color: Colors.black45),
+                          hintStyle: TextStyle(color: Colors.black45,),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: Colors.blueGrey,
-                              width: 1,
+                              color: Colors.black12,
+                              width: 0.6,
                             ),
                           ),
                           focusedBorder: OutlineInputBorder(
@@ -115,11 +105,15 @@ class _SignUpPageState extends State<SignUpPage> {
                         },
                       ),
                     ),
+                    Padding(
+                      padding: EdgeInsets.all(2.0),
+                    ),
                     Container(
                       width: MediaQuery.of(context).size.width * 0.744,
-                      height: MediaQuery.of(context).size.width * 0.100,
+                      height: MediaQuery.of(context).size.width * 0.13,
                       child: TextFormField(
                         style: TextStyle(
+                            fontFamily: "NanumSquareExtraBold",
                             color: Colors.black45, fontWeight: FontWeight.bold),
                         obscureText: true,
                         controller: _pwController,
@@ -128,8 +122,8 @@ class _SignUpPageState extends State<SignUpPage> {
                           hintStyle: TextStyle(color: Colors.black45),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: Colors.blueGrey,
-                              width: 1,
+                              color: Colors.black12,
+                              width: 0.6,
                             ),
                           ),
                           focusedBorder: OutlineInputBorder(
@@ -140,7 +134,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                           fillColor: Colors.transparent,
                           filled: true,
-                          prefixIcon: Icon(Icons.fiber_pin),
+                          prefixIcon: Icon(Icons.https),
                         ),
 
                         validator: (String value) {
@@ -152,11 +146,15 @@ class _SignUpPageState extends State<SignUpPage> {
                         },
                       ),
                     ),
+                    Padding(
+                      padding: EdgeInsets.all(2.0),
+                    ),
                     Container(
                       width: MediaQuery.of(context).size.width * 0.744,
-                      height: MediaQuery.of(context).size.width * 0.100,
+                      height: MediaQuery.of(context).size.width * 0.13,
                       child: TextFormField(
                         style: TextStyle(
+                            fontFamily: "NanumSquareExtraBold",
                             color: Colors.black45, fontWeight: FontWeight.bold),
                         controller: _pwControllerCf,
                         decoration: InputDecoration(
@@ -164,8 +162,8 @@ class _SignUpPageState extends State<SignUpPage> {
                           hintStyle: TextStyle(color: Colors.black45),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: Colors.blueGrey,
-                              width: 1,
+                              color: Colors.black12,
+                              width: 0.6,
                             ),
                           ),
                           focusedBorder: OutlineInputBorder(
@@ -176,7 +174,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                           fillColor: Colors.transparent,
                           filled: true,
-                          prefixIcon: Icon(Icons.fiber_pin),
+                          prefixIcon: Icon(Icons.https),
                         ),
                         validator: (String value) {
                           //pw input 조건
@@ -187,14 +185,18 @@ class _SignUpPageState extends State<SignUpPage> {
                         },
                       ),
                     ),
+                    Padding(
+                      padding: EdgeInsets.all(2.0),
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Container(
-                          width: MediaQuery.of(context).size.width * 0.372,
-                          height: MediaQuery.of(context).size.width * 0.100,
+                          width: MediaQuery.of(context).size.width * 0.367,
+                          height: MediaQuery.of(context).size.width * 0.13,
                           child: TextFormField(
                             style: TextStyle(
+                                fontFamily: "NanumSquareExtraBold",
                                 color: Colors.black45, fontWeight: FontWeight.bold),
                             controller: _nameController,
                             decoration: InputDecoration(
@@ -202,8 +204,8 @@ class _SignUpPageState extends State<SignUpPage> {
                               hintStyle: TextStyle(color: Colors.black45),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: Colors.blueGrey,
-                                  width: 1,
+                                  color: Colors.black12,
+                                  width: 0.6,
                                 ),
                               ),
                               focusedBorder: OutlineInputBorder(
@@ -214,7 +216,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               ),
                               fillColor: Colors.transparent,
                               filled: true,
-                              prefixIcon: Icon(Icons.child_care),
+                              prefixIcon: Icon(Icons.person_outline),
                             ),
                             validator: (String value) {
                               //pw input 조건
@@ -225,22 +227,29 @@ class _SignUpPageState extends State<SignUpPage> {
                             },
                           ),
                         ),
+                        Padding(
+                          padding: EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.01),
+                        ),
                         Container(
-                          width: MediaQuery.of(context).size.width * 0.372,
-                          height: MediaQuery.of(context).size.width * 0.100,
+                          width: MediaQuery.of(context).size.width * 0.367,
+                          height: MediaQuery.of(context).size.width * 0.13,
                           decoration: BoxDecoration(
-                              border: Border.all(color: Colors.blueGrey)
+                              border: Border.all(color: Colors.black12,)
                           ),
                           child: DropdownButton<String>(
+                            underline: Text(''),
+                            isExpanded: true,
                             value: dropdownValue,
                             iconSize: 24,
-                            elevation: 1,
                             hint: Container(
                                 alignment: Alignment.centerRight,
                                 width: 100,
-                                child: Text("Hint text", textAlign: TextAlign.end)
+                                  child: Text("Hint text", textAlign: TextAlign.end),
+
                             ),
-                            style: TextStyle(color: Colors.black),
+                            style: TextStyle(color: Colors.black45, fontWeight: FontWeight.bold,
+                              fontFamily: "NanumSquareExtraBold",
+                            fontSize: 16),
                             onChanged: (String newValue) {
                               setState(() {
                                 dropdownValue = newValue;
@@ -256,6 +265,9 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                         ),
                       ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(2.0),
                     ),
                     InkWell(
                       onTap: () {
@@ -278,18 +290,13 @@ class _SignUpPageState extends State<SignUpPage> {
                       },
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.744,
-                        height: MediaQuery.of(context).size.width * 0.100,
+                        height: MediaQuery.of(context).size.width * 0.12,
                         decoration: BoxDecoration(
-                            border: Border.all(color: Colors.blueGrey)
+                            border: Border.all(color: Colors.black12,)
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Icon(
-                              Icons.cake,
-                              size: 30,
-                              color: Colors.green,
-                            ),
                             Text(
                               show_log,
                               style: TextStyle(
@@ -302,9 +309,12 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                       ),
                     ),
+                    Padding(
+                      padding: EdgeInsets.all(2.0),
+                    ),
                     Container(
                       width: MediaQuery.of(context).size.width * 0.744,
-                      height: MediaQuery.of(context).size.width * 0.100,
+                      height: MediaQuery.of(context).size.width * 0.13,
                       child: TextFormField(
                         style: TextStyle(
                             color: Colors.black38, fontWeight: FontWeight.bold),
@@ -314,8 +324,8 @@ class _SignUpPageState extends State<SignUpPage> {
                           hintStyle: TextStyle(color: Colors.black45),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: Colors.blueGrey,
-                              width: 1,
+                              color: Colors.black12,
+                              width: 0.6,
                             ),
                           ),
                           focusedBorder: OutlineInputBorder(
@@ -337,9 +347,12 @@ class _SignUpPageState extends State<SignUpPage> {
                         },
                       ),
                     ),
+                    Padding(
+                      padding: EdgeInsets.all(2.0),
+                    ),
                     Container(
                       width: MediaQuery.of(context).size.width * 0.744,
-                      height: MediaQuery.of(context).size.width * 0.100,
+                      height: MediaQuery.of(context).size.width * 0.13,
                       child: TextFormField(
                         style: TextStyle(
                             color: Colors.black45, fontWeight: FontWeight.bold),
@@ -349,8 +362,8 @@ class _SignUpPageState extends State<SignUpPage> {
                           hintStyle: TextStyle(color: Colors.black45),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: Colors.blueGrey,
-                              width: 1,
+                              color: Colors.black12,
+                              width: 0.6,
                             ),
                           ),
                           focusedBorder: OutlineInputBorder(
@@ -373,11 +386,10 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.all(10.0),
+                      padding: EdgeInsets.all(7.0),
                     ),
                     InkWell(
                       onTap: () {
-                        print('눌렀어요ㅃ');
                         final snackbar = SnackBar(content: Text('계정이 없습니다.'));
                         Scaffold.of(context).showSnackBar(snackbar);
                         createAlbum(context,
@@ -403,7 +415,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             "회원가입",
                             style: TextStyle(
                               fontSize: 15.0,
-                              color: Colors.black45,
+                              color: Colors.white,
                               fontWeight: FontWeight.w600,
                             ),
                           ),

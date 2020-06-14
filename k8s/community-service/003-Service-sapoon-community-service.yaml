@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sapoon-community
+  labels:
+    app: sapoon-community
+    service: sapoon-community
+spec:
+  ports:
+  - port: 8080
+    name: http
+  selector:
+    app: sapoon-community

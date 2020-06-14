@@ -1,0 +1,18 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: sapoon-community
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - sapoon-community-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /sapoon/community
+    route:
+    - destination:
+        host: sapoon-community
+        port:
+          number: 8080

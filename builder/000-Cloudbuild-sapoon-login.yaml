@@ -21,7 +21,8 @@ steps:
         args: 
           - '-c'
           - |
-              chmod 777 gradlew
+              ls -al
+              chmod 777 /gradlew
               docker build -t gcr.io/$PROJECT_ID/sapoon-login:$TAG_NAME ./back/login-memb-service/
     
     

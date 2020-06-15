@@ -110,4 +110,19 @@
     </select>
 
 
+    <select id="selectForFindPassword" parameterType="MemberInfoVO" resultType="integer">
+        SELECT
+            count(id)
+        FROM
+            MEMBER_INFO
+        WHERE
+            ID = #{id}
+            AND
+            NAME = #{name}
+            AND
+            BIRTHDAY = #{birthday}
+            AND
+            email = #{email}
+    </select>
+
 </mapper>

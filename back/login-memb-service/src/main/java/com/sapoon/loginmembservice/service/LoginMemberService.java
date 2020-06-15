@@ -37,6 +37,9 @@ public class LoginMemberService {
     MemberLoginHstMapper memberLoginHstMapper;
 
     @Autowired
+    MailService mailService;
+
+    @Autowired
     JwtService jwtService;
 
     public String base64encoder(String str){
@@ -218,7 +221,7 @@ public class LoginMemberService {
      * @throws InvalidDataException
      */
     @Transactional
-    public MemberInfoVO FindPassword(MemberInfoVO memberInfoVO) throws InvalidDataException {
+    public void FindPassword(MemberInfoVO memberInfoVO) throws InvalidDataException {
         ValidChecker validChecker = new ValidChecker();
         String Keys = "id;name;email;birthday";
         HashMap<String, Object> values = new HashMap<>();
@@ -229,6 +232,10 @@ public class LoginMemberService {
 
         if (!validChecker.validcheck(Keys, values)) {
             throw new InvalidDataException("필수 입력 값을 다시 확인 하십시오.");
+        }
+
+        if(memberInfoMapper.selectForFindPassword(memberInfoVO) != 1 ){
+            throw new InvalidDataException("일치하는 회원이 없습니다. ");
         }
 
         String newPw = RandomPassWordGenerator();
@@ -243,9 +250,10 @@ public class LoginMemberService {
 
         MemberInfoVO ResultMemberInfoVo = new MemberInfoVO();
         ResultMemberInfoVo.setPassword(newPw);
-        ResultMemberInfoVo.setEmail(memberInfoVO.getEmail());
+        ResultMemberInfoVo.setName(memberInfoVO.getName());
 
-        return  ResultMemberInfoVo;
+        mailService.mailSender(memberInfoVO.getEmail(),"SAPOON 재설정 비밀번호 안내",mailService.MakeChangePasswordMsg(ResultMemberInfoVo));
+
     }
 
     /**

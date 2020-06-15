@@ -107,7 +107,8 @@ public class LoginMemberController {
     public ResponseEntity<?> changePw(@RequestBody MemberInfoVO memberInfoVO){
         logger.info("loginMemberController - sapoon/member/find/password");
         try{
-            return ResponseEntity.ok().headers(getSuccessHeader()).body(loginMemberService.FindPassword(memberInfoVO));
+            loginMemberService.FindPassword(memberInfoVO);
+            return ResponseEntity.ok().build();
         }catch (InvalidDataException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(getErrorHeader()).body(e.getMessage());
 

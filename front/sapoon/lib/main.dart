@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sapoon/routes.dart';
 
 import 'RootPage.dart';
 
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.white,
         accentColor: Colors.white,
       ),
-      home: RootPage(),
+      routes: routes,
     );
   }
 }

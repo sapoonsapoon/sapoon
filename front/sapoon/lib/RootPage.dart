@@ -103,9 +103,7 @@ class _RootPageState extends State<RootPage> {
 
                 InkWell(
                   onTap: (){
-                    Navigator.push(context, MaterialPageRoute(
-                        builder: (context)=>LandingPage()
-                    ));
+                    Navigator.pushReplacementNamed(context, '/main');
                   },
                   child: Container(
                     decoration: BoxDecoration(

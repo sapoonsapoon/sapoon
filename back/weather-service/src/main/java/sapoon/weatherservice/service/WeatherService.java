@@ -14,6 +14,7 @@ import org.xml.sax.SAXException;
 import sapoon.weatherservice.common.Common;
 import sapoon.weatherservice.config.kafka.Producer;
 import sapoon.weatherservice.mapper.WeatherMapper;
+import sapoon.weatherservice.vo.AdministrativeAreaInfoVO;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -146,13 +147,13 @@ public class WeatherService {
         String resultCode = Common.returnCode.SUCCESS;
 
         //db조회
-        WeatherVO weatherVO = weatherMapper.findCodeByWeather(nx, ny);
-        if(weatherVO == null){
+        AdministrativeAreaInfoVO administrativeAreaInfoVO = weatherMapper.findCodeByWeather(nx, ny);
+        if(administrativeAreaInfoVO == null){
             resultCode = Common.returnCode.FAIL;
         }
 
         result.put("resultCode",resultCode);
-        result.put("result", weatherVO);
+        result.put("result", administrativeAreaInfoVO);
 
         return result;
     }

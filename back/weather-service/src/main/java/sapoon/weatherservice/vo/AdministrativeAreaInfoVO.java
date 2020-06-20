@@ -15,7 +15,6 @@ import javax.persistence.Table;
 @ToString
 @NoArgsConstructor
 @Entity
-@Table(name="weather")
 public class AdministrativeAreaInfoVO {
     @Id
     String area_cd;

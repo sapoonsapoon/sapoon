@@ -185,13 +185,10 @@ class _IdFindPageState extends State<IdFindPage> {
                       createAlbum(
                         context,
                         _idController.text,
-                        _emailController.text,
                         show_log,
+                        _emailController.text,
+
                       );
-//                      Navigator.push(
-//                          context,
-//                          MaterialPageRoute(
-//                              builder: (context) => IdFindResultPage()));
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -246,6 +243,9 @@ Future createAlbum(
     String name,
     String birthday,
     String email,) async {
+  print(name);
+  print(birthday);
+  print(email);
   final http.Response response = await http.post(
     'http://35.194.192.57/sapoon/member/find/id',
     headers: <String, String>{
@@ -258,10 +258,15 @@ Future createAlbum(
     }),
   );
   if (response.statusCode == 200) {
-    // If the server did return a 201 CREATED response,
-    // then parse the JSON.
+
     print('아이디를 찾았어요!');
     print('Response body: ${response.body}');
+    var responseValue =json.decode(response.body);
+    var user = idJson(responseValue);
+    print(user.id);
+    Navigator.push(context, MaterialPageRoute(
+        builder: (context) => IdFindResultPage(user.id)));
+
   } else {
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
@@ -269,4 +274,13 @@ Future createAlbum(
     // then throw an exception.
     throw Exception();
   }
+}
+
+class idJson{
+  String id;
+
+  idJson(Map<String,dynamic> data){
+    id = data['id'];
+  }
+
 }

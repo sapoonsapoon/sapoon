@@ -60,6 +60,9 @@ steps:
                 --zone "$${ZONE}"  
     
               kubectl get ns sapoon || kubectl create ns sapoon
+              kubectl delete -f ./k8s/weather-batch-service/001*.yaml -n sapoon
+              kubectl delete -f ./k8s/weather-batch-service/002*.yaml -n sapoon
+              kubectl delete -f ./k8s/weather-batch-service/003*.yaml -n sapoon
               kubectl apply -f ./k8s/weather-batch-service/001*.yaml -n sapoon
               kubectl apply -f ./k8s/weather-batch-service/002*.yaml -n sapoon
               kubectl apply -f ./k8s/weather-batch-service/003*.yaml -n sapoon

@@ -89,7 +89,7 @@ public class WeatherJobConfiguration {
     // 초(0~59), 분(0~59), 시(0~23), 일(1-31), 월(1~12), 요일(0~7)
     // @Scheduled(cron="0 0 06 * * *") = 매일 새벽2시에 실행
 //    @Scheduled(cron = "*/10 * * * * *") //30초 마다 실행
-    @Scheduled(cron = "0 0 */3 * * *") //3시간마다
+    @Scheduled(cron = "0 0 0/3 * * *") //3시간마다
     public void perform() throws Exception {
         String jobId = String.valueOf(System.currentTimeMillis());
         LOGGER.info("job start11 : "+jobId);

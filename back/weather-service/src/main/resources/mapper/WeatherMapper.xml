@@ -10,9 +10,8 @@
         SELECT wf.date, wf.hour, wf.temp, wf.tmx, wf.tmn, wf.sky, wf.pop, w.grid_x, w.grid_y FROM administrative_area_info w
     	INNER JOIN weather_forecast wf
     	ON w.area_cd = wf.area_cd
-        WHERE w.grid_x = #{grid_x} AND w.grid_y =#{grid_x} AND wf.date = CURDATE() AND wf.hour =#{hour} LIMIT 1 ;
+        WHERE w.grid_x = #{grid_x} AND w.grid_y =#{grid_y} AND wf.date = CURDATE() AND wf.hour =12 LIMIT 1 ;
     </select>
-
 
     <insert id="insertWeatherForcast">
       INSERT INTO weather_forecast (area_cd, date, hour, temp, tmx, tmn,

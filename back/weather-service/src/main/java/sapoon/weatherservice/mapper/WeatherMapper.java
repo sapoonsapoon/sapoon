@@ -7,7 +7,7 @@ import sapoon.weatherservice.vo.WeatherForcastVO;
 @Mapper
 //@Repository
 public interface WeatherMapper {
-    AdministrativeAreaInfoVO findCodeByWeather(String nx, String ny);
+    AdministrativeAreaInfoVO findCodeByWeather(String grid_x, String grid_y);
 
     //배치돌때 다음 함수를 통하여 db에 저장.
     int insertWeatherForcast(WeatherForcastVO weatherForcastVO);

@@ -1,4 +1,4 @@
-FROM openjdk:7
+FROM openjdk:8
 COPY . /
 RUN ./gradlew build
 EXPOSE 8080

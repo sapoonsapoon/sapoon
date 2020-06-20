@@ -153,7 +153,7 @@ public class WeatherJobConfiguration {
         return new JdbcBatchItemWriterBuilder<AdministrativeAreaInfo>()
                 .dataSource(dataSource)
 //                .sql("UPDATE AdministrativeAreaInfo  SET updated_at = DATE_FORMAT(NOW(), '%Y-%m-%d') WHERE area_cd = :area_cd ")
-                .sql("UPDATE administrative_area_info  SET updated_at = '"+time1+"'  WHERE area_cd =  :area_cd ")
+                .sql("UPDATE administrative_area_info  SET updated_at = '"+time1+"', last_batch_date = now()  WHERE area_cd =  :area_cd ")
                 .beanMapped()
                 .build();
     }

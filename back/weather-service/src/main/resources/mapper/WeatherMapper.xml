@@ -17,12 +17,12 @@
       INSERT INTO weather_forecast (area_cd, date, hour, temp, tmx, tmn,
                                      sky, pty, wf_kor, wf_en, pop, r12,
                                      s12, ws, wd, wd_kor, wd_en, reh,
-                                     r06, s06)
+                                     r06, s06, reg_date)
       VALUES (#{areaCd}, DATE_FORMAT(date_add(now(),INTERVAL +#{day} day), '%Y-%m-%d'), #{hour},
                 #{temp}, #{tmx}, #{tmn}, #{sky},
                 #{pty}, #{wfKor}, #{wfEn}, #{pop},
                 #{r12}, #{s12}, #{ws}, #{wd},
-                #{wdKor}, #{wdEn}, #{reh}, #{r06}, #{s06}
+                #{wdKor}, #{wdEn}, #{reh}, #{r06}, #{s06}, now()
                 )
     </insert>
 

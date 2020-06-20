@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sapoon.loginmembservice.mapper.MemberLoginHstMapper">
+    <insert id="insertLoginHst" parameterType="MemberInfoVO">
+        INSERT INTO
+        MEMBER_LOGIN_HST
+        (
+                MEMB_ID,
+                MAC_ID,
+                LOGIN_IP,
+                LOGIN_DATE,
+                LOGIN_LOCATION,
+                LOGIN_SUCCESS_YN
+            )
+        VALUES
+            (
+                #{id},
+                #{macId},
+                #{loginIp},
+                now(),
+                #{loginLocation},
+                #{loginSuccessYn}
+            )
+    </insert>
+</mapper>

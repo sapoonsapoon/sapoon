@@ -42,7 +42,7 @@ CREATE TABLE member_info_hst(
 CREATE TABLE member_login_info(
     memb_id varchar(20) NOT NULL,
     last_login_mac_id varchar(100),
-    lat_login_date TIMESTAMP,
+    last_login_date TIMESTAMP,
     login_fail_cnt integer default 0,
     mac_id_1 varchar(100),
     mac_id_2 varchar(100),
@@ -59,6 +59,6 @@ CREATE TABLE member_login_hst(
     login_ip varchar(20),
     login_date TIMESTAMP NOT NULL,
     login_location varchar(50),
-    login_sucess_yn varchar(1) NOT NULL,
+    login_success_yn varchar(1) NOT NULL,
     CONSTRAINT member_login_hst_pk PRIMARY KEY (seq)
 );

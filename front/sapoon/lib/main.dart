@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sapoon/routes.dart';
 
 import 'RootPage.dart';
 
@@ -16,9 +17,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         primaryColor: Colors.white,
-        accentColor: Colors.black,
+        accentColor: Colors.white,
       ),
-      home: RootPage(),
+      routes: routes,
     );
   }
 }

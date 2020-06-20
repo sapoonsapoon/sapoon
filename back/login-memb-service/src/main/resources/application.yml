@@ -8,6 +8,17 @@ spring:
     console:
       enabled: true
       path: /h2
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: sapoon0521
+    password: eldptmtkvns
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml

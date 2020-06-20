@@ -26,4 +26,6 @@ public class MemberInfoVO {
     private String regId;
     private String updId;
     private String updDate;
+    private String updStatus;
+    private String loginSuccessYn;
 }

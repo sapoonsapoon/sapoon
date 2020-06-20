@@ -1,6 +1,6 @@
 FROM openjdk:latest
-COPY . /myapp
-WORKDIR /myapp/build/libs
+COPY . /
+RUN ./gradlew build
 EXPOSE 8080
 
-ENTRYPOINT ["java","-jar","login-memb-service-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java","-jar","/build/libs/login-memb-service-0.0.1-SNAPSHOT.jar"]

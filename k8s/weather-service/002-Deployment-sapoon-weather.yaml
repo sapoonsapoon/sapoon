@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sapoon-weather
+  labels:
+    app: sapoon-weather
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sapoon-weather
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: sapoon-weather
+        version: v1
+    spec:
+      serviceAccountName: account-sapoon-weather
+      containers:
+      - name: sapoon-weather
+        image: gcr.io/sapoon/sapoon-weather:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: tmp
+          mountPath: /tmp
+      volumes:
+      - name: tmp
+        emptyDir: {}

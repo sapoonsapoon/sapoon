@@ -21,6 +21,7 @@ steps:
         args: 
           - '-c'
           - |
+              chmod 777 ./back/weather-service/gradlew
               docker build -t gcr.io/$PROJECT_ID/sapoon-weather:$TAG_NAME ./back/weather-service/
     
     

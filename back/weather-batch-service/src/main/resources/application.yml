@@ -1,0 +1,31 @@
+
+
+server:
+  port: 9098
+  servlet:
+    context-path: /
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url : jdbc:mysql://chunodb.cgnrtbr54etn.ap-northeast-2.rds.amazonaws.com:3306/chuno?serverTimezone=UTC&characterEncoding=UTF-8
+    username: kimdragonhee
+    password: dydrkfl1
+
+
+
+  #  kafka:
+  #    bootstrap-servers: 54.180.187.85:9092
+  #    consumer:
+  #      group-id: dragon-kafka
+  main:
+    allow-bean-definition-overriding: true
+
+  batch:
+    job:
+      names: ${job.name:NONE}
+      enabled: false
+  kafka:
+    bootstrap-servers: 35.194.232.104:9094
+    consumer:
+      group-id: dragon-kafka

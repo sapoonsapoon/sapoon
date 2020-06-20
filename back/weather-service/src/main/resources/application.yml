@@ -1,0 +1,19 @@
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url : jdbc:mysql://chunodb.cgnrtbr54etn.ap-northeast-2.rds.amazonaws.com:3306/chuno?serverTimezone=UTC&characterEncoding=UTF-8
+    username: kimdragonhee
+    password: dydrkfl1
+
+  kafka:
+    bootstrap-servers: 35.194.232.104:9094
+    consumer:
+      group-id: dragon-kafka
+  main:
+    allow-bean-definition-overriding: true
+
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+server:
+  port: 8888

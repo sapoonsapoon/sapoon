@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="sapoon.weatherservice.mapper.WeatherMapper">
+
+
+    <select id="findCodeByWeather" resultType="sapoon.weatherservice.vo.AdministrativeAreaInfoVO">
+        SELECT wf.date, wf.hour, wf.temp, wf.tmx, wf.tmn, wf.sky, wf.pop, w.grid_x, w.grid_y FROM weather w
+    	INNER JOIN weather_forecast wf
+    	ON w.area_cd = wf.area_code
+        WHERE w.grid_x = #{grid_x} AND w.grid_y =#{grid_x} AND wf.date = CURDATE() AND HOUR =#{hour} LIMIT 1 ;
+
+
+    </select>
+
+
+    <insert id="insertWeatherForcast">
+      INSERT INTO weather_forecast (area_cd, date, hour, temp, tmx, tmn,
+                                     sky, pty, wf_kor, wf_en, pop, r12,
+                                     s12, ws, wd, wd_kor, wd_en, reh,
+                                     r06, s06)
+      VALUES (#{areaCd}, DATE_FORMAT(date_add(now(),INTERVAL +#{day} day), '%Y-%m-%d'), #{hour},
+                #{temp}, #{tmx}, #{tmn}, #{sky},
+                #{pty}, #{wfKor}, #{wfEn}, #{pop},
+                #{r12}, #{s12}, #{ws}, #{wd},
+                #{wdKor}, #{wdEn}, #{reh}, #{r06}, #{s06}
+                )
+    </insert>
+
+</mapper>
+

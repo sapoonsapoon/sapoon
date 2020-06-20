@@ -144,18 +144,22 @@ public class WeatherService {
     public Map<String, Object> currentWeather(String nx, String ny) {
 
         Map<String, Object> result = new HashMap<>();
-        String resultCode = Common.returnCode.SUCCESS;
 
         //db조회
         AdministrativeAreaInfoVO administrativeAreaInfoVO = weatherMapper.findCodeByWeather(nx, ny);
         if(administrativeAreaInfoVO == null){
-            resultCode = Common.returnCode.FAIL;
+            LOGGER.info("날씨 조회 db 없음");
+            result.put("result",null);
+            return result;
+        }else{
+            LOGGER.info("날씨 조회 db 있음");
+            result.put("result", administrativeAreaInfoVO);
+            return result;
         }
 
-        result.put("resultCode",resultCode);
-        result.put("result", administrativeAreaInfoVO);
 
-        return result;
+
+
     }
 
     //kafka produce 테스트

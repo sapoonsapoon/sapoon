@@ -1,7 +1,6 @@
 package com.sapoon.loginmembservice.service;
 
 import com.sapoon.loginmembservice.common.exception.UnauthorizedException;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;

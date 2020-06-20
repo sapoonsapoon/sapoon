@@ -210,7 +210,7 @@ public class LoginMemberService {
         if(id != null){
             return id;
         }else{
-            throw new InvalidDataException("조회 실패");
+            throw new InvalidDataException("search fail");
         }
     }
 

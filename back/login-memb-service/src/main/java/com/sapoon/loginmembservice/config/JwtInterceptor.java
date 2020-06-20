@@ -33,7 +33,7 @@ public class JwtInterceptor implements HandlerInterceptor {
         if(token != null && jwtService.isUsable(token)){
             return true;
         }else{
-            response.setStatus(400);
+            response.setStatus(401);
             return false;
         }
 

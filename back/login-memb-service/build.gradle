@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.sapoon'
-version = '0.0.2-SNAPSHOT'
+version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
 repositories {
@@ -17,10 +17,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.2'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
-    implementation "javax.xml.bind:jaxb-api:2.2.11"
-    implementation "com.sun.xml.bind:jaxb-core:2.2.11"
-    implementation "com.sun.xml.bind:jaxb-impl:2.2.11"
-    implementation "javax.activation:activation:1.1.1"
     runtimeOnly 'com.h2database:h2'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'

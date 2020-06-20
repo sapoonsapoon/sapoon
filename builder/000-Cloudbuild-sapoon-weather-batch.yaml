@@ -21,7 +21,7 @@ steps:
         args: 
           - '-c'
           - |
-              docker build -t gcr.io/$PROJECT_ID/sapoon-weather-batch:$TAG_NAME ./back/weather-service-batch/
+              docker build -t gcr.io/$PROJECT_ID/sapoon-weather-batch:$TAG_NAME ./back/weather-batch-service/
     
     
     
@@ -59,8 +59,8 @@ steps:
                 --zone "$${ZONE}"  
     
               kubectl get ns sapoon || kubectl create ns sapoon
-              kubectl apply -f ./k8s/weather-service-batch/001*.yaml -n sapoon
-              kubectl apply -f ./k8s/weather-service-batch/002*.yaml -n sapoon
-              kubectl apply -f ./k8s/weather-service-batch/003*.yaml -n sapoon
+              kubectl apply -f ./k8s/weather-batch-service/001*.yaml -n sapoon
+              kubectl apply -f ./k8s/weather-batch-service/002*.yaml -n sapoon
+              kubectl apply -f ./k8s/weather-batch-service/003*.yaml -n sapoon
     
     

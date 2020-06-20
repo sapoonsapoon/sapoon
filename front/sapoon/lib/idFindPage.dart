@@ -14,17 +14,12 @@ class IdFindPage extends StatefulWidget {
 
 class _IdFindPageState extends State<IdFindPage> {
   TextEditingController _idController = TextEditingController();
-  TextEditingController _pwController = TextEditingController();
-  TextEditingController _pwControllerCf = TextEditingController();
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _sexController = TextEditingController();
-  TextEditingController _nicknameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
 
   @override
   void dispose() {
+    _idController.dispose();
     _emailController.dispose();
-    _pwController.dispose();
     super.dispose();
   }
 
@@ -73,7 +68,7 @@ class _IdFindPageState extends State<IdFindPage> {
                       textAlignVertical: TextAlignVertical.bottom,
                       controller: _idController,
                       decoration: InputDecoration(
-                        hintText: '아이디',
+                        hintText: '이름',
                         hintStyle: TextStyle(
                           color: Colors.black45,
                         ),
@@ -153,7 +148,7 @@ class _IdFindPageState extends State<IdFindPage> {
                           color: Colors.black45, fontWeight: FontWeight.bold),
                       controller: _emailController,
                       decoration: InputDecoration(
-                        hintText: '이메일 ',
+                        hintText: '이메일',
                         hintStyle: TextStyle(color: Colors.black45),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
@@ -190,18 +185,13 @@ class _IdFindPageState extends State<IdFindPage> {
                       createAlbum(
                         context,
                         _idController.text,
-                        _pwController.text,
-                        _nameController.text,
-                        _sexController.text,
-                        _nicknameController.text,
                         _emailController.text,
                         show_log,
-                        show_log,
                       );
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => IdFindResultPage()));
+//                      Navigator.push(
+//                          context,
+//                          MaterialPageRoute(
+//                              builder: (context) => IdFindResultPage()));
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -253,36 +243,26 @@ InputDecoration getTextFieldDecor(String hint) {
 
 Future createAlbum(
     BuildContext context,
-    String id,
-    String password,
     String name,
-    String gender,
     String birthday,
-    String email,
-    String nickname,
-    String registPath) async {
+    String email,) async {
   final http.Response response = await http.post(
-    'http://35.194.192.57/sapoon/member/regist',
+    'http://35.194.192.57/sapoon/member/find/id',
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
     body: jsonEncode(<String, String>{
-      'id': '513',
-      'password': "$password",
       'name': '$name',
-      'gender': '1',
       'birthday': '$birthday',
-      'email': 'ss',
-      'nickname': 'ss',
-      'registPath': "1"
+      'email': '$email',
     }),
   );
   if (response.statusCode == 200) {
     // If the server did return a 201 CREATED response,
     // then parse the JSON.
-    print('성공적이에요!');
+    print('아이디를 찾았어요!');
+    print('Response body: ${response.body}');
   } else {
-    print(name);
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
     // If the server did not return a 201 CREATED response,

@@ -37,7 +37,7 @@ steps:
         args: 
           - '-c'
           - |
-              docker push gcr.io/$PROJECT_ID/sapoon-login:$TAG_NAME
+              docker push gcr.io/$PROJECT_ID/sapoon-login:latest
     
     
     

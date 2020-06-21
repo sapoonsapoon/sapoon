@@ -66,6 +66,9 @@ steps:
               kubectl delete -f ./k8s/login-service/003*.yaml -n sapoon
               kubectl delete -f ./k8s/login-service/004*.yaml -n sapoon
               kubectl delete -f ./k8s/login-service/005*.yaml -n sapoon
+
+              sed -i "s/latest/$TAG_NAME/" ./k8s/login-service/002*.yaml
+
               kubectl apply -f ./k8s/login-service/001*.yaml -n sapoon
               kubectl apply -f ./k8s/login-service/002*.yaml -n sapoon
               kubectl apply -f ./k8s/login-service/003*.yaml -n sapoon

@@ -3,12 +3,13 @@ import 'package:sapoon/SignUpPage.dart';
 import 'package:sapoon/idFindPage.dart';
 
 class IdFindResultPage extends StatefulWidget {
+  final String idVlaue;
+  const IdFindResultPage(this.idVlaue);
   @override
   _IdFindResultPageState createState() => _IdFindResultPageState();
 }
 
 class _IdFindResultPageState extends State<IdFindResultPage> {
-
   String show_log='생일을 입력해주세요';
   String dropdownValue = '    남자';
 
@@ -19,9 +20,10 @@ class _IdFindResultPageState extends State<IdFindResultPage> {
     });
   }
 
+
+
   @override
   Widget build(BuildContext context) {
-
 
     return Scaffold(
 
@@ -62,7 +64,7 @@ class _IdFindResultPageState extends State<IdFindResultPage> {
                         child: Center(
                           child: Text(
                               "고객님의 아이디는 \n\n"
-                                  "화이트크리스마스 입니다",
+                                  "${widget.idVlaue} 입니다",
                             style: TextStyle(
                               fontFamily: "NanumSquareExtraBold",
                               fontWeight: FontWeight.normal,

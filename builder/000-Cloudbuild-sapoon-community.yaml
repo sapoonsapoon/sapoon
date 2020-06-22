@@ -59,11 +59,13 @@ steps:
                 --zone "$${ZONE}"  
     
               kubectl get ns sapoon || kubectl create ns sapoon
-              kubectl delete -f ./k8s/community-service/001*.yaml -n sapoon
+
+
               kubectl delete -f ./k8s/community-service/002*.yaml -n sapoon
-              kubectl delete -f ./k8s/community-service/003*.yaml -n sapoon
-              kubectl delete -f ./k8s/community-service/004*.yaml -n sapoon
-              kubectl delete -f ./k8s/community-service/005*.yaml -n sapoon
+            
+              sed -i "s/latest/$TAG_NAME/" ./k8s/community-service/002*.yaml
+
+
               kubectl apply -f ./k8s/community-service/001*.yaml -n sapoon
               kubectl apply -f ./k8s/community-service/002*.yaml -n sapoon
               kubectl apply -f ./k8s/community-service/003*.yaml -n sapoon

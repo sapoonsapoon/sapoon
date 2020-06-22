@@ -242,17 +242,13 @@ class _PasswordFindPageState extends State<PasswordFindPage> {
                           Scaffold.of(context).showSnackBar(snackbar);
                           createAlbum(context,
                             _idController.text,
-                            _pwController.text,
                             _nameController.text,
-                            _sexController.text,
-                            _nicknameController.text,
+                              show_log,
                             _emailController.text,
-                            show_log,
-                            show_log,
                           );
-                          Navigator.push(context, MaterialPageRoute(
-                              builder: (context)=>PasswordFindResultPage()
-                          ));
+//                          Navigator.push(context, MaterialPageRoute(
+//                              builder: (context)=>PasswordFindResultPage()
+//                          ));
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -307,27 +303,19 @@ InputDecoration getTextFieldDecor(String hint) {
 
 Future createAlbum(BuildContext context,
     String id,
-    String password,
     String name,
-    String gender,
     String birthday,
-    String email,
-    String nickname,
-    String registPath) async {
+    String email) async {
   final http.Response response = await http.post(
-    'http://35.194.192.57/sapoon/member/regist',
+    'http://35.194.192.57/sapoon/member/find/password',
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
     body: jsonEncode(<String, String>{
-      'id': '513',
-      'password':"$password",
+      'id': '$id',
       'name':'$name',
-      'gender':'1',
       'birthday':'$birthday',
-      'email': 'ss',
-      'nickname': 'ss',
-      'registPath': "1"
+      'email': '$email',
     }),
   );
   if (response.statusCode == 200) {
@@ -338,7 +326,7 @@ Future createAlbum(BuildContext context,
   } else {
     print(name);
     print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
+    print("한글 원인이에요:  "+utf8.decode(response.bodyBytes)); // 한
     // If the server did not return a 201 CREATED response,
     // then throw an exception.
     throw Exception();

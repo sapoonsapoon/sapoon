@@ -18,7 +18,7 @@ import java.util.Map;
 
 
 @RestController
-@RequestMapping("/sappon/weather")
+@RequestMapping("/sapoon/weather")
 public class WeatherController {
 
 

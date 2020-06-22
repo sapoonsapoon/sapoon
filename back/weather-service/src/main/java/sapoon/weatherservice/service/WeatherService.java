@@ -16,6 +16,7 @@ import sapoon.weatherservice.config.kafka.Producer;
 import sapoon.weatherservice.mapper.WeatherMapper;
 import sapoon.weatherservice.vo.AdministrativeAreaInfoVO;
 
+import javax.security.sasl.SaslServer;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -44,6 +45,10 @@ public class WeatherService {
     @Autowired
     Producer producer;
 
+
+    SimpleDateFormat format1 = new SimpleDateFormat ( "YYYY-MM-dd");
+    Date time = new Date();
+    String time1 = format1.format(time);
 
     public String mise() throws IOException {
 
@@ -145,8 +150,12 @@ public class WeatherService {
 
         Map<String, Object> result = new HashMap<>();
 
+        String hour = time1.split("-")[1];
+        System.out.println("hour "+ hour);
+        if(hour.contains("0")) hour = hour.split("0")[1];
+        System.out.println("hour : "+hour);
         //db조회
-        AdministrativeAreaInfoVO administrativeAreaInfoVO = weatherMapper.findCodeByWeather(nx, ny);
+        AdministrativeAreaInfoVO administrativeAreaInfoVO = weatherMapper.findCodeByWeather(nx, ny, hour);
         if(administrativeAreaInfoVO == null){
             LOGGER.info("날씨 조회 db 없음");
             result.put("result",null);

@@ -1,6 +1,5 @@
 package sapoon.weatherservice.controller;
 
-import com.sun.media.sound.InvalidDataException;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -10,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import sapoon.weatherservice.common.Common;
 import sapoon.weatherservice.service.WeatherService;
 
 import java.io.IOException;
@@ -25,6 +23,11 @@ public class WeatherController {
 
 
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(WeatherController.class);
+    double minNx = 124.7141;
+    double maxNx = 131.8648471;
+    double minNy = 33.223572222222224;
+    double maxNy = 38.49164444444445;
+
 
     @Autowired
     WeatherService weatherService;
@@ -45,13 +48,26 @@ public class WeatherController {
     @GetMapping("/currentWeather")
     public ResponseEntity<Map> currentWeather(String nx, String ny){
         LOGGER.info("WeatherController - sapoon/weather/currentWeather");
-
         Map weather = new HashMap();
 
-        LOGGER.info("start nx : "+nx +", ny : "+ny);
-        if(nx.contains(".")) nx = nx.split("\\.")[0];
-        if(ny.contains(".")) ny = ny.split("\\.")[0];
-        LOGGER.info("end nx : "+nx +", ny : "+ny);
+        // 필수 값 체크 //
+        if("".equals(nx) || nx ==null || "".equals(ny) || ny == null){
+            weather.put("result","필수값 없음");
+            return new ResponseEntity<Map>(weather, HttpStatus.BAD_REQUEST);
+        }
+
+        //nx 최소값 124.7141 최대값 131.8648471
+        //ny 최소값 33.223572222222224 최대값 38.49164444444445
+        double doubleNx = Double.parseDouble(nx);
+        double doubleNy = Double.parseDouble(ny);
+        if(doubleNx < minNx || doubleNx > maxNx ||
+            doubleNy < minNy || doubleNy > maxNy){
+            weather.put("result","위도, 경도 범위 벗어남");
+            return new ResponseEntity<Map>(weather, HttpStatus.BAD_REQUEST);
+        }
+
+
+        LOGGER.info("nx : "+nx+", ny : "+ny);
 
         weather = weatherService.currentWeather(nx, ny);
 
@@ -68,14 +84,12 @@ public class WeatherController {
     public ResponseEntity<Map> mise() throws IOException {
         HttpStatus status = HttpStatus.OK;
 
+
         Map member = new HashMap();
         member.put("result",1);
         member.put("resultStr",weatherService.mise());
 
-
-
         return new ResponseEntity<Map>(member, status);
-
     }
 //    @GetMapping("/xmltest")
 //    public ResponseEntity<Map> xmltest(String code) throws IOException {
@@ -88,18 +102,6 @@ public class WeatherController {
 //
 //        return new ResponseEntity<Map>(member, status);
 //
-//    }
-
-//    @PostMapping("/find/password")
-//    public ResponseEntity<?> changePw(@RequestBody MemberInfoVO memberInfoVO){
-//        logger.info("loginMemberController - sapoon/member/find/password");
-//        try{
-//            loginMemberService.FindPassword(memberInfoVO);
-//            return ResponseEntity.ok().build();
-//        }catch (InvalidDataException e){
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(getErrorHeader()).body(e.getMessage());
-//
-//        }
 //    }
 
     private HttpHeaders getErrorHeader() {

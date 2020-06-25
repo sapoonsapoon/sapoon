@@ -69,13 +69,11 @@ public class WeatherJobConfiguration {
 
     private int nextIndex = 0;
     private int size =0;
-//    private int chunkSize = 10;
     private int chunkSize = 210;
 
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(WeatherJobConfiguration.class);
     int pageNo = 1;
-    // int numOfRows = 100;
-    private static final String BATCH_NAME = "weatherApiBatch";
+    private static final String BATCH_NAME = "WEATHER_API_BATCH";
 
     SimpleDateFormat format1 = new SimpleDateFormat ( "YYYY-MM-dd");
     Date time = new Date();
@@ -91,10 +89,10 @@ public class WeatherJobConfiguration {
     // 초(0~59), 분(0~59), 시(0~23), 일(1-31), 월(1~12), 요일(0~7)
     // @Scheduled(cron="0 0 06 * * *") = 매일 새벽2시에 실행
 //    @Scheduled(cron = "0 * * * * *") //1분마다
-    @Scheduled(cron = "0 0 0/1 * * *") //3시간마다
+    @Scheduled(cron = "0 5 0/3 * * *") //1시간마다
     public void perform() throws Exception {
         String jobId = String.valueOf(System.currentTimeMillis());
-        LOGGER.info("job start11 : "+jobId);
+        LOGGER.info("weather job start : "+jobId);
         nextIndex = 0;
         JobParameters param = new JobParametersBuilder().addString("JobID",
                 jobId).toJobParameters();
@@ -103,7 +101,7 @@ public class WeatherJobConfiguration {
         LOGGER.info("job finished : "+ execution.getStatus());
     }
 
-    @Bean
+    @Bean(name = BATCH_NAME)
     public Job job(){
         return jobBuilderFactory.get(BATCH_NAME)
                 .start(step())
@@ -163,7 +161,6 @@ public class WeatherJobConfiguration {
         BufferedReader br = null;
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);
-        DocumentBuilder builder;
         Document doc = null;
 
         // TODO Auto-generated method stub

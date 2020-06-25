@@ -7,9 +7,14 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url : jdbc:mysql://chunodb.cgnrtbr54etn.ap-northeast-2.rds.amazonaws.com:3306/chuno?serverTimezone=UTC&characterEncoding=UTF-8
-    username: kimdragonhee
-    password: dydrkfl1
+#    url : jdbc:mysql://chunodb.cgnrtbr54etn.ap-northeast-2.rds.amazonaws.com:3306/chuno?serverTimezone=UTC&characterEncoding=UTF-8
+#    username: kimdragonhee
+#    password: dydrkfl1
+#    인세형 서버 정보
+    url : jdbc:mysql://35.194.192.57:31362
+    username: root
+    password: new1234!
+
 
 
 
@@ -23,8 +28,9 @@ spring:
   batch:
     job:
       names: ${job.name:NONE}
-      enabled: false
+      enabled: false #names 안에 있는 job들만 실행
+#      names: MISE_API_BATCH, WEATHER_API_BATCH
   kafka:
     bootstrap-servers: 35.194.232.104:9094
     consumer:
-      group-id: dragon-kafka
+      group-id: dragon1-kafka

@@ -7,13 +7,13 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-#    url : jdbc:mysql://chunodb.cgnrtbr54etn.ap-northeast-2.rds.amazonaws.com:3306/chuno?serverTimezone=UTC&characterEncoding=UTF-8
-#    username: kimdragonhee
-#    password: dydrkfl1
+    url : jdbc:mysql://chunodb.cgnrtbr54etn.ap-northeast-2.rds.amazonaws.com:3306/chuno?serverTimezone=UTC&characterEncoding=UTF-8
+    username: kimdragonhee
+    password: dydrkfl1
 #    인세형 서버 정보
-    url : jdbc:mysql://35.194.192.57:31362
-    username: root
-    password: new1234!
+#    url : jdbc:mysql://35.194.192.57:31362
+#    username: root
+#    password: new1234!
 
 
 

@@ -90,8 +90,8 @@ public class MiseJobConfiguration {
     private SimpleJobLauncher jobLauncher;
 
     // 초(0~59), 분(0~59), 시(0~23), 일(1-31), 월(1~12), 요일(0~7)
-    @Scheduled(cron = "* * * * * *") //매분 5초 실행
-//    @Scheduled(cron="0 5 0/1 * * *") //  매 1시간 5분마다
+//    @Scheduled(cron = "* * * * * *") //매분 5초 실행
+    @Scheduled(cron="0 5 0/1 * * *") //  매 1시간 5분마다
     public void perform() throws Exception {
         String jobId = String.valueOf(System.currentTimeMillis());
         LOGGER.info("mise job start : "+jobId);

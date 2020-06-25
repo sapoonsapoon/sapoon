@@ -1,5 +1,6 @@
 package sapoon.weatherservice.controller;
 
+import org.apache.kafka.common.utils.Shell;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -8,10 +9,14 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.xml.sax.SAXException;
 import sapoon.weatherservice.service.WeatherService;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,26 +33,13 @@ public class WeatherController {
     double minNy = 33.223572222222224;
     double maxNy = 38.49164444444445;
 
-
     @Autowired
     WeatherService weatherService;
 
 
-    //1. 카프카로 전체 날씨를 던져. 그거를 weather에서 받아와서 db에 저장.
-    //2. 현재 위치 받아와서 시, 구, 동 정보 받아와서
-    //   db에서 조회 후 해당 날씨 리턴한다.
-    //   동의를하면 사용자 좌표 가져오고, 동의안하면 default 서울방배 검색기능추가.
-    //
-    @GetMapping("/test")
-    public String test(){
-        return "test";
-    }
-
-    //1) 사용자의 위도 경도로 weather 테이블에서 code 값 알아낸다음 그걸로 다시 db에서 날씨가져오기.
-    //2) 사용자의 위도 경도로
-    @GetMapping("/currentWeather")
-    public ResponseEntity<Map> currentWeather(String nx, String ny){
-        LOGGER.info("WeatherController - sapoon/weather/currentWeather");
+    @GetMapping("/current")
+    public ResponseEntity<Map> currentWeather(@RequestParam String nx, @RequestParam String ny){
+        LOGGER.info("WeatherController - sapoon/weather/current");
         Map weather = new HashMap();
 
         // 필수 값 체크 //
@@ -60,8 +52,7 @@ public class WeatherController {
         //ny 최소값 33.223572222222224 최대값 38.49164444444445
         double doubleNx = Double.parseDouble(nx);
         double doubleNy = Double.parseDouble(ny);
-        if(doubleNx < minNx || doubleNx > maxNx ||
-            doubleNy < minNy || doubleNy > maxNy){
+        if(doubleNx < minNx || doubleNx > maxNx || doubleNy < minNy || doubleNy > maxNy){
             weather.put("result","위도, 경도 범위 벗어남");
             return new ResponseEntity<Map>(weather, HttpStatus.BAD_REQUEST);
         }
@@ -69,7 +60,7 @@ public class WeatherController {
 
         LOGGER.info("nx : "+nx+", ny : "+ny);
 
-        weather = weatherService.currentWeather(nx, ny);
+        weather = weatherService.getCurrentWeather(nx, ny);
 
         if(weather.get("result") == null){
             weather.put("result","db not found");
@@ -81,44 +72,34 @@ public class WeatherController {
     }
 
     @GetMapping("/mise")
-    public ResponseEntity<Map> mise() throws IOException {
-        HttpStatus status = HttpStatus.OK;
+    public ResponseEntity<Map> getMise(@RequestParam String nx, @RequestParam String ny){
+        LOGGER.info("WeatherController - sapoon/weather/mise");
+        Map weather = new HashMap();
 
+        // 필수 값 체크 //
+        if("".equals(nx) || nx ==null || "".equals(ny) || ny == null){
+            weather.put("result","필수값 없음");
+            return new ResponseEntity<Map>(weather, HttpStatus.BAD_REQUEST);
+        }
 
-        Map member = new HashMap();
-        member.put("result",1);
-        member.put("resultStr",weatherService.mise());
+        double doubleNx = Double.parseDouble(nx);
+        double doubleNy = Double.parseDouble(ny);
+        if(doubleNx < minNx || doubleNx > maxNx || doubleNy < minNy || doubleNy > maxNy){
+            weather.put("result","위도, 경도 범위 벗어남");
+            return new ResponseEntity<Map>(weather, HttpStatus.BAD_REQUEST);
+        }
 
-        return new ResponseEntity<Map>(member, status);
-    }
-//    @GetMapping("/xmltest")
-//    public ResponseEntity<Map> xmltest(String code) throws IOException {
-//        HttpStatus status = HttpStatus.OK;
-//
-//        Map member = new HashMap();
-//        member.put("result",1);
-//        member.put("resultStr",weatherService.xmlTest(code));
-//
-//
-//        return new ResponseEntity<Map>(member, status);
-//
-//    }
+        LOGGER.info("nx : "+nx+", ny : "+ny);
 
-    private HttpHeaders getErrorHeader() {
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        return httpHeaders;
-    }
+        weather = weatherService.getCurrentMise(nx, ny);
 
-    private HttpHeaders getSuccessHeader() {
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        return httpHeaders;
-    }
-    private HttpHeaders getTokenHeader(String token) {
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set("Authorization",token);
-        return httpHeaders;
+        if(weather.get("result") == null){
+            weather.put("result","db not found");
+            return new ResponseEntity<Map>(weather, HttpStatus.BAD_REQUEST);
+        }else{
+            return new ResponseEntity<Map>(weather, HttpStatus.OK);
+        }
+
     }
 
 }

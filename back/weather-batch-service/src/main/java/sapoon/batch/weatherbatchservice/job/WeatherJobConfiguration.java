@@ -120,34 +120,36 @@ public class WeatherJobConfiguration {
     }
 
     public JpaPagingItemReader<AdministrativeAreaInfo> itemReader(){
+        LOGGER.info("in itemReader");
        return new JpaPagingItemReaderBuilder<AdministrativeAreaInfo>()
                .name("Weather_Reader")
                .entityManagerFactory(entityManagerFactory)
                .pageSize(chunkSize)
-               .queryString("SELECT a  FROM AdministrativeAreaInfo a  WHERE updated_at <  DATE_FORMAT(NOW(), '%Y-%m-%d')  ORDER BY area_cd") //WHERE update_at <  DATE_FORMAT(NOW(), '%Y-%m-%d')
+               .queryString("SELECT a  FROM AdministrativeAreaInfo a  WHERE updated_at <  DATE_FORMAT(NOW(), '%Y-%m-%d') ORDER BY area_cd ") //WHERE update_at <  DATE_FORMAT(NOW(), '%Y-%m-%d')
                .build();
     }
 
     @Bean
     public ItemProcessor<AdministrativeAreaInfo,AdministrativeAreaInfo> itemProcessor(){
+        LOGGER.info("in itemProcessor");
         return administrativeAreaInfo ->{
-            LOGGER.info("nextIndex : "+ nextIndex);
-            LOGGER.info("chunkSize : "+ chunkSize);
-            nextIndex++;
 
-            if(nextIndex > chunkSize) return null;
-
+            if(nextIndex < chunkSize){
+                LOGGER.info("nextIndex : "+ nextIndex +" / chunkSize : "+ chunkSize);
+                LOGGER.info("administrativeAreaInfo : "+ administrativeAreaInfo);
+                nextIndex++;
             this.getWeather(administrativeAreaInfo.getArea_cd());
-            LOGGER.info("administrative_area_info : "+administrativeAreaInfo.getArea_cd());
-            LOGGER.info("info "+administrativeAreaInfo.getArea_cd());
-
-            return administrativeAreaInfo;
+                return administrativeAreaInfo;
+            } else{
+                return null;
+            }
+//            return administrativeAreaInfo;
         };
     }
 
     @Bean // beanMapped()를 사용할때는 필수
     public JdbcBatchItemWriter<AdministrativeAreaInfo> itemWriterDto(){// 오라클 db에 데이터를 쓴다.
-        LOGGER.info("in here");
+        LOGGER.info("in itemWriter");
         return new JdbcBatchItemWriterBuilder<AdministrativeAreaInfo>()
                 .dataSource(dataSource)
 //                .sql("UPDATE AdministrativeAreaInfo  SET updated_at = DATE_FORMAT(NOW(), '%Y-%m-%d') WHERE area_cd = :area_cd ")
@@ -198,6 +200,7 @@ public class WeatherJobConfiguration {
             System.out.println("items : "+items.getLength());
             int itemLen = items.getLength();
 
+            kafkaList = new ArrayList<HashMap<String,String>>();
             //for 루프시작
             for(int i = itemLen - 8 ; i < items.getLength(); i++){ //파싱해온 데이터중 마지막 8개 보냄. -> 1일치 자료
                 //i번째 publication 태그를 가져와서

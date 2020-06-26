@@ -28,7 +28,8 @@ spring:
   batch:
     job:
       names: ${job.name:NONE}
-      enabled: false #names 안에 있는 job들만 실행
+      enabled: true # 모든 배치 실행
+  #      enabled: false #names 안에 있는 job들만 실행
 #      names: MISE_API_BATCH, WEATHER_API_BATCH
   kafka:
     bootstrap-servers: 35.194.232.104:9094

@@ -26,4 +26,16 @@ public class NoticeService {
 
         return result;
     }
+
+    public NoticeVo getNotice(int seq){
+        NoticeVo noticeVo = null;
+
+        try{
+            noticeVo = noticeMapper.selectNoticePost(seq);
+        } catch (Exception e) {
+            LOGGER.error(e.toString());
+        }
+
+        return noticeVo;
+    }
 }

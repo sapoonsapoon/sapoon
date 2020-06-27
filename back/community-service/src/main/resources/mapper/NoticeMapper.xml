@@ -2,8 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="sapoon.communityservice.mapper.NoticeMapper">
-    <insert id="insertNoticePost" parameterType="sapoon.communityservice.vo.NoticeVo">
+    <insert id="insertNoticePost" parameterType="NoticeVo">
         INSERT INTO notice_post(seq, title, comment, file_yn, img_yn, reg_id)
-        Values(#{seq}, #{title}, #{comment}, #{fileYn}, #{imgYn}, 'system')
+        VALUES(#{seq}, #{title}, #{comment}, #{fileYn}, #{imgYn}, 'system')
     </insert>
+
+    <select id="selectNoticePost" parameterType="int">
+        SELECT * FROM notice_post WHERE seq = #{seq}
+    </select>
 </mapper>

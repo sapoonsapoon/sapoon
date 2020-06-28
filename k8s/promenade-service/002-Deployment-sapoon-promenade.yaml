@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sapoon-promenade
+  labels:
+    app: sapoon-promenade
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sapoon-promenade
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: sapoon-promenade
+        version: v1
+    spec:
+      serviceAccountName: account-sapoon-promenade
+      containers:
+      - name: sapoon-promenade
+        image: gcr.io/sapoon-281605/sapoon-promenade:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: tmp
+          mountPath: /tmp
+      volumes:
+      - name: tmp
+        emptyDir: {}

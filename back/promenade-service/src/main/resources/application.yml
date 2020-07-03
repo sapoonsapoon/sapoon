@@ -1,7 +1,7 @@
 spring:
   mvc:
     view:
-      prefix: /WEB-INF
+      prefix: /WEB-INF/jsp/
       suffix: .jsp
   datasource:
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
@@ -12,6 +12,8 @@ spring:
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
   type-aliases-package: sapoon.promenadeservice.vo
+  configuration:
+    map-underscore-to-camel-case: true
 
 logging:
   level:

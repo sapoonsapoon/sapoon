@@ -19,7 +19,7 @@
     <select id="getMainDullegilByRandom" resultType="sapoon.promenadeservice.vo.DullegilVo">
         SELECT di.seq, di.name, di.course_name, di.region1
         FROM sppromendas.dullegil_info di
-        WHERE di.seq = 967
-        -- ORDER BY RAND() LIMIT 5
+        -- WHERE di.seq = 967
+        ORDER BY RAND() LIMIT 5
     </select>
 </mapper>

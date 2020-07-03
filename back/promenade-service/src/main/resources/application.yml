@@ -10,7 +10,7 @@ spring:
     password: new1234!
 
 mybatis:
-  mapper-locations: classpath:mapper/*mapper.xml
+  mapper-locations: classpath:mapper/*Mapper.xml
   type-aliases-package: sapoon.promenadeservice.vo
 
 logging:

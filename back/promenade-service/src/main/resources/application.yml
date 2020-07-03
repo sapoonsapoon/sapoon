@@ -1,4 +1,8 @@
 spring:
+  mvc:
+    view:
+      prefix: /WEB-INF
+      suffix: .jsp
   datasource:
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
     url: jdbc:log4jdbc:mysql://35.201.245.206:30220/sppromendas
@@ -6,7 +10,7 @@ spring:
     password: new1234!
 
 mybatis:
-  mapper-locations: classpath:mapper/*Mapper.xml
+  mapper-locations: classpath:mapper/*mapper.xml
   type-aliases-package: sapoon.promenadeservice.vo
 
 logging:

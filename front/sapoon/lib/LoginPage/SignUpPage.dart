@@ -6,7 +6,7 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
-import 'HomePage.dart';
+import '../pageFolder/HomePage.dart';
 import 'package:geolocator/geolocator.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -398,7 +398,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     InkWell(
                       onTap: () {
                         if(_formKey.currentState.validate()){
-                          createAlbum(
+                          createSignUp(
                             context,
                             _idController.text,
                             _pwController.text,
@@ -407,8 +407,6 @@ class _SignUpPageState extends State<SignUpPage> {
                               show_log,
                             _emailController.text,
                             _nicknameController.text,
-
-
                           );
                         }else{
                           final snackbar = SnackBar(content: Text('계정이 없습니다.'));
@@ -467,7 +465,7 @@ InputDecoration getTextFieldDecor(String hint) {
   );
 }
 
-Future createAlbum(
+Future createSignUp(
     BuildContext context,
     String id,
     String password,

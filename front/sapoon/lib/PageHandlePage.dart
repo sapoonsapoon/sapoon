@@ -1,6 +1,7 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:sapoon/HomePage.dart';
+import 'package:sapoon/pageFolder/CommunityBoardPage.dart';
+import 'package:sapoon/pageFolder/HomePage.dart';
 
 class LandingPage extends StatefulWidget {
   @override
@@ -34,7 +35,7 @@ class _LandingPageState extends State<LandingPage> {
             },
             children: <Widget>[
               HomePage(),
-              Container(color: Colors.red,),
+              CommunityBoardPage(),
               Container(color: Colors.green,),
               Container(color: Colors.blue,),
             ],

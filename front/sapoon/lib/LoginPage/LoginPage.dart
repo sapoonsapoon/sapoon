@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
-import 'package:sapoon/SignUpPage.dart';
+import 'package:sapoon/LoginPage/SignUpPage.dart';
 import 'package:sapoon/idFindPage.dart';
-import 'package:sapoon/landingPage.dart';
-import 'package:sapoon/passwordFindPage.dart';
+import 'package:sapoon/PageHandlePage.dart';
+import 'package:sapoon/LoginPage/passwordFindPage.dart';
 
 class RootPage extends StatefulWidget {
   @override

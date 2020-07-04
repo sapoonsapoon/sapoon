@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sapoon/SignUpPage.dart';
+import 'package:sapoon/LoginPage/SignUpPage.dart';
 import 'package:sapoon/idFindPage.dart';
 
 class IdFindResultPage extends StatefulWidget {

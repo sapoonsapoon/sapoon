@@ -9,7 +9,7 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString
-public class NoticeVo {
+public class NoticeVo{
     private int seq;
     private String title;
     private String comment;

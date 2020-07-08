@@ -20,7 +20,7 @@ spec:
       serviceAccountName: account-sapoon-login
       containers:
       - name: sapoon-login
-        image: gcr.io/sapoon/sapoon-login:latest
+        image: gcr.io/sapoon-281605/sapoon-login:latest
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sapoon/RootPage.dart';
+import 'package:sapoon/LoginPage/LoginPage.dart';
 
 class PasswordFindResultPage extends StatefulWidget {
   @override
@@ -22,7 +22,6 @@ class _PasswordFindResultPageState extends State<PasswordFindResultPage> {
 
 
     return Scaffold(
-
         appBar: AppBar(
           title: Text('비밀번호 찾기', textAlign: TextAlign.right,),
 

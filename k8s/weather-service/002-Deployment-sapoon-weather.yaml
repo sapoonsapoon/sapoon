@@ -20,7 +20,7 @@ spec:
       serviceAccountName: account-sapoon-weather
       containers:
       - name: sapoon-weather
-        image: gcr.io/sapoon/sapoon-weather:latest
+        image: gcr.io/sapoon-281605/sapoon-weather:latest
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080

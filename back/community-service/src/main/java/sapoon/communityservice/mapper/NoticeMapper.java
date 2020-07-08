@@ -8,5 +8,5 @@ import sapoon.communityservice.vo.NoticeVo;
 @Repository
 public interface NoticeMapper {
     void insertNoticePost(NoticeVo noticeVo);
-    NoticeVo selectNoticePost();
+    NoticeVo selectNoticePost(int seq);
 }

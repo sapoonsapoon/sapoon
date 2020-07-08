@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="sapoon.promenadeservice.mapper.PromenadeMapper">
+    <select id="selectDullegilInfo" parameterType="int" resultType="sapoon.promenadeservice.vo.DullegilVo">
+        SELECT * FROM sppromendas.dullegil_info WHERE seq = #{seq}
+    </select>
+
+    <select id="selectDullegilDetail" parameterType="int" resultType="sapoon.promenadeservice.vo.DullegilDetailVo">
+        SELECT * FROM sppromendas.dullegil_detail WHERE seq = #{seq}
+    </select>
+
+    <select id="searchDullegil" parameterType="string" resultType="sapoon.promenadeservice.vo.DullegilVo">
+        SELECT seq, name, course_name
+        FROM sppromendas.dullegil_info
+        WHERE name LIKE CONCAT('%', #{dullegil_name}, '%') LIMIT 5;
+    </select>
+
+    <select id="getMainDullegilByRandom" resultType="sapoon.promenadeservice.vo.DullegilVo">
+        SELECT di.seq, di.name, di.course_name, di.region1
+        FROM sppromendas.dullegil_info di
+        -- WHERE di.seq = 967
+        ORDER BY RAND() LIMIT 5
+    </select>
+</mapper>

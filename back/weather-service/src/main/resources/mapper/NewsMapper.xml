@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="sapoon.weatherservice.mapper.NewsMapper">
+
+
+
+    <select id="findNewsPostList" resultType="sapoon.weatherservice.vo.NewsPostVO">
+        SELECT title, comment, url, thumb_url as thumbUrl,
+            news_corp as newsCorp, writer, reg_id as regId, reg_date as regDate
+        FROM news_post ORDER BY seq DESC LIMIT 10
+    </select>
+
+
+    <select id="findNewsPost" resultType="sapoon.weatherservice.vo.NewsPostVO">
+        SELECT title, comment, url, thumb_url as thumbUrl,
+            news_corp as newsCorp, writer, reg_id as regId, reg_date as regDate
+        FROM news_post WHERE seq = #{seq}
+    </select>
+
+    <!--배치로 넘길부분. -->
+    <insert id="insertNewsPost">
+        INSERT INTO news_post (title, comment, url, thumb_url, news_corp,
+            writer, reg_id, reg_date)
+        VALUES (#{title}, #{comment}, #{url}, #{thumbUrl}, #{newsCorp},
+            #{writer}, #{regId}, now()
+        )
+    </insert>
+
+
+
+</mapper>
+
+

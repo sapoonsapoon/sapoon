@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @ToString
 @NoArgsConstructor
 @Entity
-public class AdministrativeAreaInfoVO extends WeatherForcastVO{
+public class AdministrativeAreaInfoVO extends WeatherForcastVO {
     @Id
     String area_cd;
 
@@ -29,7 +29,7 @@ public class AdministrativeAreaInfoVO extends WeatherForcastVO{
 
 
     public AdministrativeAreaInfoVO(String area_cd, String first_ctgry, String second_ctgry, String third_ctgry,
-                                    String grid_x, String grid_y, String nx, String ny){
+                                    String grid_x, String grid_y, String nx, String ny) {
         this.area_cd = area_cd;
         this.first_ctgry = first_ctgry;
         this.second_ctgry = second_ctgry;

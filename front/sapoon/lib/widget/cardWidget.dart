@@ -36,17 +36,24 @@ Card CardWidget({
                   MediaQuery.of(context).size.width * 0.02,
                 ),
                 Column(
+
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(
-                      '$trailName',
-                      style: TextStyle(
-                          color: Colors.black87,
-                          fontFamily: "NanumSquareExtraBold",
-                          fontSize: MediaQuery.of(context)
-                              .size
-                              .width *
-                              0.04),
+                    Container(
+                      width:  MediaQuery.of(context).size.width * 0.3,
+                      height:  MediaQuery.of(context).size.width * 0.09,
+                      child: Text(
+                        '$trailName',
+                        style: TextStyle(
+                            color: Colors.black87,
+                            fontFamily: "NanumSquareExtraBold",
+                            fontSize: MediaQuery.of(context)
+                                .size
+                                .width *
+                                0.04),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                      ),
                     ),
                     SizedBox(
                       height:
@@ -78,6 +85,7 @@ Card CardWidget({
                       fontSize:
                       MediaQuery.of(context).size.width *
                           0.03),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             )

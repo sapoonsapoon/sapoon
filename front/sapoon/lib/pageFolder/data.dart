@@ -57,12 +57,12 @@ List<Post> makePostList(List<dynamic> json) {
     String trailsJsonName = json[i]['name'];
     String trailCourseName = json[i]['courseName'];
     print(trailCourseName);
-    if (trailCourseName.length > 7) {
-      trailCourseName = trailCourseName.substring(0, 6) + '...';
-    }
-    if (trailsJsonName.length > 7) {
-      trailsJsonName = trailsJsonName.substring(0, 6) + '...';
-    }
+//    if (trailCourseName.length > 7) {
+//      trailCourseName = trailCourseName.substring(0, 6) + '...';
+//    }
+//    if (trailsJsonName.length > 7) {
+//      trailsJsonName = trailsJsonName.substring(0, 6) + '...';
+//    }
     //썸네일 사진이 없으면 임의로 넣어준다.
     values.add(Post(
       trailUrl:
@@ -89,7 +89,7 @@ List<Activity> activities = [
   Activity(
     imageUrl: 'lib/assets/images/dulle1.jpeg',
     name: '연인이랑 손잡고 걷기에 아주 좋은 산책로',
-    type: '지존 이승',
+    type: '지존 이승권이 미쳐날뛰고 있습니다.',
     startTimes: ['11:00 pm', '1:00 pm'],
     rating: 4,
     price: 210,
@@ -97,7 +97,7 @@ List<Activity> activities = [
   Activity(
     imageUrl: 'lib/assets/images/dulle2.jpeg',
     name: '태양이 나뭇잎에 가려져서 느껴지는 따뜻한 온기와 산책로에서 불어오는 바람이 좋았다. ',
-    type: '사푼 여',
+    type: '사푼 여신 사푼사푼',
     startTimes: ['12:30 pm', '2:00 pm'],
     rating: 3,
     price: 125,

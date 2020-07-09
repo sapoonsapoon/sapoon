@@ -97,6 +97,7 @@ class _DestinationPageState extends State<DestinationPage> {
                         fontWeight: FontWeight.w600,
                         letterSpacing: 1.2,
                       ),
+                      overflow: TextOverflow.ellipsis,
                     ),
                     Row(
                       children: <Widget>[
@@ -139,7 +140,7 @@ class _DestinationPageState extends State<DestinationPage> {
                   children: <Widget>[
                     Container(
                       margin: EdgeInsets.fromLTRB(40.0, 5.0, 20.0, 5.0),
-                      height: 139.0,
+                      height: 120.0,
                       width: double.infinity,
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -156,7 +157,7 @@ class _DestinationPageState extends State<DestinationPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Container(
-                                  width: 150.0,
+                                  width: 170.0,
                                   child: Text(
                                     activity.name,
                                     style: TextStyle(
@@ -186,10 +187,15 @@ class _DestinationPageState extends State<DestinationPage> {
                                 ),
                               ],
                             ),
-                            Text(
-                              activity.type,
-                              style: TextStyle(
-                                color: Colors.grey,
+                            Container(
+                              width: 170.0,
+                              child: Text(
+                                activity.type,
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 11.0,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ),
                             SizedBox(height: 2.0),

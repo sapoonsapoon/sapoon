@@ -35,10 +35,10 @@ class _RootPageState extends State<RootPage> {
           ),
           child: Center(
               child: SingleChildScrollView(
-                child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
                 Text(
                   'SAPOON',
                   style: TextStyle(
@@ -100,9 +100,8 @@ class _RootPageState extends State<RootPage> {
                 Padding(
                   padding: EdgeInsets.all(33.0),
                 ),
-
                 InkWell(
-                  onTap: (){
+                  onTap: () {
                     Navigator.pushReplacementNamed(context, '/main');
                   },
                   child: Container(
@@ -131,53 +130,58 @@ class _RootPageState extends State<RootPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     InkWell(
-                      onTap: (){
-                      Navigator.push(context, MaterialPageRoute(
-                          builder: (context)=>IdFindPage()
-                      ));
-                    },
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => IdFindPage()));
+                      },
                       child: Text(
-                          '아이디 찾기 |  ', style: TextStyle(
+                        '아이디 찾기 |  ',
+                        style: TextStyle(
                             fontFamily: "NanumSquareRegular",
                             fontSize: 14.0,
                             fontWeight: FontWeight.bold,
                             color: Colors.white),
                       ),
-                      ),
+                    ),
                     InkWell(
-                      onTap: (){
-                        Navigator.push(context, MaterialPageRoute(
-                            builder: (context)=>PasswordFindPage()
-                        ));
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PasswordFindPage()));
                       },
                       child: Text(
-                        '비밀번호 찾기  |  ', style: TextStyle(
-                          fontFamily: "NanumSquareRegular",
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
+                        '비밀번호 찾기  |  ',
+                        style: TextStyle(
+                            fontFamily: "NanumSquareRegular",
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
                       ),
                     ),
                     InkWell(
-                      onTap: (){
-                        Navigator.push(context, MaterialPageRoute(
-                          builder: (context)=>SignUpPage()
-                        ));
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SignUpPage()));
                       },
                       child: Text(
-                        '회원가입  ', style: TextStyle(
-                          fontFamily: "NanumSquareRegular",
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
+                        '회원가입  ',
+                        style: TextStyle(
+                            fontFamily: "NanumSquareRegular",
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
                       ),
                     ),
                   ],
                 )
-
-            ],
-          ),
-              )),
+              ],
+            ),
+          )),
         ),
       ),
     );

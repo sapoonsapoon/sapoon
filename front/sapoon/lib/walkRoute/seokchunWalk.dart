@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class Walks1 extends StatefulWidget {
   @override
@@ -119,14 +120,14 @@ class _Walks1State extends State<Walks1> {
               Padding(
                 padding: EdgeInsets.only(top: MediaQuery.of(context).size.width * 0.03, ),
               ),
-              Text(
-                '    지도',
-                style: TextStyle(
-                    color: Colors.black87,
-                    fontFamily: "NanumSquareRegular",
-                    fontSize: MediaQuery.of(context).size.width * 0.04),
+              Container(
+                  height: 300,
+                  child: WebView(
+                      key: Key("webview1"),
+                      debuggingEnabled: true,
+                      javascriptMode: JavascriptMode.unrestricted,
+                      initialUrl: "https://m.map.kakao.com/actions/searchView?q=%EB%B6%81%ED%95%9C%EC%82%B0%20%EB%91%98%EB%A0%88%EA%B8%B8&wxEnc=MMOTLP&wyEnc=QNONPMN&lvl=4#!/12544573/map/place")
               ),
-              Image.asset('lib/assets/images/walk1.png'),
 
               Padding(
                 padding: EdgeInsets.only(top: MediaQuery.of(context).size.width * 0.03, ),
@@ -138,6 +139,8 @@ class _Walks1State extends State<Walks1> {
                     fontFamily: "NanumSquareRegular",
                     fontSize: MediaQuery.of(context).size.width * 0.04),
               ),
+
+
               Container(
                 width: 20000,
                 height: MediaQuery.of(context).size.width * 0.41,

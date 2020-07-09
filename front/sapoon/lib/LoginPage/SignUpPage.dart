@@ -60,7 +60,7 @@ class _SignUpPageState extends State<SignUpPage> {
           return SingleChildScrollView(
             child: SafeArea(
               child: Form(
-              key: _formKey,
+                key: _formKey,
                 child: Center(
                     child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -184,7 +184,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         validator: (String value) {
                           //pw input 조건
                           if (value.isEmpty) {
-                            return "인빈칸은 허용할 수 없어요:)";
+                            return "빈칸은 허용할 수 없어요:)";
                           }
                           return null;
                         },
@@ -227,7 +227,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             validator: (String value) {
                               //pw input 조건
                               if (value.isEmpty) {
-                                return "인빈칸은 허용할 수 없어요:)";
+                                return "빈칸은 허용할 수 없어요:)";
                               }
                               return null;
                             },
@@ -252,7 +252,8 @@ class _SignUpPageState extends State<SignUpPage> {
                             hint: Container(
                               alignment: Alignment.centerRight,
                               width: 100,
-                              child: Text("Hint text", textAlign: TextAlign.end),
+                              child:
+                                  Text("Hint text", textAlign: TextAlign.end),
                             ),
                             style: TextStyle(
                                 color: Colors.black45,
@@ -397,24 +398,21 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     InkWell(
                       onTap: () {
-                        if(_formKey.currentState.validate()){
+                        if (_formKey.currentState.validate()) {
                           createSignUp(
                             context,
                             _idController.text,
                             _pwController.text,
                             _nameController.text,
                             _sexController.text,
-                              show_log,
+                            show_log,
                             _emailController.text,
                             _nicknameController.text,
                           );
-                        }else{
+                        } else {
                           final snackbar = SnackBar(content: Text('계정이 없습니다.'));
                           Scaffold.of(context).showSnackBar(snackbar);
                         }
-
-
-
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -474,8 +472,10 @@ Future createSignUp(
     String birthday,
     String email,
     String nickname) async {
+  print('시작합니다');
+  print(birthday);
   final http.Response response = await http.post(
-    'http://35.194.192.57/sapoon/member/regist',
+    'http://35.201.203.73/sapoon/member/regist',
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -493,7 +493,9 @@ Future createSignUp(
     // If the server did return a 201 CREATED response,
     // then parse the JSON.
     print('성공적이에요!');
-  } else {
+  } else if(response.statusCode == 401){
+    print('ID가 중복일때 나오는 에러');
+  } else{
     print(name);
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');

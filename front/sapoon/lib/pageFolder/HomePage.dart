@@ -3,10 +3,15 @@ import 'dart:ffi';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:sapoon/pageFolder/data.dart';
+import 'package:sapoon/pageFolder/destinationPage.dart';
+import 'package:sapoon/pageFolder/productPage.dart';
 import 'package:sapoon/walkRoute/seokchunWalk.dart';
 import 'package:http/http.dart' as http;
 import 'package:sapoon/widget/cardWidget.dart';
-
+import 'package:webview_flutter/webview_flutter.dart';
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -21,7 +26,7 @@ Future<List<Post>> getPhotoUrl() async {
     // If the server did return a 201 CREATED response,
     // then parse the JSON.
     print(utf8.decode(response.bodyBytes));
-    return Post.makePostList(json.decode(utf8.decode(response.bodyBytes)));
+    return makePostList(json.decode(utf8.decode(response.bodyBytes)));
   } else {
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
@@ -31,56 +36,95 @@ Future<List<Post>> getPhotoUrl() async {
   }
 }
 
-class Post {
-  String trailUrl;
-  String trailName;
-  String trailDistance;
-  String trailBriefContents;
-
-  Post(
-      {this.trailUrl,
-      this.trailName,
-      this.trailDistance,
-      this.trailBriefContents});
-
-  static List<Post> makePostList(List<dynamic> json) {
-    List<Post> values = List<Post>() ;
-    print(json.length);
-    for (int i = 0; i < json.length; i++) {
-      String trailsJsonName = json[i]['name'];
-      String trailcourseName = json[i]['courseName'];
-      print(trailcourseName);
-      if (trailcourseName.length > 10) {
-        trailcourseName = trailcourseName.substring(0, 9) + '...';
-      }
-      if (trailsJsonName.length > 10) {
-        trailsJsonName = trailsJsonName.substring(0, 9) + '...';
-      }
-        //썸네일 사진이 없으면 임의로 넣어준다.
-        values.add(
-            Post(
-          trailUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRo93aJCVkzf3LytZ4x7npQ6c_yLz9hTl7BDg&usqp=CAU',
-          trailName: trailsJsonName+ '\n' + trailcourseName,
-          trailDistance: '2km',
-          trailBriefContents: json[i]['region1'],
-        ));
-
-    }
-    return values;
+Future<List<Post>> getWeather() async {
+  final http.Response response = await http.get(
+      Uri.encodeFull(
+          'http://35.201.203.73/sapoon/promenade/dullegil/main/recommend/random'),
+      headers: {"Accept": "application/json"});
+  if (response.statusCode == 200) {
+    // If the server did return a 201 CREATED response,
+    // then parse the JSON.
+    print(utf8.decode(response.bodyBytes));
+    return makePostList(json.decode(utf8.decode(response.bodyBytes)));
+  } else {
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+    // If the server did not return a 201 CREATED response,
+    // then throw an exception.
+    throw Exception();
   }
+}
+//
+//class Post {
+//  String trailUrl;
+//  String trailName;
+//  String trailDistance;
+//  String trailBriefContents;
+//
+//  Post(
+//      {this.trailUrl,
+//      this.trailName,
+//      this.trailDistance,
+//      this.trailBriefContents});
+//
+//  static List<Post> makePostList(List<dynamic> json) {
+//    List<Post> courseList = List<Post>() ;
+//    print(json.length);
+//    for (int i = 0; i < json.length; i++) {
+//      String trailsJsonName = json[i]['name'];
+//      String tailboardName = json[i]['courseName'];
+//      print(tailboardName);
+//      if (tailboardName.length > 10) {
+//        tailboardName = tailboardName.substring(0, 9) + '...';
+//      }
+//      if (trailsJsonName.length > 10) {
+//        trailsJsonName = trailsJsonName.substring(0, 9) + '...';
+//      }
+//        //썸네일 사진이 없으면 임의로 넣어준다.
+//        courseList.add(
+//            Post(
+//          trailUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRo93aJCVkzf3LytZ4x7npQ6c_yLz9hTl7BDg&usqp=CAU',
+//          trailName: trailsJsonName+ '\n' + tailboardName,
+//          trailDistance: '2km',
+//          trailBriefContents: json[i]['region1'],
+//        ));
+//
+//    }
+//    return courseList;
+//  }
+//}
+
+
+
+
+
+Future<List> getPosition() async {
+  var currentPosition = await Geolocator()
+      .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+  List latitudeLongitudes = new List();
+  latitudeLongitudes.add(currentPosition.latitude);
+  latitudeLongitudes.add(currentPosition.longitude);
+  return latitudeLongitudes;
 }
 
 class _HomePageState extends State<HomePage> {
   TextEditingController _searchController = TextEditingController();
   Map<String, dynamic> trailCard;
   Future<List<Post>> post;
+  Future<List> geoResult;
+
+  List<String> myList = ["foo", "bar"];
+  void myFunction(String text){
+    print(text);
+  }
+
 
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
     post = getPhotoUrl();
-
+    geoResult = getPosition();
+    super.initState();
   }
 
   @override
@@ -116,50 +160,59 @@ class _HomePageState extends State<HomePage> {
             ),
             SizedBox(
               height: MediaQuery.of(context).size.width * 0.24,
-              width: MediaQuery.of(context).size.width * 0.06,
+              width: MediaQuery.of(context).size.width * 0.16,
             ),
             Container(
               width: MediaQuery.of(context).size.width * 0.54,
-              height: MediaQuery.of(context).size.width * 0.09,
+              height: MediaQuery.of(context).size.width * 0.1,
               child: Container(
-                child: new TextFormField(
-                  decoration: new InputDecoration(
-                    labelText: "산책로 찾기",
-                    labelStyle: TextStyle(
-                        color: Colors.black54,
-                        fontFamily: "NanumSquareExtraBold",
-                        fontSize: 12.0),
-
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Color(0XFFA3C0F1),
-                        width: 2,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Color(0XFFA3C0F1),
-                        width: 1,
-                      ),
-                    ),
-
-                    border: new OutlineInputBorder(
-                      borderRadius: new BorderRadius.circular(25.0),
-                    ),
-                    //fillColor: Colors.green
+                child: TypeAheadField(
+                  textFieldConfiguration: TextFieldConfiguration(
+                    cursorWidth: 1,
+                    style: TextStyle(fontFamily: 'NanumSquareRegular'),
+                    decoration: InputDecoration(
+                        labelText: "산책로 찾기",
+                        labelStyle: TextStyle(
+                          color: Colors.black54,
+                          fontFamily: "NanumSquareExtraBold",
+                          fontSize: 10.0,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0XFFA3C0F1),
+                            width: 2,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0XFFA3C0F1),
+                            width: 1,
+                          ),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: new BorderRadius.circular(25.0),
+                        ),
+                        hintStyle: TextStyle(fontSize: 9),
+                        hintText: '마음에 드는 산책로가 있나요?'),
                   ),
-                  validator: (val) {
-                    if (val.length == 0) {
-                      return "Email cannot be empty";
-                    } else {
-                      return null;
-                    }
+                  suggestionsCallback: (pattern) async {
+                    return await BackendService.getSuggestions(pattern);
                   },
-                  keyboardType: TextInputType.text,
+                  itemBuilder: (context, suggestion) {
+                    return ListTile(
+                      leading: Image.network('http://www.greenpostkorea.co.kr/news/photo/201910/110448_109048_423.jpg'),
+                      title: Text(suggestion['name'] ,style: TextStyle(fontSize: 13),),
+                      subtitle: Text(suggestion['trailDistance'],style: TextStyle(fontSize: 12, color: Colors.green),),
+
+                    );
+                  },
+                  onSuggestionSelected: (suggestion) {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => ProductPage(product: suggestion)));
+                  },
                 ),
               ),
             ),
-            Icon(Icons.search)
           ],
         ),
       ),
@@ -244,13 +297,22 @@ class _HomePageState extends State<HomePage> {
                           itemCount: 5,
                           itemBuilder: (context, index){
                             Post posts = snapshot.data[index];
-                            print(index);
-                            return CardWidget(
-                              context: context,
-                              trailDistance: posts.trailDistance,
-                              trailUrl: posts.trailUrl,
-                              trailName: posts.trailName,
-                              briefContents: posts.trailBriefContents,
+                            return GestureDetector(
+                              onTap: ()=> Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => DestinationPage(
+                                   posts: posts,
+                                  )
+                                )
+                              ),
+                              child: CardWidget(
+                                context: context,
+                                trailDistance: posts.trailDistance,
+                                trailUrl: posts.trailUrl,
+                                trailName: posts.trailName,
+                                briefContents: posts.trailBriefContents,
+                              ),
                             );
                           }
                       );
@@ -370,8 +432,11 @@ class _HomePageState extends State<HomePage> {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[],
-              )
+                children: <Widget>[
+
+                ],
+              ),
+
             ],
           ),
         )),

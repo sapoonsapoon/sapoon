@@ -7,40 +7,40 @@
 
 
     <select id="findCurrentWeather" resultType="sapoon.weatherservice.vo.AdministrativeAreaInfoVO">
-        SELECT wf.date, wf.hour, wf.temp, wf.tmx, wf.tmn, wf.sky, wf.pop, w.nx, w.ny  FROM administrative_area_info w
-    	INNER JOIN weather_forecast wf
-    	ON w.area_cd = wf.area_cd
-	    WHERE wf.date = CURDATE() ORDER BY ABS(nx - #{nx}), ABS(ny - #{ny}), ABS(wf.hour - #{hour})  LIMIT 1;
+        SELECT wf.date, wf.hour, wf.temp, wf.tmx, wf.tmn, wf.sky, wf.pop, w.nx, w.ny FROM administrative_area_info w
+        INNER JOIN weather_forecast wf
+        ON w.area_cd = wf.area_cd
+        WHERE wf.date = CURDATE() ORDER BY ABS(nx - #{nx}), ABS(ny - #{ny}), ABS(wf.hour - #{hour}) LIMIT 1;
     </select>
 
     <select id="findCurrentMise" resultType="sapoon.weatherservice.vo.MiseVO">
-        SELECT  w.first_ctgry AS city, wf.date, wf.hour, m.item_code as itemCode,m.value FROM administrative_area_info w
-    	INNER JOIN weather_forecast wf
-    	ON w.area_cd = wf.area_cd
-    	INNER JOIN mise m
-    	ON w.first_ctgry = m.city
-	    WHERE wf.date = CURDATE() ORDER BY ABS(nx - #{nx}), ABS(ny - #{ny}), ABS(wf.hour - #{hour})  LIMIT 1 ;
-	</select>
+        SELECT w.first_ctgry AS city, wf.date, wf.hour, m.item_code as itemCode,m.value FROM administrative_area_info w
+        INNER JOIN weather_forecast wf
+        ON w.area_cd = wf.area_cd
+        INNER JOIN mise m
+        ON w.first_ctgry = m.city
+        WHERE m.date = CURDATE() ORDER BY ABS(nx - #{nx}), ABS(ny - #{ny}), ABS(wf.hour - #{hour}) LIMIT 1 ;
+    </select>
 
     <insert id="insertWeatherForcast">
-      INSERT INTO weather_forecast (area_cd, date, hour, temp, tmx, tmn,
-                                     sky, pty, wf_kor, wf_en, pop, r12,
-                                     s12, ws, wd, wd_kor, wd_en, reh,
-                                     r06, s06, reg_date)
-      VALUES (#{areaCd}, DATE_FORMAT(date_add(now(),INTERVAL +#{day} day), '%Y-%m-%d'), #{hour},
-                #{temp}, #{tmx}, #{tmn}, #{sky},
-                #{pty}, #{wfKor}, #{wfEn}, #{pop},
-                #{r12}, #{s12}, #{ws}, #{wd},
-                #{wdKor}, #{wdEn}, #{reh}, #{r06}, #{s06}, now()
-                )
+        INSERT INTO weather_forecast (area_cd, date, hour, temp, tmx, tmn,
+        sky, pty, wf_kor, wf_en, pop, r12,
+        s12, ws, wd, wd_kor, wd_en, reh,
+        r06, s06, reg_date)
+        VALUES (#{areaCd}, DATE_FORMAT(date_add(now(),INTERVAL + #{day} day), '%Y-%m-%d'), #{hour},
+        #{temp}, #{tmx}, #{tmn}, #{sky},
+        #{pty}, #{wfKor}, #{wfEn}, #{pop},
+        #{r12}, #{s12}, #{ws}, #{wd},
+        #{wdKor}, #{wdEn}, #{reh}, #{r06}, #{s06}, now()
+        )
     </insert>
 
     <insert id="insertMise">
-      INSERT INTO mise (date, hour, item_code,
-                    city, value, updated_at, last_batch_date)
-      VALUES (#{date},  #{hour}, #{itemCode},
-                #{city}, #{value}, #{date}, now()
-            )
+        INSERT INTO mise (date, hour, item_code,
+        city, value, updated_at, last_batch_date)
+        VALUES (#{date}, #{hour}, #{itemCode},
+        #{city}, #{value}, #{date}, now()
+        )
     </insert>
 
 </mapper>

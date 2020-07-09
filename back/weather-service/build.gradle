@@ -28,6 +28,8 @@ dependencies {
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.2'
 
 
+    // https://mvnrepository.com/artifact/org.jsoup/jsoup web crawling
+    compile group: 'org.jsoup', name: 'jsoup', version: '1.11.3'
 
     runtimeOnly 'mysql:mysql-connector-java'
     runtimeOnly 'com.h2database:h2'

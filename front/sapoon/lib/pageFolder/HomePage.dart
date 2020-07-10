@@ -8,10 +8,13 @@ import 'package:geolocator/geolocator.dart';
 import 'package:sapoon/pageFolder/data.dart';
 import 'package:sapoon/pageFolder/destinationPage.dart';
 import 'package:sapoon/pageFolder/productPage.dart';
+import 'package:sapoon/pageFolder/trailDetailPage.dart';
 import 'package:sapoon/walkRoute/seokchunWalk.dart';
 import 'package:http/http.dart' as http;
+import 'package:sapoon/widget/activityWidget.dart';
 import 'package:sapoon/widget/cardWidget.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -54,49 +57,6 @@ Future<List<Post>> getWeather() async {
     throw Exception();
   }
 }
-//
-//class Post {
-//  String trailUrl;
-//  String trailName;
-//  String trailDistance;
-//  String trailBriefContents;
-//
-//  Post(
-//      {this.trailUrl,
-//      this.trailName,
-//      this.trailDistance,
-//      this.trailBriefContents});
-//
-//  static List<Post> makePostList(List<dynamic> json) {
-//    List<Post> courseList = List<Post>() ;
-//    print(json.length);
-//    for (int i = 0; i < json.length; i++) {
-//      String trailsJsonName = json[i]['name'];
-//      String tailboardName = json[i]['courseName'];
-//      print(tailboardName);
-//      if (tailboardName.length > 10) {
-//        tailboardName = tailboardName.substring(0, 9) + '...';
-//      }
-//      if (trailsJsonName.length > 10) {
-//        trailsJsonName = trailsJsonName.substring(0, 9) + '...';
-//      }
-//        //썸네일 사진이 없으면 임의로 넣어준다.
-//        courseList.add(
-//            Post(
-//          trailUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRo93aJCVkzf3LytZ4x7npQ6c_yLz9hTl7BDg&usqp=CAU',
-//          trailName: trailsJsonName+ '\n' + tailboardName,
-//          trailDistance: '2km',
-//          trailBriefContents: json[i]['region1'],
-//        ));
-//
-//    }
-//    return courseList;
-//  }
-//}
-
-
-
-
 
 Future<List> getPosition() async {
   var currentPosition = await Geolocator()
@@ -114,10 +74,20 @@ class _HomePageState extends State<HomePage> {
   Future<List> geoResult;
 
   List<String> myList = ["foo", "bar"];
-  void myFunction(String text){
-    print(text);
+
+
+  Text _buildRatingStars(int rating) {
+    String stars = '';
+    for (int i = 0; i < rating; i++) {
+      stars += '⭐ ';
+    }
+    stars.trim();
+    return Text(stars);
   }
 
+  void myFunction(String text) {
+    print(text);
+  }
 
   @override
   void initState() {
@@ -200,15 +170,24 @@ class _HomePageState extends State<HomePage> {
                   },
                   itemBuilder: (context, suggestion) {
                     return ListTile(
-                      leading: Image.network('http://www.greenpostkorea.co.kr/news/photo/201910/110448_109048_423.jpg'),
-                      title: Text(suggestion['name'] ,style: TextStyle(fontSize: 13),),
-                      subtitle: Text(suggestion['trailDistance'],style: TextStyle(fontSize: 12, color: Colors.green),),
-
+                      leading: Image.network(
+                          'http://www.greenpostkorea.co.kr/news/photo/201910/110448_109048_423.jpg'),
+                      title: Text(
+                        suggestion['name'],
+                        style: TextStyle(fontSize: 13),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      subtitle: Text(
+                        suggestion['trailDistance'],
+                        style: TextStyle(fontSize: 12, color: Colors.green),
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     );
                   },
                   onSuggestionSelected: (suggestion) {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ProductPage(product: suggestion)));
+                        builder: (context) =>
+                            ProductPage(product: suggestion)));
                   },
                 ),
               ),
@@ -286,26 +265,25 @@ class _HomePageState extends State<HomePage> {
               Container(
                 width: 20000,
                 height: MediaQuery.of(context).size.width * 0.75,
-                child:  FutureBuilder(
+                child: FutureBuilder(
                   future: post,
                   // ignore: missing_return
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return ListView.builder(
-                          padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.01),
+                          padding: EdgeInsets.only(
+                              left: MediaQuery.of(context).size.width * 0.01),
                           scrollDirection: Axis.horizontal,
                           itemCount: 5,
-                          itemBuilder: (context, index){
+                          itemBuilder: (context, index) {
                             Post posts = snapshot.data[index];
                             return GestureDetector(
-                              onTap: ()=> Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => DestinationPage(
-                                   posts: posts,
-                                  )
-                                )
-                              ),
+                              onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => DestinationPage(
+                                            posts: posts,
+                                          ))),
                               child: CardWidget(
                                 context: context,
                                 trailDistance: posts.trailDistance,
@@ -314,21 +292,13 @@ class _HomePageState extends State<HomePage> {
                                 briefContents: posts.trailBriefContents,
                               ),
                             );
-                          }
-                      );
+                          });
                     } else if (snapshot.hasError) {
                       return Text("${snapshot.error}");
                     }
                     return CircularProgressIndicator();
                   },
                 ),
-
-//                ListView(
-//                  padding: EdgeInsets.only(
-//                      left: MediaQuery.of(context).size.width * 0.01),
-//
-//                  scrollDirection: Axis.horizontal,
-//                ),
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.04,
@@ -341,7 +311,7 @@ class _HomePageState extends State<HomePage> {
                       width: MediaQuery.of(context).size.width * 0.01,
                     ),
                     Text(
-                      '오늘의 업데이트',
+                      '오늘의 산책',
                       style: TextStyle(
                           color: Colors.black,
                           fontFamily: "NanumSquareRegular",
@@ -353,90 +323,157 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.02,
               ),
-              Row(
-                children: <Widget>[
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.02,
-                  ),
-                  Container(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: Image.network(
-                          'http://www.greenpostkorea.co.kr/news/photo/201910/110448_109048_423.jpg',
-                          height: MediaQuery.of(context).size.height * 0.23,
-                          fit: BoxFit.fill,
-                          width: MediaQuery.of(context).size.width * 0.4),
-                    ),
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.02,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      GestureDetector(
-                          child: Text("가수 태연의 최애 산책로!",
-                              style: TextStyle(
-                                  decoration: TextDecoration.underline,
-                                  color: Colors.brown)),
-                          onTap: () {
-                            // do what you need to do when "Click here" gets clicked
-                          }),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.01,
-                      ),
-                      GestureDetector(
-                          child: Text("사회적 거리두기에 모두 동참이..!",
-                              style: TextStyle(
-                                  decoration: TextDecoration.underline,
-                                  color: Colors.brown)),
-                          onTap: () {
-                            // do what you need to do when "Click here" gets clicked
-                          }),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.01,
-                      ),
-                      GestureDetector(
-                          child: Text("연인과 걷고싶은 길 1위..",
-                              style: TextStyle(
-                                  decoration: TextDecoration.underline,
-                                  color: Colors.brown)),
-                          onTap: () {
-                            // do what you need to do when "Click here" gets clicked
-                          }),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.01,
-                      ),
-                      GestureDetector(
-                          child: Text("혼자 나만의 시간이 필요할 때",
-                              style: TextStyle(
-                                  decoration: TextDecoration.underline,
-                                  color: Colors.brown)),
-                          onTap: () {
-                            // do what you need to do when "Click here" gets clicked
-                          }),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.01,
-                      ),
-                      GestureDetector(
-                          child: Text("에너지가 넘치는 하루를..",
-                              style: TextStyle(
-                                  decoration: TextDecoration.underline,
-                                  color: Colors.brown)),
-                          onTap: () {
-                            // do what you need to do when "Click here" gets clicked
-                          }),
-                    ],
-                  )
-                ],
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height * 0.6,
+                child: FutureBuilder(
+                  future: post,
+                  // ignore: missing_return
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return ListView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
+                          scrollDirection: Axis.vertical,
+                          itemCount: 3,
+                          itemBuilder: (context, index) {
+                            Post posts = snapshot.data[0];
+                            Activity activity = posts.activities[index];
+                            return GestureDetector(
+                              onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => TrailDetailPage(
+                                        activity: activity,
+                                      ))),
+                              child: Stack(
+                                children: <Widget>[
+                                  Container(
+                                    margin: EdgeInsets.fromLTRB(40.0, 5.0, 20.0, 5.0),
+                                    height: 120.0,
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    child: Padding(
+                                      padding: EdgeInsets.fromLTRB(100.0, 20.0, 20.0, 20.0),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Container(
+                                                width: 170.0,
+                                                child: Text(
+                                                  activity.name,
+                                                  style: TextStyle(
+                                                    fontSize: 12.0,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                  overflow: TextOverflow.ellipsis,
+                                                  maxLines: 2,
+                                                ),
+                                              ),
+                                              Column(
+                                                children: <Widget>[
+                                                  Text(
+                                                    '\*${activity.price}',
+                                                    style: TextStyle(
+                                                      fontSize: 17.0,
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    'Total',
+                                                    style: TextStyle(
+                                                      color: Colors.grey,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                          Container(
+                                            width: 170.0,
+                                            child: Text(
+                                              activity.type,
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: 11.0,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(height: 2.0),
+                                          Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              _buildRatingStars(activity.rating),
+                                              Container(
+                                                padding: EdgeInsets.all(5.0),
+                                                width: 60.0,
+                                                alignment: Alignment.centerRight,
+                                                child: Text(
+                                                  activity.startTimes[0],
+                                                  style: TextStyle(fontSize: 10),
+                                                ),
+                                              ),
+                                              Container(
+                                                padding: EdgeInsets.all(5.0),
+                                                width: 60.0,
+                                                decoration: BoxDecoration(
+                                                  color: Theme.of(context).accentColor,
+                                                  borderRadius: BorderRadius.circular(10.0),
+                                                ),
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  activity.startTimes[1],
+                                                  style: TextStyle(fontSize: 10),
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    left: 20.0,
+                                    top: 15.0,
+                                    bottom: 15.0,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      child: Image(
+                                        width: 110.0,
+                                        image: AssetImage(
+                                          activity.imageUrl,
+                                        ),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          });
+                    } else if (snapshot.hasError) {
+                      return Text("${snapshot.error}");
+                    }
+                    return CircularProgressIndicator();
+                  },
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-
-                ],
+                children: <Widget>[],
               ),
-
             ],
           ),
         )),
@@ -445,16 +482,3 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-//Future WalkTrail(
-//    String id;
-//    ) async {
-//  final http.Response response = await http.post(
-//    '',
-//    headers: <String, String>{
-//      'Content-Type': 'application/json; charset=UTF-8',
-//    },
-//    body: jsonEncode(<String,String>{
-//        'id': '$id',
-//      }),
-//  );
-//}

@@ -30,6 +30,7 @@ dependencies:
   flutter_typeahead: ^1.8.5
   webview_flutter: ^0.3.22+1
   font_awesome_flutter: ^8.5.0
+  flutter_svg: ^0.17.4
   flutter:
     sdk: flutter
 
@@ -65,6 +66,7 @@ flutter:
   # https://flutter.dev/assets-and-images/#from-packages
   assets:
     - assets/images/
+    - assets/icons/
     - lib/assets/
     - lib/assets/images/
   # To add custom fonts to your application, add a fonts section here,

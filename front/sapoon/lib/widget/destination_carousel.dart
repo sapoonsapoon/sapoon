@@ -17,7 +17,6 @@ class DestinationCarousel extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               Destination destination = destinations[index];
               return GestureDetector(
-
                 child: Container(
                   margin: EdgeInsets.all(10.0),
                   width: 210.0,

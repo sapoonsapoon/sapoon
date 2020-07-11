@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="sapoon.communityservice.mapper.CommunityMapper">
+
+    <insert id="insertCommuity" parameterType="CommunityVo">
+        INSERT INTO community (writer, contents, score1, score2, score3, score4, star_score,
+            start_time, end_time, img_url)
+        VALUES (#{writer}, #{contents}, #{score1}, #{score2}, #{score3}, #{score4}, #{starScore},
+            #{startTime}, #{endTime}, #{imgUrl});
+
+
+    </insert>
+
+
+    <select id="selectCommunityList" resultType="sapoon.communityservice.vo.CommunityVo">
+       SELECT seq, writer, contents, score1, score2, score3, score4,
+            DATE_FORMAT(start_time,'%h:%i%p') as startTime,
+            DATE_FORMAT(end_time,'%h:%i%p') as endTime,
+            img_url as imgUrl, reg_date as regDate
+       FROM community ORDER BY reg_date DESC LIMIT 5;
+
+    </select>
+
+    <select id="selectCommunity" resultType="sapoon.communityservice.vo.CommunityVo">
+        SELECT seq, writer, contents, score1, score2, score3, score4,
+            DATE_FORMAT(start_time,'%h:%i%p') as startTime,
+            DATE_FORMAT(end_time,'%h:%i%p') as endTime,
+            img_url as imgUrl, reg_date as regDate
+        FROM community WHERE seq = #{seq}
+    </select>
+
+</mapper>

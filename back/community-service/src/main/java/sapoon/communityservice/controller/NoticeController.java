@@ -1,6 +1,6 @@
 package sapoon.communityservice.controller;
 
-import com.google.cloud.storage.BlobInfo;
+//import com.google.cloud.storage.BlobInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,14 +65,14 @@ public class NoticeController {
         uploadReqVo.setMultipartFile(file1);
         uploadReqVo.setUploadFileName(uploadFileName);
 
-        BlobInfo blobInfo;
-        // GCP 업로
-        try {
-            blobInfo = gcpStorageService.uploadFileToGCP(uploadReqVo);
-            logger.info(blobInfo.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        BlobInfo blobInfo;
+//        // GCP 업로
+//        try {
+//            blobInfo = gcpStorageService.uploadFileToGCP(uploadReqVo);
+//            logger.info(blobInfo.toString());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
 
 

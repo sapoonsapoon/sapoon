@@ -5,7 +5,7 @@ spring:
     #username: kimdragonhee
     #password: dydrkfl1
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mysql://35.194.192.57:30208
+    url: jdbc:mysql://35.201.203.73:31112/spcommunity
     username: root
     password: new1234!
   servlet:

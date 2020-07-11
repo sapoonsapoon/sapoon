@@ -1,63 +1,84 @@
 <template>
-  <div id="map" style="width:700px; height:700px;"></div>
+  <div class="map-wrapper">
+    <button id="gu-button"></button>
+  </div>
 </template>
 
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=606e4bc81886e03a0099da6432430def&libraries=services"></script>
 <script>
+
+import * as d3 from 'd3'
+import * as topojson from 'topojson'
+
 export default {
   name: 'Home',
-  mounted() {
-    window.kakao && window.kakao.map ? this.initMap() : this.addScript();
+  mounted () {
+    this.initMap()
   },
   methods: {
-    addScript() {
-      const script = document.createElement('script');
-      script.onload = () => kakao.maps.load(this.initMap);
-      // script.src = "//dapi.kakao.com/v2/maps/sdk.js?appkey=606e4bc81886e03a0099da6432430def";
-      script.src = "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=606e4bc81886e03a0099da6432430def&libraries=services";
-      document.head.appendChild(script);
-    },
-    initMap() {
-      var container = document.getElementById('map');
+    initMap () {
+      const seoulMap = require('./seoul_municipalities_topo_simple.json')
+      const geojson = topojson.feature(seoulMap, seoulMap.objects.seoul_municipalities_geo)
+      d3.geoCentroid(geojson)
 
-      // 마커 클릭 시 장소명 표출
-      var infoWindow = new kakao.maps.InfoWindow({zIndex:1});
+      const width = 1000
+      const height = 1000
+      const svg = d3
+        .select('.map-wrapper')
+        .append('svg')
+        .attr('width', width).attr('height', height)
 
-      var options = {
-        // 지도의 중심 좌표
-        center: new kakao.maps.LatLng(33.450701, 126.570667),
-        level: 3
+      // 지도 레이어
+      const map = svg.append('g').attr('id', 'map')
+
+      const projection = d3.geoMercator()
+        .scale(1)
+        .translate([0, 0])
+
+      const path = d3.geoPath().projection(projection)
+      const bounds = path.bounds(geojson)
+      const widthScale = (bounds[1][0] - bounds[0][0]) / width
+      const heightScale = (bounds[1][1] - bounds[0][1]) / width
+      const scale = 1 / Math.max(widthScale, heightScale)
+      const xoffset = width / 2 - scale * (bounds[1][0] + bounds[0][0]) / 2 + 10
+      const yoffset = height / 2 - scale * (bounds[1][1] + bounds[0][1]) / 2 + 80
+      const offset = [xoffset, yoffset]
+      projection.scale(scale).translate(offset)
+
+      function guClick (d) {
+        // 색 칠하기
+        d3.select(this).style('fill', '#ffd8df')
+        console.log('123')
+        console.log('456')
       }
-      var map = new kakao.maps.Map(container, options);
 
-      // 장소 검색 객체
-      var ps = new kakao.maps.services.Places();
-      ps.keywordSearch('석촌호수산책길', placesSearchCB);
-
-      function placesSearchCB(data, status, pagination) {
-        if(status === kakao.maps.services.Status.OK) {
-          // 검색된 장소로 지도 범위 재설정
-          var bounds = new kakao.maps.LatLngBounds();
-
-          for(var i = 0; i < data.length; i++) {
-            displayMarker(data[i]);
-            bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
-          }
-          map.setBounds(bounds);
-        }
+      function guMouseOver (d) {
+        d3.select(this).style('fill', '#dfdfe8')
       }
 
-      function displayMarker(place) {
-        var marker = new kakao.maps.Marker({
-          map: map,
-          position: new kakao.maps.LatLng(place.y, place.x)
-        });
-
-        kakao.maps.event.addListener(marker, 'click', function() {
-          infoWindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
-          infoWindow.open(map, marker);
-        });
+      function guMouseOut (d) {
+        d3.select(this).style('fill', '#efefef')
       }
+
+      map
+        .selectAll('path')
+        .data(geojson.features)
+        .enter()
+        .append('path')
+        .attr('d', path)
+        .on('click', guClick)
+        .on('mouseout', guMouseOut)
+        .on('mouseover', guMouseOver)
+
+      map
+        .selectAll('text')
+        .data(geojson.features)
+        .enter()
+        .append('text')
+        .attr('transform', function (d) { return 'translate(' + path.centroid(d) + ')' })
+        .attr('dx', '-1.5em')
+        .attr('dy', '.35em')
+        .attr('class', 'municipality-label')
+        .text(function (d) { return d.properties.SIG_KOR_NM })
     }
   }
 }
@@ -71,4 +92,15 @@ export default {
   text-align center
   color #2c3e50
   margin-top 60px
+
+svg path {
+  fill: #efefef
+  stroke: white
+}
+
+svg circle {
+  fill: orange
+  opacity: .5
+  stroke: white
+}
 </style>

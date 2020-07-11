@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sapoon-web
+  labels:
+    app: sapoon-web
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sapoon-web
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: sapoon-web
+        version: v1
+    spec:
+      serviceAccountName: account-sapoon-web
+      containers:
+      - name: sapoon-web
+        image: gcr.io/sapoon-281605/sapoon-web:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: tmp
+          mountPath: /tmp
+      volumes:
+      - name: tmp
+        emptyDir: {}

@@ -1,14 +1,26 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import Seoul from '../views/Seoul.vue'
+import Kakao from '../views/Kakao.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
+    path: '/sapoon/web',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/sapoon/web/map/seoul',
+    name: 'Seoul',
+    component: Seoul
+  },
+  {
+    path: '/sapoon/web/map/kakao',
+    name: 'Kakao',
+    component: Kakao
   }
 ]
 

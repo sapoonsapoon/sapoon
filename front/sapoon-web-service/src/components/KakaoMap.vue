@@ -5,7 +5,7 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=606e4bc81886e03a0099da6432430def&libraries=services"></script>
 <script>
 export default {
-  name: 'Home',
+  name: 'KaKaoMap',
   mounted() {
     window.kakao && window.kakao.map ? this.initMap() : this.addScript();
   },
@@ -62,13 +62,3 @@ export default {
   }
 }
 </script>
-
-<style lang="stylus">
-#app
-  font-family Avenir, Helvetica, Arial, sans-serif
-  -webkit-font-smoothing antialiased
-  -moz-osx-font-smoothing grayscale
-  text-align center
-  color #2c3e50
-  margin-top 60px
-</style>

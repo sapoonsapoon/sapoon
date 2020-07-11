@@ -14,11 +14,20 @@
 
 
     <select id="selectCommunityList" resultType="sapoon.communityservice.vo.CommunityVo">
-        SELECT * FROM community ORDER BY reg_date DESC LIMIT 5;
+       SELECT seq, writer, contents, score1, score2, score3, score4,
+            DATE_FORMAT(start_time,'%h:%i%p') as startTime,
+            DATE_FORMAT(end_time,'%h:%i%p') as endTime,
+            img_url as imgUrl, reg_date as regDate
+       FROM community ORDER BY reg_date DESC LIMIT 5;
+
     </select>
 
     <select id="selectCommunity" resultType="sapoon.communityservice.vo.CommunityVo">
-        SELECT * FROM community WHERE seq = #{seq}
+        SELECT seq, writer, contents, score1, score2, score3, score4,
+            DATE_FORMAT(start_time,'%h:%i%p') as startTime,
+            DATE_FORMAT(end_time,'%h:%i%p') as endTime,
+            img_url as imgUrl, reg_date as regDate
+        FROM community WHERE seq = #{seq}
     </select>
 
 </mapper>

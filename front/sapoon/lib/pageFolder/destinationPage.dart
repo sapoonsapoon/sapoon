@@ -25,9 +25,9 @@ class _DestinationPageState extends State<DestinationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Column(
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
           children: <Widget>[
             Stack(
               children: <Widget>[
@@ -73,13 +73,13 @@ class _DestinationPageState extends State<DestinationPage> {
                           IconButton(
                             icon: Icon(Icons.search),
                             iconSize: 30.0,
-                            color: Colors.black,
+                            color: Colors.white,
                             onPressed: () => Navigator.pop(context),
                           ),
                           IconButton(
                             icon: Icon(FontAwesomeIcons.sortAmountDown),
                             iconSize: 25.0,
-                            color: Colors.black,
+                            color: Colors.white,
                             onPressed: () => Navigator.pop(context),
                           ),
                         ],
@@ -90,6 +90,7 @@ class _DestinationPageState extends State<DestinationPage> {
                 Positioned(
                   left: 20.0,
                   bottom: 20.0,
+                  width: MediaQuery.of(context).size.width*0.9,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -218,28 +219,15 @@ class _DestinationPageState extends State<DestinationPage> {
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: <Widget>[
                                     _buildRatingStars(activity.rating),
                                     Container(
                                       padding: EdgeInsets.all(5.0),
-                                      width: 60.0,
+                                      width: 120.0,
                                       alignment: Alignment.centerRight,
                                       child: Text(
-                                        activity.startTimes[0],
-                                        style: TextStyle(fontSize: 10),
-                                      ),
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.all(5.0),
-                                      width: 60.0,
-                                      decoration: BoxDecoration(
-                                        color: Theme.of(context).accentColor,
-                                        borderRadius: BorderRadius.circular(10.0),
-                                      ),
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        activity.startTimes[1],
+                                          activity.startTimes[0] +'~' +activity.startTimes[1],
                                         style: TextStyle(fontSize: 10),
                                       ),
                                     ),

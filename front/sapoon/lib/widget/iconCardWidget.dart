@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:popup_menu/popup_menu.dart';
 
 import 'iconCard.dart';
 
-class ImageAndIcons extends StatelessWidget {
+class ImageAndIcons extends StatefulWidget {
   const ImageAndIcons({
     Key key,
     @required this.image,
@@ -12,12 +13,55 @@ class ImageAndIcons extends StatelessWidget {
 
   final Size size;
   final String image;
+
+  @override
+  _ImageAndIconsState createState() => _ImageAndIconsState();
+}
+
+class _ImageAndIconsState extends State<ImageAndIcons> {
+  PopupMenu menu;
+  GlobalKey btnKey = GlobalKey();
+  GlobalKey btnKey2 = GlobalKey();
+  GlobalKey btnKey3 = GlobalKey();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    menu = PopupMenu(items: [
+      MenuItem(
+          title: 'Mail',
+          image: Icon(
+            Icons.mail,
+            color: Colors.white,
+          )),
+      MenuItem(
+          title: 'Power',
+          image: Icon(
+            Icons.power,
+            color: Colors.white,
+          )),
+      MenuItem(
+          title: 'Setting',
+          image: Icon(
+            Icons.settings,
+            color: Colors.white,
+          )),
+      MenuItem(
+          title: 'PopupMenu',
+          image: Icon(
+            Icons.menu,
+            color: Colors.white,
+          ))
+    ], onClickMenu: onClickMenu, onDismiss: onDismiss, maxColumn: 4);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 0.0 * 3),
       child: SizedBox(
-        height: size.height * 0.65,
+        height: widget.size.height * 0.65,
         child: Row(
           children: <Widget>[
             Expanded(
@@ -40,10 +84,14 @@ class ImageAndIcons extends StatelessWidget {
                     Spacer(),
                     IconCard(
                       icon: "assets/icons/sun.svg",
+                      sizeHW: 54,
                     ),
-                    IconCard(icon: "assets/icons/icon_2.svg"),
-                    IconCard(icon: "assets/icons/icon_3.svg"),
-                    IconCard(icon: "assets/icons/icon_4.svg"),
+                    IconCard(icon: "assets/icons/icon_2.svg",
+                      sizeHW: 54,),
+                    IconCard(icon: "assets/icons/icon_3.svg",
+                      sizeHW: 54,),
+                    IconCard(icon: "assets/icons/icon_4.svg",
+                      sizeHW: 54,),
                   ],
                 ),
               ),
@@ -52,14 +100,14 @@ class ImageAndIcons extends StatelessWidget {
               onTap: (){
                 Navigator.push(context,
                     MaterialPageRoute<void>(builder: (BuildContext context) {
-                      return ImageDetailHome(image);
+                      return ImageDetailHome(widget.image);
                     }));
               },
               child: Hero(
-                tag: image,
+                tag: widget.image,
                 child: Container(
-                  height: size.height * 0.8,
-                  width: size.width * 0.75,
+                  height: widget.size.height * 0.8,
+                  width: widget.size.width * 0.75,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(3),
@@ -75,7 +123,7 @@ class ImageAndIcons extends StatelessWidget {
                     image: DecorationImage(
                       alignment: Alignment.centerLeft,
                       fit: BoxFit.fitHeight,
-                      image: AssetImage(image),
+                      image: AssetImage(widget.image),
                     ),
                   ),
                 ),
@@ -113,4 +161,11 @@ class ImageDetailHome extends StatelessWidget {
       ),
     );
   }
+}
+void onClickMenu(MenuItemProvider item) {
+  print('Click menu -> ${item.menuTitle}');
+}
+
+void onDismiss() {
+  print('Menu is dismiss');
 }

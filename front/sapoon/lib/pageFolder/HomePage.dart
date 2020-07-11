@@ -296,7 +296,8 @@ class _HomePageState extends State<HomePage> {
                     } else if (snapshot.hasError) {
                       return Text("${snapshot.error}");
                     }
-                    return CircularProgressIndicator();
+                    return CircularProgressIndicator(
+                    );
                   },
                 ),
               ),
@@ -311,17 +312,17 @@ class _HomePageState extends State<HomePage> {
                       width: MediaQuery.of(context).size.width * 0.01,
                     ),
                     Text(
-                      '오늘의 산책',
+                      '\t 오늘의 산책',
                       style: TextStyle(
                           color: Colors.black,
                           fontFamily: "NanumSquareRegular",
-                          fontSize: MediaQuery.of(context).size.width * 0.04),
+                          fontSize: MediaQuery.of(context).size.width * 0.05),
                     ),
                   ],
                 ),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.02,
+                height: MediaQuery.of(context).size.height * 0.01,
               ),
               Container(
                 width: MediaQuery.of(context).size.width,
@@ -413,28 +414,15 @@ class _HomePageState extends State<HomePage> {
                                           Row(
                                             mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
                                             children: <Widget>[
                                               _buildRatingStars(activity.rating),
                                               Container(
                                                 padding: EdgeInsets.all(5.0),
-                                                width: 60.0,
+                                                width: 100.0,
                                                 alignment: Alignment.centerRight,
                                                 child: Text(
-                                                  activity.startTimes[0],
-                                                  style: TextStyle(fontSize: 10),
-                                                ),
-                                              ),
-                                              Container(
-                                                padding: EdgeInsets.all(5.0),
-                                                width: 60.0,
-                                                decoration: BoxDecoration(
-                                                  color: Theme.of(context).accentColor,
-                                                  borderRadius: BorderRadius.circular(10.0),
-                                                ),
-                                                alignment: Alignment.center,
-                                                child: Text(
-                                                  activity.startTimes[1],
+                                                  activity.startTimes[0] +'~' +activity.startTimes[1],
                                                   style: TextStyle(fontSize: 10),
                                                 ),
                                               ),
@@ -466,7 +454,8 @@ class _HomePageState extends State<HomePage> {
                     } else if (snapshot.hasError) {
                       return Text("${snapshot.error}");
                     }
-                    return CircularProgressIndicator();
+                    return CircularProgressIndicator(
+                    );
                   },
                 ),
               ),

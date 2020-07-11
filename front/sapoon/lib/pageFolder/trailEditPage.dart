@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sapoon/widget/activityWidget.dart';
-import 'package:sapoon/widget/iconCard.dart';
 import 'package:sapoon/widget/iconCardWidget.dart';
 import 'package:sapoon/widget/personRatingWidget.dart';
 
-class TrailDetailPage extends StatefulWidget {
+class TrailEditPage extends StatefulWidget {
   final Activity activity;
 
-  TrailDetailPage({this.activity});
+  TrailEditPage({this.activity});
 
   @override
-  _TrailDetailPageState createState() => _TrailDetailPageState();
+  _TrailEditPageState createState() => _TrailEditPageState();
 }
 
-class _TrailDetailPageState extends State<TrailDetailPage> {
+class _TrailEditPageState extends State<TrailEditPage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(

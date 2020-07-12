@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sapoon-community-service
+  name: sapoon-community
   labels:
-    app: sapoon-community-service
+    app: sapoon-community
     version: v1
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: sapoon-community-service
+      app: sapoon-community
       version: v1
   template:
     metadata:
       labels:
-        app: sapoon-community-service
+        app: sapoon-community
         version: v1
     spec:
       serviceAccountName: account-sapoon-community

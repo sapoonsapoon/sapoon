@@ -1,5 +1,5 @@
 # build stage
-FROM node:12
+FROM node:12 as build-stage
 WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install -g @vue/cli

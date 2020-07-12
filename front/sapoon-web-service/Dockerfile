@@ -7,9 +7,14 @@ RUN npm install -g @vue/cli
 RUN npm install 
 COPY . .
 RUN npm run build
+RUN ls -al
+
 
 # production stage
 FROM nginx:stable-alpine as production-stage
 COPY --from=build-stage /usr/src/app/dist /usr/share/nginx/html
+RUN ls -al
+WORKDIR /usr/share/nginx/html
+RUN ls -al
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]

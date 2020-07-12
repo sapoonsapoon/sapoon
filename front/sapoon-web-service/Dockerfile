@@ -2,6 +2,7 @@
 FROM node:12 as build-stage
 WORKDIR /usr/src/app
 COPY package*.json ./
+RUN ls -al
 RUN npm install -g @vue/cli
 RUN npm install 
 COPY . .

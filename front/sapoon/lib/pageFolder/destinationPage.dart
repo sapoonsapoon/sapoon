@@ -118,6 +118,7 @@ class _DestinationPageState extends State<DestinationPage> {
                               color: Colors.white,
                               fontSize: 20.0,
                             ),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ],
                       ),
@@ -193,6 +194,7 @@ class _DestinationPageState extends State<DestinationPage> {
                                             fontSize: 17.0,
                                             fontWeight: FontWeight.w600,
                                           ),
+
                                         ),
                                         Text(
                                           'Total',
@@ -213,6 +215,7 @@ class _DestinationPageState extends State<DestinationPage> {
                                       fontSize: 11.0,
                                       fontWeight: FontWeight.w600,
                                     ),
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                                 SizedBox(height: 2.0),
@@ -260,6 +263,11 @@ class _DestinationPageState extends State<DestinationPage> {
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.edit),
+        heroTag: null,
       ),
     );
   }

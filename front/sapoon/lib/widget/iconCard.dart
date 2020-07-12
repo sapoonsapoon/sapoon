@@ -10,9 +10,10 @@ class IconCard extends StatefulWidget {
     Key key,
     this.icon,
     this.sizeHW,
+    this.iconName,
   }) : super(key: key);
 
-  final String icon;
+  final String icon, iconName;
   final int sizeHW;
 
   @override
@@ -84,6 +85,7 @@ class _IconCardState extends State<IconCard> with TickerProviderStateMixin {
           ))
     ], onClickMenu: onClickMenu, onDismiss: onDismiss, maxColumn: 4);
   }
+
   void stateChanged(bool isShow) {
     print('menu is ${isShow ? 'showing' : 'closed'}');
   }
@@ -95,41 +97,53 @@ class _IconCardState extends State<IconCard> with TickerProviderStateMixin {
   void onDismiss() {
     print('Menu is dismiss');
   }
-  void maxColumn() {
 
+  void maxColumn() {
     PopupMenu menu = PopupMenu(
         maxColumn: 3,
         items: [
           MenuItem(
-              title: 'Power',
+              title: '별로에요',
               image: Icon(
-                Icons.power,
+                FontAwesomeIcons.angry,
+                color: Colors.redAccent,
+              )),
+          MenuItem(
+              title: '아쉬워요',
+              image: Icon(
+                FontAwesomeIcons.sadCry,
+                color: Colors.orangeAccent,
+              )),
+          MenuItem(
+              title: '평범했어요',
+              image: Icon(
+                FontAwesomeIcons.meh,
+                color: Colors.yellowAccent,
+              )),
+          MenuItem(
+              title: '괜찮았어요',
+              image: Icon(
+                FontAwesomeIcons.laugh,
                 color: Colors.greenAccent,
               )),
           MenuItem(
-              title: 'Setting',
+              title: '매우 좋았어요',
               image: Icon(
-                Icons.settings,
-                color: Colors.white,
+                FontAwesomeIcons.laughSquint,
+                color: Colors.blueAccent,
               )),
-          MenuItem(
-              title: 'PopupMenu',
-              image: Icon(
-                Icons.menu,
-                color: Colors.white,
-              ))
         ],
         onClickMenu: onClickMenu,
         stateChanged: stateChanged,
         onDismiss: onDismiss);
-      Rect defaultPosition =  PopupMenu.getWidgetGlobalRect(btnKey);
-      Offset calulate = defaultPosition.topCenter;
+    Rect defaultPosition = PopupMenu.getWidgetGlobalRect(btnKey);
+    Offset calulate = defaultPosition.topCenter;
 
-      Rect position =  Offset(calulate.dx,calulate.dy+defaultPosition.height/4) &  Size(defaultPosition.width, defaultPosition.height);
-      menu.show(rect:position,widgetKey: btnKey);
-
+    Rect position = Offset(calulate.dx - defaultPosition.width * 1,
+            calulate.dy + defaultPosition.height / 7) &
+        Size(defaultPosition.width, defaultPosition.height);
+    menu.show(rect: position, widgetKey: btnKey);
   }
-
 
   @override
   void dispose() {
@@ -137,21 +151,24 @@ class _IconCardState extends State<IconCard> with TickerProviderStateMixin {
     _angleController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     PopupMenu.context = context;
     Size size = MediaQuery.of(context).size;
-    return GestureDetector(
-      onTap: _buttonTap,
-      child: MaterialButton(
-        height: 45.0,
-        key: btnKey,
-        onPressed: maxColumn,
-        child: Container(
-              margin: EdgeInsets.symmetric(vertical: size.height * 0.03),
-              padding: EdgeInsets.all(20.0 / 2),
-              height: widget.sizeHW+ 2*_breathe,
-              width: widget.sizeHW+2*_breathe,
+    return Column(
+      children: <Widget>[
+        GestureDetector(
+          onTap: _buttonTap,
+          child: MaterialButton(
+            height: 45.0,
+            key: btnKey,
+            onPressed: maxColumn,
+            child: Container(
+              margin: EdgeInsets.symmetric(vertical: size.height * 0.015),
+              padding: EdgeInsets.all(18.0 / 2),
+              height: widget.sizeHW + 0 * _breathe,
+              width: widget.sizeHW + 0 * _breathe,
               decoration: BoxDecoration(
                 color: Color(0xFFF9F8FD),
                 borderRadius: BorderRadius.circular(6),
@@ -159,7 +176,7 @@ class _IconCardState extends State<IconCard> with TickerProviderStateMixin {
                   BoxShadow(
                     offset: Offset(0, 15),
                     blurRadius: 22,
-                    color:  Color(0xFF0C9869).withOpacity(0.22),
+                    color: Color(0xFF0C9869).withOpacity(0.22),
                   ),
                   BoxShadow(
                     offset: Offset(-15, -15),
@@ -169,12 +186,22 @@ class _IconCardState extends State<IconCard> with TickerProviderStateMixin {
                 ],
               ),
               child: Transform.rotate(
-                  angle: _angle,
-                  child: SvgPicture.asset(widget.icon)),
+                  angle: _angle, child: SvgPicture.asset(widget.icon)),
             ),
-      ),
+          ),
+        ),
+        Text(
+          widget.iconName,
+          style: TextStyle(
+              fontSize: 10,
+              fontFamily: 'NanumSquareExtraBold',
+              color: Colors.black,
+              fontWeight: FontWeight.bold),
+        ),
+      ],
     );
   }
+
   void _buttonTap() {
     if (_angleController.status == AnimationStatus.completed) {
       _angleController.reverse();
@@ -182,7 +209,4 @@ class _IconCardState extends State<IconCard> with TickerProviderStateMixin {
       _angleController.forward();
     }
   }
-
-
 }
-

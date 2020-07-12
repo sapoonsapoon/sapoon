@@ -23,7 +23,7 @@ spec:
         image: gcr.io/sapoon-281605/sapoon-web:latest
         imagePullPolicy: IfNotPresent
         ports:
-        - containerPort: 8080
+        - containerPort: 80
         volumeMounts:
         - name: tmp
           mountPath: /tmp

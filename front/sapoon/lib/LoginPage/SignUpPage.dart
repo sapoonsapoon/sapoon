@@ -287,9 +287,8 @@ class _SignUpPageState extends State<SignUpPage> {
                           onChanged: (date) {},
                           onConfirm: (date) {
                             print('완료 $date');
-                            String sss = DateFormat("yyyy-MM-dd").format(date);
-                            _incrementCounter(sss);
-                            print(sss);
+                            String dateYearMonthDay = DateFormat("yyyy-MM-dd").format(date);
+                            _incrementCounter(dateYearMonthDay);
                           },
                           currentTime: DateTime.now(),
                           locale: LocaleType.ko,

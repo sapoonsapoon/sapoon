@@ -34,7 +34,8 @@ dependencies:
   unicorndial: ^1.1.5
   url_launcher: ^3.0.3
   popup_menu: ^1.0.5
-
+  image_picker: ^0.6.7+4
+  flutter_circular_slider: ^2.5.0
   flutter:
     sdk: flutter
 
@@ -69,7 +70,6 @@ flutter:
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
   assets:
-    - assets/images/
     - assets/icons/
     - lib/assets/
     - lib/assets/images/

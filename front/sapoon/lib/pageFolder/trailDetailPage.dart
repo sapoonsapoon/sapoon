@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sapoon/widget/activityWidget.dart';
 import 'package:sapoon/widget/iconCard.dart';
-import 'package:sapoon/widget/iconCardWidget.dart';
-import 'package:sapoon/widget/personRatingWidget.dart';
+import 'package:sapoon/widget/imageAndIconShowWidget.dart';
+import 'package:sapoon/widget/personRatingShowWidget.dart';
 
 class TrailDetailPage extends StatefulWidget {
   final Activity activity;
@@ -22,14 +22,14 @@ class _TrailDetailPageState extends State<TrailDetailPage> {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              ImageAndIcons(
+              ImageAndIconShow(
                 size: size,
                 image: widget.activity.imageUrl,
               ),
               SizedBox(
                 height: 20,
               ),
-              PersonRating(
+              PersonRatingShow(
                 title: widget.activity.name,
                 country: widget.activity.type,
                 price: widget.activity.price,
@@ -44,13 +44,13 @@ class _TrailDetailPageState extends State<TrailDetailPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    SvgPicture.asset("assets/icons/sun.svg"),
+                    SvgPicture.asset("assets/icons/icon_01.svg"),
                     Text(':⭐ 2개'),
-                    SvgPicture.asset("assets/icons/icon_2.svg"),
+                    SvgPicture.asset("assets/icons/icon_02.svg"),
                     Text(':⭐ 2개'),
-                    SvgPicture.asset("assets/icons/icon_3.svg"),
+                    SvgPicture.asset("assets/icons/icon_03.svg"),
                     Text(':⭐ 2개'),
-                    SvgPicture.asset("assets/icons/icon_4.svg"),
+                    SvgPicture.asset("assets/icons/icon_04.svg"),
                     Text(':⭐ 2개'),
                   ],
                 ),
@@ -79,8 +79,14 @@ class _TrailDetailPageState extends State<TrailDetailPage> {
                   ),
                   Expanded(
                     child: FlatButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(20),
+                        ),
+                      ),
+                      color: Colors.redAccent,
                       onPressed: () {},
-                      child: Text("답글달기"),
+                      child: Text("삭제하기"),
                     ),
                   ),
                 ],

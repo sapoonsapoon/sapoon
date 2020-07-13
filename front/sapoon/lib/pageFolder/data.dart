@@ -16,19 +16,21 @@ class BackendService {
       List<Post> returnValue =
           makePostList(json.decode(utf8.decode(response.bodyBytes)));
       if (returnValue.length == 0) {
-        return List.generate(1, (index) {
+        return List.generate(0, (index) {
           return {'name': '다른 산책로를 찾아보세요', 'trailDistance': '산책로가 없습니다'};
         });
       } else {
         return List.generate(5, (index) {
           return {
             'name': returnValue[index].trailName,
-            'trailDistance': returnValue[index].trailDistance
+            'trailDistance': returnValue[index].trailDistance,
+            'trailUrl': returnValue[index].trailUrl,
+            'trailBriefContents': returnValue[index].trailBriefContents,
           };
         });
       }
     } else {
-      return List.generate(5, (index) {
+      return List.generate(0, (index) {
         return {'name': '해당 요청의 데이터가 없습니다', 'trailDistance': '추천 리스트가 없습니다'};
       });
       throw Exception();
@@ -56,14 +58,6 @@ List<Post> makePostList(List<dynamic> json) {
   for (int i = 0; i < json.length; i++) {
     String trailsJsonName = json[i]['name'];
     String trailCourseName = json[i]['courseName'];
-    print(trailCourseName);
-//    if (trailCourseName.length > 7) {
-//      trailCourseName = trailCourseName.substring(0, 6) + '...';
-//    }
-//    if (trailsJsonName.length > 7) {
-//      trailsJsonName = trailsJsonName.substring(0, 6) + '...';
-//    }
-    //썸네일 사진이 없으면 임의로 넣어준다.
     values.add(Post(
       trailUrl:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRo93aJCVkzf3LytZ4x7npQ6c_yLz9hTl7BDg&usqp=CAU',
@@ -89,7 +83,7 @@ List<Activity> activities = [
   Activity(
     imageUrl: 'lib/assets/images/dulle1.jpeg',
     name: '연인이랑 손잡고 걷기에 아주 좋은 산책로',
-    type: '지존 이승권이 미쳐날뛰고 있습니다.',
+    type: '지존 이승권',
     startTimes: ['11:00 pm', '1:00 pm'],
     rating: 4,
     price: 210,

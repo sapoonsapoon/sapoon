@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_signin_button/button_list.dart';
-import 'package:flutter_signin_button/button_view.dart';
 import 'package:sapoon/LoginPage/SignUpPage.dart';
 import 'package:sapoon/idFindPage.dart';
-import 'package:sapoon/PageHandlePage.dart';
 import 'package:sapoon/LoginPage/passwordFindPage.dart';
 
 class RootPage extends StatefulWidget {
@@ -64,7 +61,6 @@ class _RootPageState extends State<RootPage> {
                   child: TextFormField(
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
-                    obscureText: true,
                     controller: _emailController,
                     decoration: getTextFieldDecor('Email'),
                     validator: (String value) {

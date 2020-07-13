@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sapoon/widget/activityWidget.dart';
-import 'package:sapoon/widget/iconCardWidget.dart';
-import 'package:sapoon/widget/personRatingWidget.dart';
+import 'package:sapoon/widget/iconCard.dart';
+import 'package:sapoon/widget/imageAndIconShowWidget.dart';
+import 'package:sapoon/widget/personRatingShowWidget.dart';
 
 class TrailDetailPage extends StatefulWidget {
   final Activity activity;
@@ -13,20 +15,46 @@ class TrailDetailPage extends StatefulWidget {
 }
 
 class _TrailDetailPageState extends State<TrailDetailPage> {
-  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              ImageAndIcons(size: size, image: widget.activity.imageUrl,),
+              ImageAndIconShow(
+                size: size,
+                image: widget.activity.imageUrl,
+              ),
               SizedBox(
                 height: 20,
               ),
-              PersonRating(title: widget.activity.name, country: widget.activity.type, price: widget.activity.price),
-              SizedBox(height: 10.0),
+              PersonRatingShow(
+                title: widget.activity.name,
+                country: widget.activity.type,
+                price: widget.activity.price,
+                rating: widget.activity.rating,
+                startTime: widget.activity.startTimes[0],
+                endTime: widget.activity.startTimes[1],
+              ),
+              SizedBox(height: 0.0),
+              Container(
+                margin: EdgeInsets.only(left: 10,right: 10),
+                height: MediaQuery.of(context).size.height * 0.12,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    SvgPicture.asset("assets/icons/icon_01.svg"),
+                    Text(':⭐ 2개'),
+                    SvgPicture.asset("assets/icons/icon_02.svg"),
+                    Text(':⭐ 2개'),
+                    SvgPicture.asset("assets/icons/icon_03.svg"),
+                    Text(':⭐ 2개'),
+                    SvgPicture.asset("assets/icons/icon_04.svg"),
+                    Text(':⭐ 2개'),
+                  ],
+                ),
+              ),
               Row(
                 children: <Widget>[
                   SizedBox(
@@ -51,8 +79,14 @@ class _TrailDetailPageState extends State<TrailDetailPage> {
                   ),
                   Expanded(
                     child: FlatButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(20),
+                        ),
+                      ),
+                      color: Colors.redAccent,
                       onPressed: () {},
-                      child: Text("답글달기"),
+                      child: Text("삭제하기"),
                     ),
                   ),
                 ],

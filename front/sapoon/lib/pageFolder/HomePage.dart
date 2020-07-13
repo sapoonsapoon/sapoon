@@ -9,6 +9,7 @@ import 'package:sapoon/pageFolder/data.dart';
 import 'package:sapoon/pageFolder/destinationPage.dart';
 import 'package:sapoon/pageFolder/productPage.dart';
 import 'package:sapoon/pageFolder/trailDetailPage.dart';
+import 'package:sapoon/pageFolder/trailEditPage.dart';
 import 'package:sapoon/walkRoute/seokchunWalk.dart';
 import 'package:http/http.dart' as http;
 import 'package:sapoon/widget/activityWidget.dart';
@@ -26,15 +27,10 @@ Future<List<Post>> getPhotoUrl() async {
           'http://35.201.203.73/sapoon/promenade/dullegil/main/recommend/random'),
       headers: {"Accept": "application/json"});
   if (response.statusCode == 200) {
-    // If the server did return a 201 CREATED response,
-    // then parse the JSON.
-    print(utf8.decode(response.bodyBytes));
     return makePostList(json.decode(utf8.decode(response.bodyBytes)));
   } else {
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
-    // If the server did not return a 201 CREATED response,
-    // then throw an exception.
     throw Exception();
   }
 }
@@ -44,10 +40,7 @@ Future<List<Post>> getWeather() async {
       Uri.encodeFull(
           'http://35.201.203.73/sapoon/promenade/dullegil/main/recommend/random'),
       headers: {"Accept": "application/json"});
-  if (response.statusCode == 200) {
-    // If the server did return a 201 CREATED response,
-    // then parse the JSON.
-    print(utf8.decode(response.bodyBytes));
+  if (response.statusCode == 200) {;
     return makePostList(json.decode(utf8.decode(response.bodyBytes)));
   } else {
     print('Response status: ${response.statusCode}');
@@ -110,11 +103,11 @@ class _HomePageState extends State<HomePage> {
         elevation: 0,
         brightness: Brightness.light,
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             SizedBox(
               height: MediaQuery.of(context).size.width * 0.24,
-              width: MediaQuery.of(context).size.width * 0.02,
+              width: MediaQuery.of(context).size.width * 0.01,
             ),
             InkWell(
               onTap: () {
@@ -185,9 +178,14 @@ class _HomePageState extends State<HomePage> {
                     );
                   },
                   onSuggestionSelected: (suggestion) {
+                    List showList =new List();
+                    showList.add(suggestion['name']);
+                    showList.add(suggestion['trailDistance']);
+                    showList.add(suggestion['trailUrl']);
+                    showList.add(suggestion['trailBriefContents']);
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) =>
-                            ProductPage(product: suggestion)));
+                            TrailEditPage(activity: showList)));
                   },
                 ),
               ),
@@ -250,11 +248,11 @@ class _HomePageState extends State<HomePage> {
                       width: MediaQuery.of(context).size.width * 0.01,
                     ),
                     Text(
-                      '\n영등포구 \n대체로 맑음 \n비 올 확율 13%',
+                      '\n영등포구 \n대체로 맑음\n 강수 13%',
                       style: TextStyle(
                           color: Colors.black87,
                           fontFamily: "NanumSquareRegular",
-                          fontSize: MediaQuery.of(context).size.width * 0.029),
+                          fontSize: MediaQuery.of(context).size.width * 0.025),
                     ),
                   ],
                 ),
@@ -296,7 +294,8 @@ class _HomePageState extends State<HomePage> {
                     } else if (snapshot.hasError) {
                       return Text("${snapshot.error}");
                     }
-                    return CircularProgressIndicator();
+                    return CircularProgressIndicator(
+                    );
                   },
                 ),
               ),
@@ -311,17 +310,17 @@ class _HomePageState extends State<HomePage> {
                       width: MediaQuery.of(context).size.width * 0.01,
                     ),
                     Text(
-                      '오늘의 산책',
+                      '\t 오늘의 산책',
                       style: TextStyle(
                           color: Colors.black,
                           fontFamily: "NanumSquareRegular",
-                          fontSize: MediaQuery.of(context).size.width * 0.04),
+                          fontSize: MediaQuery.of(context).size.width * 0.05),
                     ),
                   ],
                 ),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.02,
+                height: MediaQuery.of(context).size.height * 0.01,
               ),
               Container(
                 width: MediaQuery.of(context).size.width,
@@ -350,7 +349,7 @@ class _HomePageState extends State<HomePage> {
                                 children: <Widget>[
                                   Container(
                                     margin: EdgeInsets.fromLTRB(40.0, 5.0, 20.0, 5.0),
-                                    height: 120.0,
+                                    height: MediaQuery.of(context).size.height*0.17,
                                     width: double.infinity,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
@@ -387,6 +386,7 @@ class _HomePageState extends State<HomePage> {
                                                       fontSize: 17.0,
                                                       fontWeight: FontWeight.w600,
                                                     ),
+                                                    overflow: TextOverflow.ellipsis,
                                                   ),
                                                   Text(
                                                     'Total',
@@ -407,34 +407,22 @@ class _HomePageState extends State<HomePage> {
                                                 fontSize: 11.0,
                                                 fontWeight: FontWeight.w600,
                                               ),
+                                              overflow: TextOverflow.ellipsis,
                                             ),
                                           ),
                                           SizedBox(height: 2.0),
                                           Row(
                                             mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
                                             children: <Widget>[
                                               _buildRatingStars(activity.rating),
                                               Container(
                                                 padding: EdgeInsets.all(5.0),
-                                                width: 60.0,
+                                                width: 100.0,
                                                 alignment: Alignment.centerRight,
                                                 child: Text(
-                                                  activity.startTimes[0],
-                                                  style: TextStyle(fontSize: 10),
-                                                ),
-                                              ),
-                                              Container(
-                                                padding: EdgeInsets.all(5.0),
-                                                width: 60.0,
-                                                decoration: BoxDecoration(
-                                                  color: Theme.of(context).accentColor,
-                                                  borderRadius: BorderRadius.circular(10.0),
-                                                ),
-                                                alignment: Alignment.center,
-                                                child: Text(
-                                                  activity.startTimes[1],
+                                                  activity.startTimes[0] +'~' +activity.startTimes[1],
                                                   style: TextStyle(fontSize: 10),
                                                 ),
                                               ),
@@ -466,7 +454,8 @@ class _HomePageState extends State<HomePage> {
                     } else if (snapshot.hasError) {
                       return Text("${snapshot.error}");
                     }
-                    return CircularProgressIndicator();
+                    return CircularProgressIndicator(
+                    );
                   },
                 ),
               ),

@@ -26,12 +26,13 @@ public class CommunityService {
 
         try{
             communityMapper.insertCommuity(communityVo);
+            resultMap.put("result","success");
             resultMap.put("resultCode","1");
-            resultMap.put("resultDesc","success");
+            resultMap.put("resultDesc","커뮤니티 게시글 저장 성공");
         }catch ( Exception e ){
             LOGGER.error(String.valueOf(e));
             resultMap.put("resultCode","4");
-            resultMap.put("resultDesc",String.valueOf(e));
+            resultMap.put("resultDesc","커뮤니티 게시글 저장 실패");
         }
 
         return resultMap;

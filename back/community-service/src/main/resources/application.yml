@@ -26,3 +26,16 @@ spring:
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
   type-aliases-package: sapoon.communityservice.vo
+
+#아래는 s3
+cloud:
+  aws:
+    credentials:
+      accessKey: AKIAVKGN263V4LX7U7WK
+      secretKey: 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
+    s3:
+      bucket: sapoon-img
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false

@@ -83,4 +83,27 @@ public class CommunityService {
 
         return resultMap;
     }
+
+    public Map<String, Object> getCommunityListByDulle(String dulleSeq) {
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+
+        resultMap.put("result",null);
+
+        try{
+            resultMap.put("result",communityMapper.selectCommunityListByDulle(dulleSeq));
+            if(resultMap.get("result") == null){ // db 조회 없음
+                resultMap.put("resultCode","2");
+                resultMap.put("resultDesc","not found");
+            }else{
+                resultMap.put("resultCode","1");
+                resultMap.put("resultDesc","success");
+            }
+        }catch ( Exception e ){
+            LOGGER.error(String.valueOf(e));
+            resultMap.put("resultCode","3");
+            resultMap.put("resultDesc","parsing error");
+        }
+
+        return resultMap;
+    }
 }

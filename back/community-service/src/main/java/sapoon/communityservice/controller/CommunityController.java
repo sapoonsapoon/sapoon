@@ -104,7 +104,7 @@ public class CommunityController {
      * @return
      */
     @GetMapping("/{seq}")
-    public ResponseEntity<Map> getNews(@PathVariable("seq") String seq){
+    public ResponseEntity<Map> getCommunity(@PathVariable("seq") String seq){
         logger.info("/sapoon/community/{seq}");
         Map result = new HashMap();
 
@@ -116,6 +116,30 @@ public class CommunityController {
             return new ResponseEntity<Map>(result, HttpStatus.BAD_REQUEST);
         }  else {
             logger.info("커뮤니티 조회 성공");
+            return new ResponseEntity<Map>(result, HttpStatus.OK);
+        }
+
+    }
+
+    /**
+     * 커뮤니티 게시글 리스트 가져오기 by 둘레길별로.
+     *
+     * @param dulleSeq
+     * @return
+     */
+    @GetMapping("/dulle/{dulleSeq}")
+    public ResponseEntity<Map> getCommunityListByDulle(@PathVariable("dulleSeq") String dulleSeq){
+        logger.info("/sapoon/community/dullegil/{dulleSeq}");
+        Map result = new HashMap();
+
+        result = communityService.getCommunityListByDulle(dulleSeq);
+
+        if (result.get("result") == null) {
+            result.put("result", "커뮤니티(둘레) 조회 db 없음");
+            logger.info("커뮤니티(둘레) 조회 db 없음");
+            return new ResponseEntity<Map>(result, HttpStatus.BAD_REQUEST);
+        }  else {
+            logger.info("커뮤니티(둘레) 조회 성공");
             return new ResponseEntity<Map>(result, HttpStatus.OK);
         }
 

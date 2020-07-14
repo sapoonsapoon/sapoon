@@ -7,7 +7,8 @@ RUN npm install -g @vue/cli
 RUN npm install 
 COPY . .
 RUN npm run build
-RUN ls -al
+RUN ls -al dist/
+RUN pwd
 
 
 # production stage

@@ -77,22 +77,22 @@ class _ImageAndIconShowState extends State<ImageAndIconShow> {
                       ),
                     ),
                     IconCard(
-                      icon: "assets/icons/icon_01.svg",
+                      icon: "assets/icons/sun.svg",
                       sizeHW: 50,
                       iconName: '관리 점수',
                     ),
                     IconCard(
-                      icon: "assets/icons/icon_02.svg",
+                      icon: "assets/icons/icon_2.svg",
                       sizeHW: 50,
                       iconName: '체력 소모 정도',
                     ),
                     IconCard(
-                      icon: "assets/icons/icon_03.svg",
+                      icon: "assets/icons/icon_3.svg",
                       sizeHW: 50,
                       iconName: '전망 점수',
                     ),
                     IconCard(
-                      icon: "assets/icons/icon_04.svg",
+                      icon: "assets/icons/icon_4.svg",
                       sizeHW: 50,
                       iconName: '추천 동행자',
                     ),

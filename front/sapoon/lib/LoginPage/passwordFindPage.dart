@@ -306,7 +306,7 @@ Future createAlbum(BuildContext context,
     String birthday,
     String email) async {
   final http.Response response = await http.post(
-    'http://35.201.203.73/sapoon/member/find/password',
+    'http://34.80.151.71/sapoon/member/find/password',
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },

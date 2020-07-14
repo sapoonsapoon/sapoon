@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sapoon/pageFolder/data.dart';
 import 'package:sapoon/pageFolder/trailDetailPage.dart';
+import 'package:sapoon/pageFolder/trailEditPage.dart';
 import 'package:sapoon/widget/activityWidget.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -265,7 +266,14 @@ class _DestinationPageState extends State<DestinationPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => TrailEditPage(
+                    activity: widget.posts.activities[0],
+                  )));
+        },
         child: Icon(Icons.edit),
         heroTag: null,
       ),

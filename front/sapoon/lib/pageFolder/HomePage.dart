@@ -24,7 +24,7 @@ class HomePage extends StatefulWidget {
 Future<List<Post>> getPhotoUrl() async {
   final http.Response response = await http.get(
       Uri.encodeFull(
-          'http://35.201.203.73/sapoon/promenade/dullegil/main/recommend/random'),
+          'http://34.80.151.71/sapoon/promenade/dullegil/main/recommend/random'),
       headers: {"Accept": "application/json"});
   if (response.statusCode == 200) {
     return makePostList(json.decode(utf8.decode(response.bodyBytes)));
@@ -38,7 +38,7 @@ Future<List<Post>> getPhotoUrl() async {
 Future<List<Post>> getWeather() async {
   final http.Response response = await http.get(
       Uri.encodeFull(
-          'http://35.201.203.73/sapoon/promenade/dullegil/main/recommend/random'),
+          'http://34.80.151.71/sapoon/promenade/dullegil/main/recommend/random'),
       headers: {"Accept": "application/json"});
   if (response.statusCode == 200) {;
     return makePostList(json.decode(utf8.decode(response.bodyBytes)));
@@ -178,14 +178,11 @@ class _HomePageState extends State<HomePage> {
                     );
                   },
                   onSuggestionSelected: (suggestion) {
-                    List showList =new List();
-                    showList.add(suggestion['name']);
-                    showList.add(suggestion['trailDistance']);
-                    showList.add(suggestion['trailUrl']);
-                    showList.add(suggestion['trailBriefContents']);
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) =>
-                            TrailEditPage(activity: showList)));
+                            DestinationPage(
+                              posts: suggestion['post'],
+                            )));
                   },
                 ),
               ),

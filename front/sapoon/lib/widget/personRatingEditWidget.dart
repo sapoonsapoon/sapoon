@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:sapoon/widget/showDialogTimeWidget.dart';
 class PersonRatingEdit extends StatefulWidget {
   const PersonRatingEdit({
     Key key,
@@ -12,25 +14,44 @@ class PersonRatingEdit extends StatefulWidget {
 
   final String title, country, startTime, endTime;
   final int price, rating;
-
   @override
   _PersonRatingEditState createState() => _PersonRatingEditState();
 }
 
 class _PersonRatingEditState extends State<PersonRatingEdit> {
   final _controller = TextEditingController();
-
+  List<String> walkTimes = ['',''];
+  String walkTimeSign ='산책시간을 입력해주세요';
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _controller.addListener(() {
       final text = _controller.text.toLowerCase();
+      Hive.box('image').put('textController',text);
       _controller.value = _controller.value.copyWith(
         text: text,
         selection:
         TextSelection(baseOffset: text.length, extentOffset: text.length),
         composing: TextRange.empty,);
+    });
+
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _controller.dispose();
+  }
+
+  void _updateLabels(String init, String end) {
+    setState(() {
+      Hive.box('image').put('walkInit',init);
+      Hive.box('image').put('walkEnd',end);
+      walkTimes[0] = init;
+      walkTimes[1] = end;
+      walkTimeSign = walkTimes[0] +' ~ '+walkTimes[1];
     });
   }
 
@@ -84,13 +105,27 @@ class _PersonRatingEditState extends State<PersonRatingEdit> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 _buildRatingStars(widget.rating),
-                Container(
-                  padding: EdgeInsets.all(1.0),
-                  width: 150.0,
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    widget.startTime +' ~ ' +widget.endTime,
-                    style: TextStyle(fontSize: 15),
+                GestureDetector(
+                  onTap: (){
+                    showDialog(
+                        context: context,
+                        builder: (_) {
+                          return ShowDialogTime();
+                        }).then((value){
+                        walkTimes = value;
+                        print(walkTimes);
+                        _updateLabels(walkTimes[0],walkTimes[1]);
+                        }
+                    );
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(1.0),
+                    width: 150.0,
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      walkTimeSign,
+                      style: TextStyle(fontSize: 11),
+                    ),
                   ),
                 ),
               ],

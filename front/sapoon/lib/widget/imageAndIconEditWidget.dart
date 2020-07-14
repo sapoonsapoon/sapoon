@@ -1,10 +1,12 @@
 import 'dart:io';
-
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:popup_menu/popup_menu.dart';
+
 
 import 'iconCard.dart';
 
@@ -34,32 +36,6 @@ class _ImageAndIconEditState extends State<ImageAndIconEdit> {
   @override
   void initState() {
     // TODO: implement initState
-    menu = PopupMenu(items: [
-      MenuItem(
-          title: 'Mail',
-          image: Icon(
-            Icons.mail,
-            color: Colors.white,
-          )),
-      MenuItem(
-          title: 'Power',
-          image: Icon(
-            Icons.power,
-            color: Colors.white,
-          )),
-      MenuItem(
-          title: 'Setting',
-          image: Icon(
-            Icons.settings,
-            color: Colors.white,
-          )),
-      MenuItem(
-          title: 'PopupMenu',
-          image: Icon(
-            Icons.menu,
-            color: Colors.white,
-          ))
-    ], onClickMenu: onClickMenu, onDismiss: onDismiss, maxColumn: 4);
     super.initState();
   }
 
@@ -177,16 +153,8 @@ class _ImageAndIconEditState extends State<ImageAndIconEdit> {
 
     setState(() {
       _image = File(image.path);
+      Hive.box('image').put('image', image.path);
     });
   }
 }
 
-
-
-void onClickMenu(MenuItemProvider item) {
-  print('Click menu -> ${item.menuTitle}');
-}
-
-void onDismiss() {
-  print('Menu is dismiss');
-}

@@ -4,12 +4,13 @@ import 'dart:convert';
 
 import 'package:sapoon/widget/activityWidget.dart';
 
+
 class BackendService {
     static Future<List> getSuggestions(String query) async {
     await Future.delayed(Duration(milliseconds: 1));
     final http.Response response = await http.get(
         Uri.encodeFull(
-            'http://35.201.203.73/sapoon/promenade/dullegil/search?dullegil_name=' +
+            'http://34.80.151.71/sapoon/promenade/dullegil/search?dullegil_name=' +
                 query),
         headers: {"Accept": "application/json"});
     if (response.statusCode == 200) {
@@ -26,6 +27,7 @@ class BackendService {
             'trailDistance': returnValue[index].trailDistance,
             'trailUrl': returnValue[index].trailUrl,
             'trailBriefContents': returnValue[index].trailBriefContents,
+            'post': returnValue[index],
           };
         });
       }

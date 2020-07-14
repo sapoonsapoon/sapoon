@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hive/hive.dart';
 import 'package:popup_menu/popup_menu.dart';
 
 class IconCard extends StatefulWidget {
@@ -26,11 +27,32 @@ class _IconCardState extends State<IconCard> with TickerProviderStateMixin {
   AnimationController _angleController;
   var _angle = 0.0;
 
+//  IconCard(
+//  icon: "assets/icons/sun.svg",
+//  sizeHW: 50,
+//  iconName: '관리 점수',
+//  ),
+//  IconCard(
+//  icon: "assets/icons/icon_2.svg",
+//  sizeHW: 50,
+//  iconName: '체력 소모 정도',
+//  ),
+//  IconCard(
+//  icon: "assets/icons/icon_3.svg",
+//  sizeHW: 50,
+//  iconName: '전망 점수',
+//  ),
+//  IconCard(
+//  icon: "assets/icons/icon_4.svg",
+//  sizeHW: 50,
+//  iconName: '추천 동행자',
+
   PopupMenu menu;
   GlobalKey btnKey = GlobalKey();
   GlobalKey btnKey2 = GlobalKey();
   GlobalKey btnKey3 = GlobalKey();
-
+  int scoreValue=0;
+  var hiveSaveName='';
   @override
   void initState() {
     super.initState();
@@ -92,6 +114,30 @@ class _IconCardState extends State<IconCard> with TickerProviderStateMixin {
 
   void onClickMenu(MenuItemProvider item) {
     print('Click menu -> ${item.menuTitle}');
+
+    if('${item.menuTitle}' == '별로에요'){
+      scoreValue =1;
+    }else if('${item.menuTitle}' == '아쉬워요'){
+      scoreValue =2;
+    }else if('${item.menuTitle}' == '평범했어요'){
+      scoreValue =3;
+    }else if('${item.menuTitle}' == '괜찮았어요'){
+      scoreValue =4;
+    }else if('${item.menuTitle}' == '매우 좋았어요'){
+      scoreValue =5;
+    }
+    print(widget.iconName);
+    if(widget.iconName =='관리 점수'){
+      hiveSaveName = 'setting';
+    }else if(widget.iconName =='체력 소모 정도'){
+      hiveSaveName = 'health';
+    }else if(widget.iconName =='전망 점수'){
+      hiveSaveName = 'sight';
+    }else if(widget.iconName =='추천 동행자'){
+      hiveSaveName = 'company';
+    }
+    print(hiveSaveName);
+    Hive.box('image').put(hiveSaveName, scoreValue);
   }
 
   void onDismiss() {

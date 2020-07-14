@@ -26,12 +26,13 @@ public class CommunityService {
 
         try{
             communityMapper.insertCommuity(communityVo);
+            resultMap.put("result","success");
             resultMap.put("resultCode","1");
-            resultMap.put("resultDesc","success");
+            resultMap.put("resultDesc","커뮤니티 게시글 저장 성공");
         }catch ( Exception e ){
             LOGGER.error(String.valueOf(e));
             resultMap.put("resultCode","4");
-            resultMap.put("resultDesc",String.valueOf(e));
+            resultMap.put("resultDesc","커뮤니티 게시글 저장 실패");
         }
 
         return resultMap;
@@ -67,6 +68,29 @@ public class CommunityService {
 
         try{
             resultMap.put("result",communityMapper.selectCommunity(seq));
+            if(resultMap.get("result") == null){ // db 조회 없음
+                resultMap.put("resultCode","2");
+                resultMap.put("resultDesc","not found");
+            }else{
+                resultMap.put("resultCode","1");
+                resultMap.put("resultDesc","success");
+            }
+        }catch ( Exception e ){
+            LOGGER.error(String.valueOf(e));
+            resultMap.put("resultCode","3");
+            resultMap.put("resultDesc","parsing error");
+        }
+
+        return resultMap;
+    }
+
+    public Map<String, Object> getCommunityListByDulle(String dulleSeq) {
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+
+        resultMap.put("result",null);
+
+        try{
+            resultMap.put("result",communityMapper.selectCommunityListByDulle(dulleSeq));
             if(resultMap.get("result") == null){ // db 조회 없음
                 resultMap.put("resultCode","2");
                 resultMap.put("resultDesc","not found");

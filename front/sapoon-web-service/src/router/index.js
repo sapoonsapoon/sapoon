@@ -8,17 +8,17 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
+    path: '/sapoon/web',
     name: 'Home',
     component: Home
   },
   {
-    path: '/map/seoul',
+    path: '/sapoon/web/map/seoul',
     name: 'Seoul',
     component: Seoul
   },
   {
-    path: '/map/kakao',
+    path: '/sapoon/web/map/kakao',
     name: 'Kakao',
     component: Kakao
   }

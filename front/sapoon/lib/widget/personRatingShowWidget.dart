@@ -93,6 +93,6 @@ Text _buildRatingStars(int rating) {
     stars += '⭐ ';
   }
   stars.trim();
-  return Text("주간: "+stars);
+  return Text("추천 점수 : "+stars);
 }
 

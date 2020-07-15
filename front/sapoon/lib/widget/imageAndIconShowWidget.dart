@@ -58,7 +58,7 @@ class _ImageAndIconShowState extends State<ImageAndIconShow> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 0),
       child: SizedBox(
-        height: widget.size.height * 0.6,
+        height: widget.size.height * 0.61,
         child: Row(
           children: <Widget>[
             Expanded(
@@ -69,7 +69,7 @@ class _ImageAndIconShowState extends State<ImageAndIconShow> {
                     Align(
                       alignment: Alignment.topLeft,
                       child: IconButton(
-                        padding: EdgeInsets.symmetric(horizontal: 10.0),
+                        padding: EdgeInsets.symmetric(horizontal: 5.0),
                         icon: SvgPicture.asset("assets/icons/back_arrow.svg"),
                         onPressed: () {
                           Navigator.pop(context);
@@ -78,24 +78,29 @@ class _ImageAndIconShowState extends State<ImageAndIconShow> {
                     ),
                     IconCard(
                       icon: "assets/icons/sun.svg",
-                      sizeHW: 50,
-                      iconName: '관리 점수',
+                      sizeHW: 41,
+                      iconName: '햇살 점수',
                     ),
                     IconCard(
                       icon: "assets/icons/icon_2.svg",
-                      sizeHW: 50,
+                      sizeHW: 41,
                       iconName: '체력 소모 정도',
                     ),
                     IconCard(
                       icon: "assets/icons/icon_3.svg",
-                      sizeHW: 50,
+                      sizeHW: 41,
                       iconName: '전망 점수',
                     ),
                     IconCard(
                       icon: "assets/icons/icon_4.svg",
-                      sizeHW: 50,
-                      iconName: '추천 동행자',
+                      sizeHW: 41,
+                      iconName: '바람 점수',
                     ),
+                    IconCard(
+                      icon: "assets/icons/liked.svg",
+                      sizeHW: 41,
+                      iconName: '추천 점수',
+                    )
                   ],
                 ),
               ),

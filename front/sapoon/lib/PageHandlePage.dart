@@ -2,6 +2,7 @@ import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:sapoon/pageFolder/CommunityBoardPage.dart';
 import 'package:sapoon/pageFolder/HomePage.dart';
+import 'package:sapoon/pageFolder/calendarPage.dart';
 import 'package:sapoon/pageFolder/webviewPage.dart';
 import 'package:sapoon/walkRoute/seokchunWalk.dart';
 
@@ -37,8 +38,8 @@ class _LandingPageState extends State<LandingPage> {
             },
             children: <Widget>[
               HomePage(),
-              CommunityBoardPage(),
               Walks1(),
+              CalendarScreen(),
               Container(color: Colors.blue,),
             ],
           ),
@@ -69,8 +70,8 @@ class _LandingPageState extends State<LandingPage> {
                 textAlign:TextAlign.center,
                 activeColor: Colors.redAccent,
                 inactiveColor: Colors.black12,
-                title: Text('커뮤니티'),
-                icon: Icon(Icons.message)
+                title: Text('산책 달력'),
+                icon: Icon(Icons.calendar_today)
             ),
             BottomNavyBarItem(
                 textAlign:TextAlign.center,

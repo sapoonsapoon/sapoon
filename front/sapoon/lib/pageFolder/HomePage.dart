@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ffi';
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:geolocator/geolocator.dart';
@@ -55,6 +56,8 @@ Future<List> getPosition() async {
   var currentPosition = await Geolocator()
       .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
   List latitudeLongitudes = new List();
+  print(currentPosition.latitude);
+  print(currentPosition.longitude);
   latitudeLongitudes.add(currentPosition.latitude);
   latitudeLongitudes.add(currentPosition.longitude);
   return latitudeLongitudes;
@@ -163,8 +166,12 @@ class _HomePageState extends State<HomePage> {
                   },
                   itemBuilder: (context, suggestion) {
                     return ListTile(
-                      leading: Image.network(
-                          'http://www.greenpostkorea.co.kr/news/photo/201910/110448_109048_423.jpg'),
+                      leading: CachedNetworkImage(
+                          imageUrl: 'http://www.greenpostkorea.co.kr/news/photo/201910/110448_109048_423.jpg',
+                        progressIndicatorBuilder: (context, url, downloadProgress) =>
+                            CircularProgressIndicator(value: downloadProgress.progress, valueColor: AlwaysStoppedAnimation<Color>(Colors.blueAccent),),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                      ),
                       title: Text(
                         suggestion['name'],
                         style: TextStyle(fontSize: 13),
@@ -378,18 +385,12 @@ class _HomePageState extends State<HomePage> {
                                               Column(
                                                 children: <Widget>[
                                                   Text(
-                                                    '\*${activity.price}',
+                                                    '${activity.price}'+'점',
                                                     style: TextStyle(
                                                       fontSize: 17.0,
                                                       fontWeight: FontWeight.w600,
                                                     ),
                                                     overflow: TextOverflow.ellipsis,
-                                                  ),
-                                                  Text(
-                                                    'Total',
-                                                    style: TextStyle(
-                                                      color: Colors.grey,
-                                                    ),
                                                   ),
                                                 ],
                                               ),

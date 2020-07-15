@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:sapoon/pageFolder/CommunityBoardPage.dart';
 import 'package:sapoon/pageFolder/HomePage.dart';
 import 'package:sapoon/pageFolder/calendarPage.dart';
+import 'package:sapoon/pageFolder/settingPage.dart';
 import 'package:sapoon/pageFolder/webviewPage.dart';
 import 'package:sapoon/walkRoute/seokchunWalk.dart';
 
@@ -40,7 +41,7 @@ class _LandingPageState extends State<LandingPage> {
               HomePage(),
               Walks1(),
               CalendarScreen(),
-              Container(color: Colors.blue,),
+              SettingsOnePage(),
             ],
           ),
         ),

@@ -20,8 +20,8 @@ public class PromenadeService {
         return dullegilVo;
     }
 
-    public List<DullegilVo> searchDullegil(String dullegil_name){
-        List<DullegilVo> dullegilVoList = promenadeMapper.searchDullegil(dullegil_name);
+    public List<DullegilVo> searchDullegil(String dullegilName){
+        List<DullegilVo> dullegilVoList = promenadeMapper.searchDullegil(dullegilName);
 
         return dullegilVoList;
     }
@@ -37,5 +37,10 @@ public class PromenadeService {
             dullegilVoList.get(i).setDullegilDetailVo(promenadeMapper.selectDullegilDetail(dullegilVoList.get(i).getSeq()));
         }
         return dullegilVoList;
+    }
+
+    public int getDullegilCount(String guName){
+        int dullegilCount = promenadeMapper.getDullegilCount(guName);
+        return dullegilCount;
     }
 }

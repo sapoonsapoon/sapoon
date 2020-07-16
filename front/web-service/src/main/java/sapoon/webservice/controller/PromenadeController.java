@@ -1,10 +1,11 @@
 package sapoon.webservice.controller;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@Controller
 @RequestMapping("/sapoon/web/promenade")
 public class PromenadeController {
     /*

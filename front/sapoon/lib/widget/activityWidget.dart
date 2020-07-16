@@ -1,4 +1,5 @@
 class Activity {
+  int seq;
   String imageUrl;
   String name;
   String type;
@@ -6,7 +7,9 @@ class Activity {
   int rating;
   int price;
 
+
   Activity({
+    this.seq,
     this.imageUrl,
     this.name,
     this.type,

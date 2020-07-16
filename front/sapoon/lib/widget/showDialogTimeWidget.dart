@@ -19,7 +19,7 @@ class _ShowDialogTimeState extends State<ShowDialogTime> {
   int outWalkTime;
   int days = 0;
 
-  List<String> walkTime = ['',''];
+  List<String> walkTime = ['','','',''];
   
   @override
   void initState() {
@@ -113,6 +113,7 @@ class _ShowDialogTimeState extends State<ShowDialogTime> {
 
   Widget _formatiInitWalkTime(String pre, int time) {
     walkTime[0] = '${_formatSaveTime(time)}';
+    walkTime[2] = '${_formatServerTime(time)}';
     return Column(
       children: [
         Text(pre, style: TextStyle(color: baseColor)),
@@ -126,6 +127,7 @@ class _ShowDialogTimeState extends State<ShowDialogTime> {
   }
   Widget _formatEndWalkTime(String pre, int time) {
     walkTime[1] = '${_formatSaveTime(time)}';
+    walkTime[3] = '${_formatServerTime(time)}';
     return Column(
       children: [
         Text(pre, style: TextStyle(color: baseColor)),
@@ -163,24 +165,33 @@ class _ShowDialogTimeState extends State<ShowDialogTime> {
   }
 
   String _formatSaveTime(int time) {
+      if (time == 0 || time == null) {
+        return '00:00';
+      }
+      var hours = time ~/ 12;
+      var minutes = (time % 12) * 5;
+      String isAmPm;
+      if(hours >= 12){
+        isAmPm = 'PM';
+        if(hours == 12){
+
+        }else{
+          hours-=12;
+        }
+      }
+    else isAmPm = 'AM';
+
+    return '$hours:$minutes '+isAmPm;
+  }
+
+  String _formatServerTime(int time) {
     if (time == 0 || time == null) {
       return '00:00';
     }
     var hours = time ~/ 12;
     var minutes = (time % 12) * 5;
-    String isAmPm;
-    if(hours >= 12){
-      isAmPm = 'PM';
-      if(hours == 12){
 
-      }else{
-        hours-=12;
-      }
-    }
-
-    else isAmPm = 'AM';
-
-    return '$hours:$minutes '+isAmPm;
+    return '$hours:$minutes:00';
   }
 
   String _formatIntervalTime(int init, int end) {

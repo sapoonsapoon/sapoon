@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive/hive.dart';
@@ -27,32 +28,14 @@ class _IconCardState extends State<IconCard> with TickerProviderStateMixin {
   AnimationController _angleController;
   var _angle = 0.0;
 
-//  IconCard(
-//  icon: "assets/icons/sun.svg",
-//  sizeHW: 50,
-//  iconName: '관리 점수',
-//  ),
-//  IconCard(
-//  icon: "assets/icons/icon_2.svg",
-//  sizeHW: 50,
-//  iconName: '체력 소모 정도',
-//  ),
-//  IconCard(
-//  icon: "assets/icons/icon_3.svg",
-//  sizeHW: 50,
-//  iconName: '전망 점수',
-//  ),
-//  IconCard(
-//  icon: "assets/icons/icon_4.svg",
-//  sizeHW: 50,
-//  iconName: '추천 동행자',
-
   PopupMenu menu;
   GlobalKey btnKey = GlobalKey();
   GlobalKey btnKey2 = GlobalKey();
   GlobalKey btnKey3 = GlobalKey();
   int scoreValue=0;
   var hiveSaveName='';
+  Color colorsPick = Colors.blueAccent;
+  bool isClick= false;
   @override
   void initState() {
     super.initState();
@@ -114,27 +97,34 @@ class _IconCardState extends State<IconCard> with TickerProviderStateMixin {
 
   void onClickMenu(MenuItemProvider item) {
     print('Click menu -> ${item.menuTitle}');
-
+    isClick= true;
     if('${item.menuTitle}' == '별로에요'){
       scoreValue =1;
+      colorsPick = Colors.redAccent;
     }else if('${item.menuTitle}' == '아쉬워요'){
       scoreValue =2;
+      colorsPick = Colors.orangeAccent;
     }else if('${item.menuTitle}' == '평범했어요'){
       scoreValue =3;
+      colorsPick = Colors.deepPurpleAccent;
     }else if('${item.menuTitle}' == '괜찮았어요'){
       scoreValue =4;
+      colorsPick = Colors.green;
     }else if('${item.menuTitle}' == '매우 좋았어요'){
       scoreValue =5;
+      colorsPick = Colors.blue;
     }
     print(widget.iconName);
-    if(widget.iconName =='관리 점수'){
-      hiveSaveName = 'setting';
+    if(widget.iconName =='햇살 점수'){
+      hiveSaveName = 'sun';
     }else if(widget.iconName =='체력 소모 정도'){
       hiveSaveName = 'health';
     }else if(widget.iconName =='전망 점수'){
       hiveSaveName = 'sight';
-    }else if(widget.iconName =='추천 동행자'){
-      hiveSaveName = 'company';
+    }else if(widget.iconName =='바람 점수'){
+      hiveSaveName = 'windy';
+    }else if(widget.iconName =='추천 점수'){
+      hiveSaveName = 'recommend';
     }
     print(hiveSaveName);
     Hive.box('image').put(hiveSaveName, scoreValue);
@@ -164,19 +154,19 @@ class _IconCardState extends State<IconCard> with TickerProviderStateMixin {
               title: '평범했어요',
               image: Icon(
                 FontAwesomeIcons.meh,
-                color: Colors.yellowAccent,
+                color: Colors.deepPurpleAccent,
               )),
           MenuItem(
               title: '괜찮았어요',
               image: Icon(
                 FontAwesomeIcons.laugh,
-                color: Colors.greenAccent,
+                color: Colors.green,
               )),
           MenuItem(
               title: '매우 좋았어요',
               image: Icon(
                 FontAwesomeIcons.laughSquint,
-                color: Colors.blueAccent,
+                color: Colors.blue,
               )),
         ],
         onClickMenu: onClickMenu,
@@ -232,7 +222,7 @@ class _IconCardState extends State<IconCard> with TickerProviderStateMixin {
                 ],
               ),
               child: Transform.rotate(
-                  angle: _angle, child: SvgPicture.asset(widget.icon)),
+                  angle: _angle, child: SvgPicture.asset(widget.icon, color: isClick ?  colorsPick : null,)),
             ),
           ),
         ),

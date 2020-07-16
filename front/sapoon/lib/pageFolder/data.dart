@@ -23,6 +23,7 @@ class BackendService {
       } else {
         return List.generate(5, (index) {
           return {
+            'seq': returnValue[index].seq,
             'name': returnValue[index].trailName,
             'trailDistance': returnValue[index].trailDistance,
             'trailUrl': returnValue[index].trailUrl,
@@ -41,6 +42,7 @@ class BackendService {
 }
 
 class Post {
+  int seq;
   String trailUrl;
   String trailName;
   String trailDistance;
@@ -48,6 +50,7 @@ class Post {
   List<Activity> activities;
 
   Post({
+    this.seq,
     this.trailUrl,
     this.trailName,
     this.trailDistance,
@@ -60,7 +63,9 @@ List<Post> makePostList(List<dynamic> json) {
   for (int i = 0; i < json.length; i++) {
     String trailsJsonName = json[i]['name'];
     String trailCourseName = json[i]['courseName'];
+    int seq = json[i]['seq'];
     values.add(Post(
+      seq: seq,
       trailUrl:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRo93aJCVkzf3LytZ4x7npQ6c_yLz9hTl7BDg&usqp=CAU',
       trailName: trailsJsonName + '\n' + trailCourseName,
@@ -75,6 +80,7 @@ List<Post> makePostList(List<dynamic> json) {
 
 List<Activity> activities = [
   Activity(
+    seq: 222,
     imageUrl: 'lib/assets/images/dulle3.jpeg',
     name: '과수원을 걷는 느낌이었다 좋은 향기가 가득한 산책로',
     type: '백상우',
@@ -83,6 +89,7 @@ List<Activity> activities = [
     price: 30,
   ),
   Activity(
+    seq: 222,
     imageUrl: 'lib/assets/images/dulle1.jpeg',
     name: '연인이랑 손잡고 걷기에 아주 좋은 산책로',
     type: '지존 이승권',
@@ -91,6 +98,7 @@ List<Activity> activities = [
     price: 210,
   ),
   Activity(
+    seq: 222,
     imageUrl: 'lib/assets/images/dulle2.jpeg',
     name: '태양이 나뭇잎에 가려져서 느껴지는 따뜻한 온기와 산책로에서 불어오는 바람이 좋았다. ',
     type: '사푼 여신 사푼사푼',

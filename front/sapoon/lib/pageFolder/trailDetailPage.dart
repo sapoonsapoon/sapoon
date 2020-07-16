@@ -44,13 +44,13 @@ class _TrailDetailPageState extends State<TrailDetailPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    SvgPicture.asset("assets/icons/sun.svg"),
+                    SvgPicture.asset("assets/icons/sun.svg",height: 23,width: 23,),
                     Text(':⭐ 2개'),
-                    SvgPicture.asset("assets/icons/icon_2.svg"),
+                    SvgPicture.asset("assets/icons/icon_2.svg",height: 23,width: 23,),
                     Text(':⭐ 2개'),
-                    SvgPicture.asset("assets/icons/icon_3.svg"),
+                    SvgPicture.asset("assets/icons/icon_3.svg",height: 23,width: 23,),
                     Text(':⭐ 2개'),
-                    SvgPicture.asset("assets/icons/icon_4.svg"),
+                    SvgPicture.asset("assets/icons/icon_4.svg",height: 18,width: 23,),
                     Text(':⭐ 2개'),
                   ],
                 ),
@@ -90,7 +90,7 @@ class _TrailDetailPageState extends State<TrailDetailPage> {
                         color: Colors.white,
                         onPressed: () {},
                         child: Text(
-                          "답글달기",
+                          "산책로 작성하기",
                           style: TextStyle(
                             color: Colors.black54,
                             fontSize: 16,

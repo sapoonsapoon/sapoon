@@ -36,18 +36,20 @@ class _TrailEditPageState extends State<TrailEditPage> {
   @override
   void initState() {
     super.initState();
-    Hive.box('image').put('setting',0);
+    Hive.box('image').put('sun',0);
     Hive.box('image').put('health',0);
     Hive.box('image').put('sight',0);
-    Hive.box('image').put('company',0);
+    Hive.box('image').put('windy',0);
+    Hive.box('image').put('recommend',0);
     Hive.box('image').put('textController','');
     Hive.box('image').put('walkInit','');
     Hive.box('image').put('walkEnd','');
 
-    iconValue1 = Hive.box('image').get('setting');
+    iconValue1 = Hive.box('image').get('sun');
     iconValue2 = Hive.box('image').get('health');
     iconValue3 = Hive.box('image').get('sight');
-    iconValue4 = Hive.box('image').get('company');
+    iconValue4 = Hive.box('image').get('windy');
+    iconValue5 = Hive.box('image').get('recommend');
     textController = Hive.box('image').get('textController');
     walkInit = Hive.box('image').get('walkInit');
     walkEnd = Hive.box('image').get('walkEnd');
@@ -58,10 +60,11 @@ class _TrailEditPageState extends State<TrailEditPage> {
     _everySecond = Timer.periodic(Duration(seconds: 1), (Timer t) {
       setState(() {
         _now = DateTime.now().second.toString();
-        iconValue1 = Hive.box('image').get('setting');
+        iconValue1 = Hive.box('image').get('sun');
         iconValue2 = Hive.box('image').get('health');
         iconValue3 = Hive.box('image').get('sight');
-        iconValue4 = Hive.box('image').get('company');
+        iconValue4 = Hive.box('image').get('windy');
+        iconValue5 = Hive.box('image').get('recommend');
         textController = Hive.box('image').get('textController');
         walkInit = Hive.box('image').get('walkInit');
         walkEnd = Hive.box('image').get('walkEnd');
@@ -93,7 +96,7 @@ class _TrailEditPageState extends State<TrailEditPage> {
                 title: '입력해주세요!',
                 country: '작성자 본인',
                 price: 0,
-                rating: 3,
+                rating: 0,
                 startTime: '20202',
                 endTime: '20202',
               ),
@@ -103,13 +106,13 @@ class _TrailEditPageState extends State<TrailEditPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    SvgPicture.asset("assets/icons/sun.svg",height: 30,width: 30,),
+                    SvgPicture.asset("assets/icons/sun.svg",height: 23,width: 23,),
                     Text(':⭐ '+iconValue1.toString()+'개'),
-                    SvgPicture.asset("assets/icons/icon_2.svg",height: 30,width: 30,),
+                    SvgPicture.asset("assets/icons/icon_2.svg",height: 23,width: 23),
                     Text(':⭐ '+iconValue2.toString()+'개'),
-                    SvgPicture.asset("assets/icons/icon_3.svg",height: 30,width: 30,),
+                    SvgPicture.asset("assets/icons/icon_3.svg",height: 23,width: 23),
                     Text(':⭐ '+iconValue3.toString()+'개'),
-                    SvgPicture.asset("assets/icons/icon_4.svg",height: 20,width: 20,),
+                    SvgPicture.asset("assets/icons/icon_4.svg",height: 18,width: 14),
                     Text(':⭐ '+iconValue4.toString()+'개'),
                   ],
                 ),
@@ -129,16 +132,17 @@ class _TrailEditPageState extends State<TrailEditPage> {
                       onPressed: () {
                         createSignUp(
                           context,
-                         "백상우",
+                         "sangwoo",
                           textController,
-                          iconValue1.toDouble(),
-                          iconValue2.toDouble(),
-                          iconValue3.toDouble(),
-                          iconValue4.toDouble(),
-                          iconValue5.toDouble(),
+                          iconValue1.toString(),
+                          iconValue2.toString(),
+                          iconValue3.toString(),
+                          iconValue4.toString(),
+                          5.toString(),
+                          96.toString(),
                           walkInit,
                           walkEnd,
-                          'a',
+                          widget.activity.seq,
                         );
                       },
                       child: Text(
@@ -184,18 +188,30 @@ Future createSignUp(
     BuildContext context,
     String writer,
     String contents,
-    double score1,
-    double score2,
-    double score3,
-    double score4,
-    double startScore,
+    String score1,
+    String score2,
+    String score3,
+    String score4,
+    String startScore,
+    String totalScore,
     String startTime,
     String endTime,
-    String imgUrl,
+    int seq,
     ) async {
   print('시작합니다');
   String imageData = Hive.box('image').get('image');
   try {
+    print(writer);
+    print(contents);
+    print(score1);
+    print(score2);
+    print(score3);
+    print(score4);
+    print(startScore);
+    print(totalScore);
+    print(startTime);
+    print(endTime);
+    print(seq);
     ///[1] CREATING INSTANCE
     var dioRequest = dio.Dio();
     dioRequest.options.baseUrl = 'http://34.80.151.71/sapoon/community';
@@ -215,9 +231,13 @@ Future createSignUp(
       "score3" : score3,
       "score4" : score4,
       "starScore" : startScore,
-      "startTime" : startTime,
-      "endTime" : endTime,
+      "totalScore" : totalScore,
+      "startTime" : "2020-07-11 20:20:20",
+      "endTime" : "2020-07-11 20:30:20",
+//      "startTime" : startTime,
+//      "endTime" : endTime,
       "imgFile" : await MultipartFile.fromFile(imageData, filename: 'sapoon.jpg'),
+      "dulle_seq" : seq,
     });
 
     //[5] SEND TO SERVER
@@ -225,10 +245,16 @@ Future createSignUp(
       dioRequest.options.baseUrl,
       data: formData,
     );
-    final result = json.decode(response.toString());
-    print(result);
+    print(writer);
+    print(response.data);
+    print(response.headers);
+
+    if( response.data['result'] == 'success'){
+      Navigator.pop(context);
+    }
   } catch (err) {
     print('ERROR  $err');
+
   }
 
 }

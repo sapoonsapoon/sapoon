@@ -1,4 +1,5 @@
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 Card CardWidget({
@@ -18,8 +19,11 @@ Card CardWidget({
           children: <Widget>[
             ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
-              child: Image.network(
-                  '$trailUrl',
+              child: CachedNetworkImage(
+                  imageUrl: '$trailUrl',
+                  progressIndicatorBuilder: (context, url, downloadProgress) =>
+                      CircularProgressIndicator(value: downloadProgress.progress, valueColor: AlwaysStoppedAnimation<Color>(Colors.blueAccent),),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
                   height:
                   MediaQuery.of(context).size.width * 0.55,
                   fit: BoxFit.fill,

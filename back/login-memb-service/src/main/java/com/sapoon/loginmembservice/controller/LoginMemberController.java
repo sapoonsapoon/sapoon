@@ -12,6 +12,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/sapoon/member")
 public class LoginMemberController {
@@ -31,7 +34,8 @@ public class LoginMemberController {
     public ResponseEntity<?> getLogin(@RequestBody MemberInfoVO memberInfoVO){
         logger.info("loginMemberController - sapoon/member/login");
         try{
-            return ResponseEntity.ok().headers(getTokenHeader(loginMemberService.login(memberInfoVO))).build();
+            return ResponseEntity.ok().headers(getTokenHeader(loginMemberService.login(memberInfoVO)))
+                    .body(loginMemberService.selectNickname(memberInfoVO));
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(getErrorHeader()).body(e.getMessage());
         }
@@ -128,6 +132,7 @@ public class LoginMemberController {
     }
     private HttpHeaders getTokenHeader(String token) {
         HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.set("Authorization",token);
         return httpHeaders;
     }

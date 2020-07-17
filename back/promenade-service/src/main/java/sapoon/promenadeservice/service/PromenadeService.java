@@ -23,6 +23,10 @@ public class PromenadeService {
     public List<DullegilVo> searchDullegil(String dullegil_name){
         List<DullegilVo> dullegilVoList = promenadeMapper.searchDullegil(dullegil_name);
 
+        for(int i = 0; i < dullegilVoList.size(); i++){
+            dullegilVoList.get(i).setDullegilDetailVo(promenadeMapper.selectDullegilDetail(dullegilVoList.get(i).getSeq()));
+        }
+
         return dullegilVoList;
     }
 

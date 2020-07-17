@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.UnsupportedEncodingException;
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 @Service
@@ -303,5 +304,18 @@ public class LoginMemberService {
 
         logger.info("id : " + memberInfoVO.getId() +" / token : " + Token );
         return Token;
+    }
+
+    /**
+     * 로그인시 닉네임 찾기
+     * @param memberInfoVO
+     * @return
+     */
+    public Map<String, String> selectNickname(MemberInfoVO memberInfoVO){
+        Map<String, String> nicknameMap = new HashMap<>();
+
+        nicknameMap.put("nickname",memberInfoMapper.selectNickname(memberInfoVO));
+
+        return nicknameMap;
     }
 }

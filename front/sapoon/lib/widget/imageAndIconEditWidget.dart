@@ -1,10 +1,12 @@
 import 'dart:io';
-
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:popup_menu/popup_menu.dart';
+
 
 import 'iconCard.dart';
 
@@ -34,32 +36,6 @@ class _ImageAndIconEditState extends State<ImageAndIconEdit> {
   @override
   void initState() {
     // TODO: implement initState
-    menu = PopupMenu(items: [
-      MenuItem(
-          title: 'Mail',
-          image: Icon(
-            Icons.mail,
-            color: Colors.white,
-          )),
-      MenuItem(
-          title: 'Power',
-          image: Icon(
-            Icons.power,
-            color: Colors.white,
-          )),
-      MenuItem(
-          title: 'Setting',
-          image: Icon(
-            Icons.settings,
-            color: Colors.white,
-          )),
-      MenuItem(
-          title: 'PopupMenu',
-          image: Icon(
-            Icons.menu,
-            color: Colors.white,
-          ))
-    ], onClickMenu: onClickMenu, onDismiss: onDismiss, maxColumn: 4);
     super.initState();
   }
 
@@ -68,7 +44,7 @@ class _ImageAndIconEditState extends State<ImageAndIconEdit> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 0),
       child: SizedBox(
-        height: widget.size.height * 0.6,
+        height: widget.size.height * 0.61,
         child: Row(
           children: <Widget>[
             Expanded(
@@ -88,24 +64,29 @@ class _ImageAndIconEditState extends State<ImageAndIconEdit> {
                     ),
                     IconCard(
                       icon: "assets/icons/sun.svg",
-                      sizeHW: 50,
-                      iconName: '관리 점수',
+                      sizeHW: 41,
+                      iconName: '햇살 점수',
                     ),
                     IconCard(
                       icon: "assets/icons/icon_2.svg",
-                      sizeHW: 50,
+                      sizeHW: 41,
                       iconName: '체력 소모 정도',
                     ),
                     IconCard(
                       icon: "assets/icons/icon_3.svg",
-                      sizeHW: 50,
+                      sizeHW: 41,
                       iconName: '전망 점수',
                     ),
                     IconCard(
                       icon: "assets/icons/icon_4.svg",
-                      sizeHW: 50,
-                      iconName: '추천 동행자',
+                      sizeHW: 41,
+                      iconName: '바람 점수',
                     ),
+                    IconCard(
+                      icon: "assets/icons/liked.svg",
+                      sizeHW: 41,
+                      iconName: '추천 점수',
+                    )
                   ],
                 ),
               ),
@@ -177,16 +158,8 @@ class _ImageAndIconEditState extends State<ImageAndIconEdit> {
 
     setState(() {
       _image = File(image.path);
+      Hive.box('image').put('image', image.path);
     });
   }
 }
 
-
-
-void onClickMenu(MenuItemProvider item) {
-  print('Click menu -> ${item.menuTitle}');
-}
-
-void onDismiss() {
-  print('Menu is dismiss');
-}

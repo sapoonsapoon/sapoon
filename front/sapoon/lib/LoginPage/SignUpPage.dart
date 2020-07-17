@@ -474,7 +474,7 @@ Future createSignUp(
   print('시작합니다');
   print(birthday);
   final http.Response response = await http.post(
-    'http://35.201.203.73/sapoon/member/regist',
+    'http://34.80.151.71/sapoon/member/regist',
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -489,8 +489,6 @@ Future createSignUp(
     }),
   );
   if (response.statusCode == 200) {
-    // If the server did return a 201 CREATED response,
-    // then parse the JSON.
     print('성공적이에요!');
   } else if(response.statusCode == 401){
     print('ID가 중복일때 나오는 에러');

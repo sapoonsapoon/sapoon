@@ -33,9 +33,9 @@ public class PromenadeController {
         둘레길 검색
      */
     @GetMapping("/dullegil/search")
-    public List<DullegilVo> searchDullegil(@RequestParam String dullegil_name){
+    public List<DullegilVo> searchDullegil(@RequestParam String dullegilName){
         List<DullegilVo> dullegilVoList = new ArrayList<DullegilVo>();
-        dullegilVoList = promenadeService.searchDullegil(dullegil_name);
+        dullegilVoList = promenadeService.searchDullegil(dullegilName);
 
         return dullegilVoList;
     }
@@ -57,5 +57,14 @@ public class PromenadeController {
     public List<DullegilVo> mainRecommendByLocation(){
         List<DullegilVo> dullegilVoList = new ArrayList<DullegilVo>();
         return dullegilVoList;
+    }
+
+    /*
+        서울 구별 둘레길 수 조회
+     */
+    @GetMapping("/dullegil/count")
+    public int getDullegilCountByGu(String guName){
+        int count = promenadeService.getDullegilCount(guName);
+        return count;
     }
 }

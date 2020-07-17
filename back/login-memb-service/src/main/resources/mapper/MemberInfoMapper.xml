@@ -125,4 +125,13 @@
             email = #{email}
     </select>
 
+
+    <select id="selectNickname" parameterType="MemberInfoVO" resultType="String">
+        SELECT
+            nickname
+        FROM
+            MEMBER_INFO
+         WHERE
+            ID = #{id}
+    </select>
 </mapper>

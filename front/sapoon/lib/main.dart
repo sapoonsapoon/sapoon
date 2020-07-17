@@ -1,11 +1,16 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sapoon/routes.dart';
+import 'package:hive/hive.dart';
 
+import 'package:sapoon/routes.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'LoginPage/LoginPage.dart';
 
-void main() => runApp(MyApp());
+void main() async{
+  await Hive.initFlutter();
+  await Hive.openBox('image');
+  runApp(MyApp()); }
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.

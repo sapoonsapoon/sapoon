@@ -4,6 +4,10 @@ spring:
     url: jdbc:log4jdbc:mysql://35.201.245.206:30220/sppromendas
     username: root
     password: new1234!
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
 
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml

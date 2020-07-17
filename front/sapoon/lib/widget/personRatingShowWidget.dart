@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sapoon/widget/showDialogTimeWidget.dart';
 
 class PersonRatingShow extends StatelessWidget {
   const PersonRatingShow({
@@ -92,6 +93,6 @@ Text _buildRatingStars(int rating) {
     stars += '⭐ ';
   }
   stars.trim();
-  return Text("주간: "+stars);
+  return Text("추천 점수 : "+stars);
 }
 

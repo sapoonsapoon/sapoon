@@ -44,22 +44,23 @@ class _TrailDetailPageState extends State<TrailDetailPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    SvgPicture.asset("assets/icons/icon_01.svg"),
+                    SvgPicture.asset("assets/icons/sun.svg",height: 23,width: 23,),
                     Text(':⭐ 2개'),
-                    SvgPicture.asset("assets/icons/icon_02.svg"),
+                    SvgPicture.asset("assets/icons/icon_2.svg",height: 23,width: 23,),
                     Text(':⭐ 2개'),
-                    SvgPicture.asset("assets/icons/icon_03.svg"),
+                    SvgPicture.asset("assets/icons/icon_3.svg",height: 23,width: 23,),
                     Text(':⭐ 2개'),
-                    SvgPicture.asset("assets/icons/icon_04.svg"),
+                    SvgPicture.asset("assets/icons/icon_4.svg",height: 18,width: 23,),
                     Text(':⭐ 2개'),
                   ],
                 ),
               ),
+
               Row(
                 children: <Widget>[
                   SizedBox(
                     width: size.width / 2,
-                    height: 84,
+                    height: 64,
                     child: FlatButton(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(
@@ -77,18 +78,25 @@ class _TrailDetailPageState extends State<TrailDetailPage> {
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: FlatButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(20),
+                  SizedBox(
+                      width: size.width / 2,
+                      height: 64,
+                      child: FlatButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                          ),
                         ),
-                      ),
-                      color: Colors.redAccent,
-                      onPressed: () {},
-                      child: Text("삭제하기"),
-                    ),
-                  ),
+                        color: Colors.white,
+                        onPressed: () {},
+                        child: Text(
+                          "산책로 작성하기",
+                          style: TextStyle(
+                            color: Colors.black54,
+                            fontSize: 16,
+                          ),
+                        ),
+                      )),
                 ],
               ),
             ],

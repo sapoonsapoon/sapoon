@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class CommunityBoardPage extends StatefulWidget {
@@ -122,13 +123,18 @@ class _CommunityBoardPageState extends State<CommunityBoardPage> {
                   children: <Widget>[
                     ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
-                      child: Image.network(
-                          'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRo93aJCVkzf3LytZ4x7npQ6c_yLz9hTl7BDg&usqp=CAU',
+                      child: CachedNetworkImage(
+                        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRo93aJCVkzf3LytZ4x7npQ6c_yLz9hTl7BDg&usqp=CAU",
+                          progressIndicatorBuilder: (context, url, downloadProgress) =>
+                              CircularProgressIndicator(value: downloadProgress.progress),
+                          errorWidget: (context, url, error) => Icon(Icons.error),
                           height:
                           MediaQuery.of(context).size.width * 0.35,
                           fit: BoxFit.fill,
                           width:
-                          MediaQuery.of(context).size.width * 0.42),
+                          MediaQuery.of(context).size.width * 0.42
+                      ),
+
                     ),
                     SizedBox(
                       height: MediaQuery.of(context).size.width * 0.01,

@@ -26,7 +26,7 @@
         d3.json('https://storage.googleapis.com/map-geo-json/seoul_municipalities_topo_simple.json')
             .then(function(data) {
 
-            var width = 1024, height = 1024;
+            var width = 512, height = 640;
             var svg = d3.select('.map-wrapper')
                 .append('svg')
                 .attr('width', width).attr('height', height);
@@ -43,10 +43,10 @@
             var path = d3.geoPath().projection(projection);
             var bounds = path.bounds(geojson);
             var widthScale = (bounds[1][0] - bounds[0][0]) / width;
-            var heightScale = (bounds[1][1] - bounds[0][1]) / width;
+            var heightScale = (bounds[1][1] - bounds[0][1]) / height;
             var scale = 1 / Math.max(widthScale, heightScale);
             var xoffset = width / 2 - scale * (bounds[1][0] + bounds[0][0]) / 2 + 10;
-            var yoffset = height / 2 - scale * (bounds[1][1] + bounds[0][1]) / 2 + 80;
+            var yoffset = height / 2 - scale * (bounds[1][1] + bounds[0][1]) / 2 - 100;
             var offset = [xoffset, yoffset];
             projection.scale(scale).translate(offset);
 
@@ -87,6 +87,11 @@
     }
 </script>
 <style lang="css">
+    /*.map-wrapper {*/
+    /*    width: 512px;*/
+    /*    height: 512px;*/
+    /*}*/
+
     svg path {
         fill: #efefef;
         stroke: white;

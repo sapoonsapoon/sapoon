@@ -104,7 +104,7 @@ public class CommunityController {
      * @return
      */
     @GetMapping("/{seq}")
-    public ResponseEntity<Map> getCommunity(@PathVariable("seq") String seq){
+    public ResponseEntity<Map> getCommunity(@PathVariable("seq") int seq){
         logger.info("/sapoon/community/{seq}");
         Map result = new HashMap();
 
@@ -128,7 +128,7 @@ public class CommunityController {
      * @return
      */
     @GetMapping("/dulle/{dulleSeq}")
-    public ResponseEntity<Map> getCommunityListByDulle(@PathVariable("dulleSeq") String dulleSeq){
+    public ResponseEntity<Map> getCommunityListByDulle(@PathVariable("dulleSeq") int dulleSeq){
         logger.info("/sapoon/community/dullegil/{dulleSeq}");
         Map result = new HashMap();
 

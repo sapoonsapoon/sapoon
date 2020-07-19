@@ -11,7 +11,7 @@ import java.util.List;
 public interface CommunityMapper {
     int insertCommuity(CommunityVo communityVo);
     List<CommunityVo> selectCommunityList();
-    List<CommunityVo> selectCommunityListByDulle(String dulleSeq);
+    List<CommunityVo> selectCommunityListByDulle(int dulleSeq);
 
-    CommunityVo selectCommunity(String seq);
+    CommunityVo selectCommunity(int seq);
 }

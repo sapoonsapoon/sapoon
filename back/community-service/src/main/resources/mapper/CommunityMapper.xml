@@ -13,6 +13,7 @@
 
     <select id="selectCommunityList" resultType="sapoon.communityservice.vo.CommunityVo">
        SELECT seq, writer, contents, score1, score2, score3, score4,
+            star_score as starScore,
             total_score as totalScore,
             DATE_FORMAT(start_time,'%h:%i%p') as startTime,
             DATE_FORMAT(end_time,'%h:%i%p') as endTime,
@@ -21,9 +22,10 @@
        FROM community ORDER BY reg_date DESC LIMIT 5;
     </select>
 
-    <select id="selectCommunity" resultType="sapoon.communityservice.vo.CommunityVo">
+    <select id="selectCommunity" parameterType="int" resultType="sapoon.communityservice.vo.CommunityVo">
         SELECT seq, writer, contents, score1, score2, score3, score4,
             total_score as totalScore,
+            star_score as starScore,
             DATE_FORMAT(start_time,'%h:%i%p') as startTime,
             DATE_FORMAT(end_time,'%h:%i%p') as endTime,
             img_url as imgUrl, reg_date as regDate,
@@ -31,7 +33,7 @@
         FROM community WHERE seq = #{seq}
     </select>
 
-    <select id="selectCommunityListByDulle"  parameterType="string" resultType="sapoon.communityservice.vo.CommunityVo">
+    <select id="selectCommunityListByDulle"  parameterType="int" resultType="sapoon.communityservice.vo.CommunityVo">
        SELECT seq, writer, contents, score1, score2, score3, score4,
             total_score as totalScore,
             DATE_FORMAT(start_time,'%h:%i%p') as startTime,

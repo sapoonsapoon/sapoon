@@ -61,7 +61,7 @@ public class CommunityService {
         return resultMap;
     }
 
-    public Map<String, Object> getCommunity(String seq) {
+    public Map<String, Object> getCommunity(int seq) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
 
         resultMap.put("result",null);
@@ -84,7 +84,7 @@ public class CommunityService {
         return resultMap;
     }
 
-    public Map<String, Object> getCommunityListByDulle(String dulleSeq) {
+    public Map<String, Object> getCommunityListByDulle(int dulleSeq) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
 
         resultMap.put("result",null);

@@ -11,7 +11,7 @@
     </select>
 
     <select id="searchDullegil" parameterType="string" resultType="sapoon.promenadeservice.vo.DullegilVo">
-        SELECT seq, name, course_name
+        SELECT *
         FROM sppromendas.dullegil_info
         WHERE name LIKE CONCAT('%', #{dullegilName}, '%') LIMIT 5;
     </select>

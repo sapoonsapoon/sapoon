@@ -54,6 +54,8 @@
             function guClick (d) {
                 // 색 칠하기
                 d3.select(this).style('fill', '#ffd8df');
+                console.log(d.properties.SIG_KOR_NM);
+                sapoon.postMesseage(d.properties.SIG_KOR_NM);
             }
 
             function guMouseOver (d) {

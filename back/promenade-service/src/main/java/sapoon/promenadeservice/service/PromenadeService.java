@@ -47,4 +47,9 @@ public class PromenadeService {
         int dullegilCount = promenadeMapper.getDullegilCount(guName);
         return dullegilCount;
     }
+
+    public List<DullegilVo> getDullegilInfoByGu(String guName){
+        List<DullegilVo> dullegilVoList = promenadeMapper.getDullegilInfoByGu(guName);
+        return dullegilVoList;
+    }
 }

@@ -67,4 +67,14 @@ public class PromenadeController {
         int count = promenadeService.getDullegilCount(guName);
         return count;
     }
+
+    /*
+        서울 구 이름으로 정보 가져오기
+     */
+    @GetMapping("/dullegil/search/gu")
+    public List<DullegilVo> getDullegilInfobyGu(String guName){
+        List<DullegilVo> dullegilVoList = new ArrayList<>();
+        dullegilVoList = promenadeService.getDullegilInfoByGu(guName);
+        return dullegilVoList;
+    }
 }

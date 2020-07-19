@@ -27,4 +27,9 @@
         SELECT count(*) FROM sppromendas.dullegil_info
         WHERE region1 LIKE CONCAT('%', #{guName}, '%')
     </select>
+
+    <select id="getDullegilInfoByGu" resultType="sapoon.promenadeservice.vo.DullegilVo">
+        SELECT * FROM sppromendas.dullegil_info
+        WHERE region1 LIKE CONCAT('%', #{guName}, '%')
+    </select>
 </mapper>

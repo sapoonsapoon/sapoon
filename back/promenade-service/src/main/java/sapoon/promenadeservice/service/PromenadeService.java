@@ -91,24 +91,29 @@ public class PromenadeService {
      */
     public List<DullegilVo> getMainDullegilInfoByGeo(double x, double y) {
 
-        String locationCoords = Double.toString(x) + "," + Double.toString(y);
+        String guName = "종로구"; // default
 
-        // 위치정보 파라미터
-        UriComponentsBuilder url = UriComponentsBuilder.fromHttpUrl("http://api.vworld.kr/req/address")
-                .queryParam("service", "address")
-                .queryParam("request", "getAddress")
-                .queryParam("key", "54FADA08-E44F-302D-B5C8-74B2F992CC3F")
-                .queryParam("type", "ROAD")
-                .queryParam("point", locationCoords);
+        // x, y 가 0 처리
+        if(x != 0.0 && y != 0.0 ){
+            String locationCoords = Double.toString(x) + "," + Double.toString(y);
 
-        Map<String, Object> response =
-                restTemplate.getForObject(url.toUriString(), Map.class);
+            // 위치정보 파라미터
+            UriComponentsBuilder url = UriComponentsBuilder.fromHttpUrl("http://api.vworld.kr/req/address")
+                    .queryParam("service", "address")
+                    .queryParam("request", "getAddress")
+                    .queryParam("key", "54FADA08-E44F-302D-B5C8-74B2F992CC3F")
+                    .queryParam("type", "ROAD")
+                    .queryParam("point", locationCoords);
 
-        // 구 이름 추출
-        Map<String, Object> tmpResponse = (Map)response.get("response");
-        List<Map> result = (List)tmpResponse.get("result");
-        Map<String, String> structure = (Map)result.get(0).get("structure");
-        String guName = structure.get("level2");
+            Map<String, Object> response =
+                    restTemplate.getForObject(url.toUriString(), Map.class);
+
+            // 구 이름 추출
+            Map<String, Object> tmpResponse = (Map)response.get("response");
+            List<Map> result = (List)tmpResponse.get("result");
+            Map<String, String> structure = (Map)result.get(0).get("structure");
+            guName = structure.get("level2");
+        }
 
         List<DullegilVo> dullegilVoList = promenadeMapper.getMainDullegilInfoByGeo(guName);
 

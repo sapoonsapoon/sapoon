@@ -46,7 +46,7 @@
             var widthScale = (bounds[1][0] - bounds[0][0]) / width;
             var heightScale = (bounds[1][1] - bounds[0][1]) / height;
             var scale = 1 / Math.max(widthScale, heightScale);
-            var xoffset = width / 2 - scale * (bounds[1][0] + bounds[0][0]) / 2;
+            var xoffset = width / 2 - scale * (bounds[1][0] + bounds[0][0]) / 2 - 15;
             var yoffset = height / 2 - scale * (bounds[1][1] + bounds[0][1]) / 2;
             var offset = [xoffset, yoffset];
             projection.scale(scale).translate(offset);
@@ -84,7 +84,8 @@
                 .attr('dx', '-1.5em')
                 .attr('dy', '.35em')
                 .attr('class', 'municipality-label')
-                .text(function (d) { return d.properties.SIG_KOR_NM });
+                .text(function (d) { return d.properties.SIG_KOR_NM })
+                .on('click', guClick);
         });
     }
 </script>
@@ -106,7 +107,7 @@
         border-radius:75px;
         text-align:center;
 
-        font-size:10px; color:#000000;
+        font-size:7px; color:#000000;
         vertical-align:middle;
         line-height:100px;
     }

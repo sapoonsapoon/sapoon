@@ -57,6 +57,10 @@
                 d3.select(this).style('fill', '#ffd8df');
             }
 
+            function guNameClick (d) {
+                Toast.postMessage(d.properties.SIG_KOR_NM);
+            }
+
             function guMouseOver (d) {
                 d3.select(this).style('fill', '#dfdfe8');
             }
@@ -85,7 +89,7 @@
                 .attr('dy', '.35em')
                 .attr('class', 'municipality-label')
                 .text(function (d) { return d.properties.SIG_KOR_NM })
-                .on('click', guClick);
+                .on('click', guNameClick);
         });
     }
 </script>
@@ -107,9 +111,13 @@
         border-radius:75px;
         text-align:center;
 
-        font-size:7px; color:#000000;
+        font-size:5px; color:#000000;
         vertical-align:middle;
         line-height:100px;
+    }
+
+    text{
+        font-size: 13px;
     }
 </style>
 </html>

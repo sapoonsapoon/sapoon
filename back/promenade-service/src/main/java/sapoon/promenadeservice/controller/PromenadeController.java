@@ -3,12 +3,14 @@ package sapoon.promenadeservice.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import sapoon.promenadeservice.service.PromenadeService;
 import sapoon.promenadeservice.vo.DullegilDetailVo;
 import sapoon.promenadeservice.vo.DullegilVo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/sapoon/promenade")
@@ -51,11 +53,12 @@ public class PromenadeController {
     }
 
     /*
-        위치 기반 둘레길 추천
+        메인 화면 위치 기반 둘레길 추천(랜덤 5개)
      */
     @GetMapping("/dullegil/main/recommend")
-    public List<DullegilVo> mainRecommendByLocation(){
-        List<DullegilVo> dullegilVoList = new ArrayList<DullegilVo>();
+    public List<DullegilVo> mainRecommendByLocation(double x, double y){
+        List<DullegilVo> dullegilVoList = promenadeService.getMainDullegilInfoByGeo(x, y);
+
         return dullegilVoList;
     }
 

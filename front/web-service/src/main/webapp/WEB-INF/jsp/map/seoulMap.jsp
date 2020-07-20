@@ -53,8 +53,8 @@
 
             function guClick (d) {
                 // 색 칠하기
+                Toast.postMessage(d.properties.SIG_KOR_NM);
                 d3.select(this).style('fill', '#ffd8df');
-                return d.properties.SIG_KOR_NM;
             }
 
             function guMouseOver (d) {

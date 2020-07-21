@@ -145,4 +145,29 @@ public class CommunityController {
 
     }
 
+
+    /**
+     * dulleSeq로 커뮤니티의 평균점수, 총 게시글 갯수
+     *
+     * @param dulleSeq
+     * @return communityPostsCount, 평균점수.
+     */
+    @GetMapping("/score/{dulleSeq}")
+    public ResponseEntity<Map> getTotalCommunityCount(@PathVariable("dulleSeq") int dulleSeq){
+        logger.info("/sapoon/community/score/{dulleSeq}");
+        Map result = new HashMap();
+
+        result = communityService.getCommunityListByDulle(dulleSeq);
+
+        if (result.get("result") == null) {
+            result.put("result", "fail");
+            logger.info("커뮤니티 평균점수, 총게시글수 return success");
+            return new ResponseEntity<Map>(result, HttpStatus.BAD_REQUEST);
+        }  else {
+            logger.info("커뮤니티 평균점수, 총게시글수 return success");
+            return new ResponseEntity<Map>(result, HttpStatus.OK);
+        }
+
+    }
+
 }

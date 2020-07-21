@@ -157,7 +157,7 @@ public class CommunityController {
         logger.info("/sapoon/community/score/{dulleSeq}");
         Map result = new HashMap();
 
-        result = communityService.getCommunityListByDulle(dulleSeq);
+        result = communityService.getTotalCommunityCount(dulleSeq);
 
         if (result.get("result") == null) {
             result.put("result", "fail");

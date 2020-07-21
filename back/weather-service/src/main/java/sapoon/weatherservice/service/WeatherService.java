@@ -49,7 +49,7 @@ public class WeatherService {
     Producer producer;
 
 
-    SimpleDateFormat format1 = new SimpleDateFormat ( "YYYY-MM-dd");
+    SimpleDateFormat format1 = new SimpleDateFormat ( "YYYY-MM-dd HH");
     Date time = new Date();
     String time1 = format1.format(time);
 
@@ -136,9 +136,10 @@ public class WeatherService {
 
         Map<String, Object> result = new HashMap<>();
 
-        String hour = time1.split("-")[1];
+        String hour = time1.split(" ")[1];
+        System.out.println("time1 "+ time1);
         System.out.println("hour "+ hour);
-        if(hour.contains("0")) hour = hour.split("0")[1];
+       // if(hour.contains("0")) hour = hour.split("0")[1];
         System.out.println("hour : "+hour);
         //db조회
         AdministrativeAreaInfoVO administrativeAreaInfoVO = weatherMapper.findCurrentWeather(nx, ny, hour);
@@ -159,9 +160,9 @@ public class WeatherService {
 
         Map<String, Object> result = new HashMap<>();
 
-        String hour = time1.split("-")[1];
+        String hour = time1.split(" ")[1];
         System.out.println("hour "+ hour);
-        if(hour.contains("0")) hour = hour.split("0")[1];
+//        if(hour.contains("0")) hour = hour.split("0")[1];
         System.out.println("hour : "+hour);
         //db조회
         MiseVO miseVO = weatherMapper.findCurrentMise(nx, ny, hour);

@@ -7,7 +7,7 @@
 
 
     <select id="findCurrentWeather" resultType="sapoon.weatherservice.vo.AdministrativeAreaInfoVO">
-        SELECT wf.date, wf.hour, wf.temp, wf.tmx, wf.tmn, wf.sky, wf.pop, w.nx, w.ny FROM administrative_area_info w
+        SELECT wf.date as day, wf.hour, wf.temp, wf.tmx, wf.tmn, wf.sky, wf.pop, w.nx, w.ny, wf.wf_kor as wfKor FROM administrative_area_info w
         INNER JOIN weather_forecast wf
         ON w.area_cd = wf.area_cd
         WHERE wf.date = CURDATE() ORDER BY ABS(nx - #{nx}), ABS(ny - #{ny}), ABS(wf.hour - #{hour}) LIMIT 1;

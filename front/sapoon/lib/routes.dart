@@ -3,8 +3,8 @@ import 'package:sapoon/LoginPage/LoginPage.dart';
 import 'PageHandlePage.dart';
 
 final routes = {
-  '/' : (BuildContext context) => RootPage(),
-  '/login': (BuildContext context) => RootPage(),
+  '/' : (BuildContext context) => LoginPage(),
+  '/login': (BuildContext context) => LoginPage(),
   '/main': (BuildContext context) => LandingPage()
   //LandingPage
 };

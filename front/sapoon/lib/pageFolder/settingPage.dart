@@ -1,6 +1,11 @@
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:hive/hive.dart';
+import 'package:sapoon/LoginPage/LoginPage.dart';
+import 'package:sapoon/rootPage.dart';
 
 class SettingsOnePage extends StatefulWidget {
   static final String path = "lib/src/pages/settings/settings1.dart";
@@ -11,11 +16,17 @@ class SettingsOnePage extends StatefulWidget {
 
 class _SettingsOnePageState extends State<SettingsOnePage> {
   bool _dark;
-
+  String _nickName = Hive.box('image').get('nickname');
+  String _photoUrl = Hive.box('image').get('profilePhoto');
+  String _sapoon = Hive.box('image').get('loginWithSapoon');
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
   @override
   void initState() {
     super.initState();
     _dark = false;
+    if(_sapoon == '1'){
+      _photoUrl='https://picsum.photos/200/300';
+    }
   }
 
   Brightness _getBrightness() {
@@ -38,7 +49,7 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
           backgroundColor: Colors.transparent,
           title: Text(
             'Settings',
-            style: TextStyle(color: _dark ? Colors.white : Colors.black),
+            style: TextStyle(fontSize: 21.0,fontFamily: "NanumSquareExtraBold",color: _dark ? Colors.white : Colors.black),
           ),
           actions: <Widget>[
             IconButton(
@@ -69,14 +80,14 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
                         //open edit profile
                       },
                       title: Text(
-                        "백상우님",
+                        _nickName+"님",
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
                       leading: CircleAvatar(
-                        backgroundImage: AssetImage('lib/assets/images/dulle3.jpeg'),
+                        backgroundImage: NetworkImage(_photoUrl),
                       ),
                       trailing: Icon(
                         Icons.edit,
@@ -97,7 +108,7 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
                             Icons.lock_outline,
                             color: Colors.green,
                           ),
-                          title: Text("비밀번호 변경"),
+                          title: Text("회원정보 수정"),
                           trailing: Icon(Icons.keyboard_arrow_right),
                           onTap: () {
                             //open change password
@@ -109,7 +120,7 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
                             FontAwesomeIcons.server,
                             color: Colors.green,
                           ),
-                          title: Text("내가 쓴 산책로"),
+                          title: Text("비밀번호 변경"),
                           trailing: Icon(Icons.keyboard_arrow_right),
                           onTap: () {
                             //open change language
@@ -121,10 +132,25 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
                             Icons.location_on,
                             color: Colors.green,
                           ),
-                          title: Text("위치 허용"),
+                          title: Text("산책로 선호 위치"),
                           trailing: Icon(Icons.keyboard_arrow_right),
                           onTap: () {
-                            //open change location
+
+                          },
+                        ),
+                        _buildDivider(),
+                        ListTile(
+                          leading: Icon(
+                            Icons.check_circle_outline,
+                            color: Colors.green,
+                          ),
+                          title: Text("로그아웃", style: TextStyle(color: Colors.blueAccent),),
+                          onTap: () {
+                            FirebaseAuth.instance.signOut();
+                            _googleSignIn.signOut();
+
+                            Route route = MaterialPageRoute(builder: (context) => RootPage());
+                            Navigator.pushReplacement(context, route);
                           },
                         ),
                       ],

@@ -1,20 +1,30 @@
 class Activity {
   int seq;
-  String imageUrl;
-  String name;
-  String type;
-  List<String> startTimes;
+  String writer;
+  String contents;
+  int score1;
+  int score2;
+  int score3;
+  int score4;
+  int starScore;
+  int totalScore;
   int rating;
-  int price;
-
+  List<String> startTimes;
+  String imgUrl;
+  int dulleSeq;
 
   Activity({
     this.seq,
-    this.imageUrl,
-    this.name,
-    this.type,
-    this.startTimes,
+    this.writer,
+    this.contents,
+    this.score1,
+    this.score2,
+    this.score3,
+    this.score4,
     this.rating,
-    this.price,
+    this.totalScore,
+    this.startTimes,
+    this.imgUrl,
+    this.dulleSeq,
   });
 }

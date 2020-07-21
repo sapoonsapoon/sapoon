@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
+import 'package:sapoon/rootPage.dart';
 
 import 'package:sapoon/routes.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -11,6 +12,7 @@ void main() async{
   await Hive.initFlutter();
   await Hive.openBox('image');
   runApp(MyApp()); }
+
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -24,7 +26,7 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.white,
         accentColor: Colors.white,
       ),
-      routes: routes,
+      home: RootPage(),
     );
   }
 }

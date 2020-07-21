@@ -1,9 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:sapoon/pageFolder/data.dart';
+import 'package:sapoon/pageFolder/dulleTrailDetailPage.dart';
 import 'package:sapoon/pageFolder/trailDetailPage.dart';
 import 'package:sapoon/pageFolder/trailEditPage.dart';
 import 'package:sapoon/widget/activityWidget.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:http/http.dart' as http;
 
 class DestinationPage extends StatefulWidget {
   final Post posts;
@@ -15,6 +18,26 @@ class DestinationPage extends StatefulWidget {
 }
 
 class _DestinationPageState extends State<DestinationPage> {
+  Future<List<Activity>> getActivityRecent() async {
+    final http.Response response = await http.get(
+        Uri.encodeFull('http://34.80.151.71/sapoon/community/dulle/' +
+            widget.posts.seq.toString()),
+        headers: {"Accept": "application/json"});
+    if (response.statusCode == 200) {
+      Future<List<Activity>> activityLis =
+          ActivityCommunityService.getCommunityAcitivys(
+              'http://34.80.151.71/sapoon/community/dulle/' +
+                  widget.posts.seq.toString());
+      return activityLis;
+    } else {
+      throw Exception();
+    }
+  }
+
+  Future<List<Activity>> futureActivity;
+
+  List<Activity> countActivity = new List<Activity>();
+
   Text _buildRatingStars(int rating) {
     String stars = '';
     for (int i = 0; i < rating; i++) {
@@ -22,6 +45,12 @@ class _DestinationPageState extends State<DestinationPage> {
     }
     stars.trim();
     return Text(stars);
+  }
+
+  @override
+  void initState() {
+    futureActivity = getActivityRecent();
+    super.initState();
   }
 
   @override
@@ -59,7 +88,8 @@ class _DestinationPageState extends State<DestinationPage> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 40.0),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 10.0, vertical: 40.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -75,7 +105,15 @@ class _DestinationPageState extends State<DestinationPage> {
                             icon: Icon(Icons.search),
                             iconSize: 30.0,
                             color: Colors.white,
-                            onPressed: () => Navigator.pop(context),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          DulleTrailDetailPage(
+                                            posts: widget.posts,
+                                          )));
+                            },
                           ),
                           IconButton(
                             icon: Icon(FontAwesomeIcons.sortAmountDown),
@@ -91,7 +129,7 @@ class _DestinationPageState extends State<DestinationPage> {
                 Positioned(
                   left: 20.0,
                   bottom: 20.0,
-                  width: MediaQuery.of(context).size.width*0.9,
+                  width: MediaQuery.of(context).size.width * 0.9,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -110,7 +148,7 @@ class _DestinationPageState extends State<DestinationPage> {
                           Icon(
                             FontAwesomeIcons.locationArrow,
                             size: 15.0,
-                            color: Colors.white60,
+                            color: Colors.green,
                           ),
                           SizedBox(width: 5.0),
                           Text(
@@ -138,127 +176,172 @@ class _DestinationPageState extends State<DestinationPage> {
               ],
             ),
             Expanded(
-              child: ListView.builder(
-                padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
-                itemCount: widget.posts.activities.length,
-                itemBuilder: (BuildContext context, int index) {
-                  Activity activity = widget.posts.activities[index];
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => TrailDetailPage(
-                            activity: activity,
-                          ),
-                        ),
-                      );
-                    },
-                    child: Stack(
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.fromLTRB(40.0, 5.0, 20.0, 5.0),
-                          height: 120.0,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.fromLTRB(100.0, 20.0, 20.0, 20.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+              child: FutureBuilder(
+                future: futureActivity,
+                // ignore: missing_return
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    countActivity = snapshot.data;
+                    return ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
+                        scrollDirection: Axis.vertical,
+                        itemCount: 1,
+                        itemBuilder: (context, index) {
+                          Activity activity = snapshot.data[index];
+                          return GestureDetector(
+                            onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => TrailDetailPage(
+                                          activity: activity,
+                                        ))),
+                            child: Stack(
                               children: <Widget>[
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Container(
-                                      width: 170.0,
-                                      child: Text(
-                                        activity.name,
-                                        style: TextStyle(
-                                          fontSize: 12.0,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 2,
-                                      ),
-                                    ),
-                                    Column(
+                                Container(
+                                  margin: EdgeInsets.fromLTRB(
+                                      MediaQuery.of(context).size.width * 0.14,
+                                      MediaQuery.of(context).size.width * 0.01,
+                                      10.0,
+                                      0),
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.14,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20.0),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.fromLTRB(
+                                        MediaQuery.of(context).size.width * 0.2,
+                                        20.0,
+                                        MediaQuery.of(context).size.width *
+                                            0.01,
+                                        0.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: <Widget>[
-                                        Text(
-                                          '\*${activity.price}',
-                                          style: TextStyle(
-                                            fontSize: 17.0,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Container(
+                                              width: 170.0,
+                                              child: Text(
+                                                activity.contents,
+                                                style: TextStyle(
+                                                  fontSize: 12.0,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 2,
+                                              ),
+                                            ),
+                                            Column(
+                                              children: <Widget>[
+                                                Text(
+                                                  '${activity.totalScore}' +
+                                                      '점',
+                                                  style: TextStyle(
+                                                    fontSize: 17.0,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         ),
-                                        Text(
-                                          'Total',
-                                          style: TextStyle(
-                                            color: Colors.grey,
+                                        Container(
+                                          width: 170.0,
+                                          child: Text(
+                                            activity.writer,
+                                            style: TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 11.0,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
                                           ),
                                         ),
+                                        SizedBox(height: 2.0),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            _buildRatingStars(
+                                                activity.rating.toInt()),
+                                            Container(
+                                              padding: EdgeInsets.all(5.0),
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.3,
+                                              alignment: Alignment.centerRight,
+                                              child: Text(
+                                                activity.startTimes[0] +
+                                                    '~' +
+                                                    activity.startTimes[1],
+                                                style: TextStyle(fontSize: 10),
+                                              ),
+                                            ),
+                                          ],
+                                        )
                                       ],
                                     ),
-                                  ],
-                                ),
-                                Container(
-                                  width: 170.0,
-                                  child: Text(
-                                    activity.type,
-                                    style: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 11.0,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
-                                SizedBox(height: 2.0),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    _buildRatingStars(activity.rating),
-                                    Container(
-                                      padding: EdgeInsets.all(5.0),
-                                      width: 120.0,
-                                      alignment: Alignment.centerRight,
-                                      child: Text(
-                                          activity.startTimes[0] +'~' +activity.startTimes[1],
-                                        style: TextStyle(fontSize: 10),
+                                Positioned(
+                                  left:
+                                      MediaQuery.of(context).size.width * 0.05,
+                                  top: 15.0,
+                                  bottom: 15.0,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    child: CachedNetworkImage(
+                                      imageUrl: activity.imgUrl,
+                                      progressIndicatorBuilder:
+                                          (context, url, downloadProgress) =>
+                                              CircularProgressIndicator(
+                                        value: downloadProgress.progress,
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                                Colors.blueAccent),
                                       ),
+                                      errorWidget: (context, url, error) =>
+                                          Icon(Icons.error),
+                                      fit: BoxFit.cover,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.27,
                                     ),
-                                  ],
-                                )
+                                  ),
+                                ),
                               ],
                             ),
-                          ),
+                          );
+                        });
+                  } else if (snapshot.hasError) {
+                    return Container(
+                        child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.1,
                         ),
-                        Positioned(
-                          left: 20.0,
-                          top: 15.0,
-                          bottom: 15.0,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(20.0),
-                            child: Image(
-                              width: 110.0,
-                              image: AssetImage(
-                                activity.imageUrl,
-                              ),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
+                        Text("해당 둘레길에 대해 후기를 남겨주세요!"),
                       ],
-                    ),
-                  );
+                    ));
+                  }
+                  return CircularProgressIndicator();
                 },
               ),
             ),
@@ -271,8 +354,8 @@ class _DestinationPageState extends State<DestinationPage> {
               context,
               MaterialPageRoute(
                   builder: (context) => TrailEditPage(
-                    activity: widget.posts.activities[0],
-                  )));
+                        seq: widget.posts.seq,
+                      )));
         },
         child: Icon(Icons.edit),
         heroTag: null,

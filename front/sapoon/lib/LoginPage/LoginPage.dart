@@ -1,17 +1,40 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_awesome_buttons/flutter_awesome_buttons.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:hive/hive.dart';
 import 'package:sapoon/LoginPage/SignUpPage.dart';
+import 'package:sapoon/PageHandlePage.dart';
 import 'package:sapoon/idFindPage.dart';
 import 'package:sapoon/LoginPage/passwordFindPage.dart';
+import 'package:http/http.dart' as http;
 
-class RootPage extends StatefulWidget {
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
+class LoginPage extends StatefulWidget {
   @override
-  _RootPageState createState() => _RootPageState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
-class _RootPageState extends State<RootPage> {
+class _LoginPageState extends State<LoginPage> {
   TextEditingController _emailController = TextEditingController();
-
   TextEditingController _pwController = TextEditingController();
+
+  Map<String, dynamic> _deviceData = <String, dynamic>{};
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  void showInSnackBar(String value) {
+    _scaffoldKey.currentState
+        .showSnackBar(new SnackBar(content: new Text(value)));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -23,6 +46,7 @@ class _RootPageState extends State<RootPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: SafeArea(
         child: DecoratedBox(
           decoration: BoxDecoration(
@@ -62,7 +86,7 @@ class _RootPageState extends State<RootPage> {
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
                     controller: _emailController,
-                    decoration: getTextFieldDecor('Email'),
+                    decoration: getTextFieldDecor('ID'),
                     validator: (String value) {
                       //pw input 조건
                       if (value.isEmpty) {
@@ -94,11 +118,56 @@ class _RootPageState extends State<RootPage> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(33.0),
+                  padding: EdgeInsets.all(5.0),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width * 0.128,
+                      right: MediaQuery.of(context).size.width * 0.128),
+                  child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    color: Colors.blue,
+                    onPressed: () {},
+                    child: SignInWithGoogle(
+                      onPressed: () {
+                        _handleSignIn().then((user) {
+                          print(user);
+                        });
+                      },
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(5.0),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width * 0.128,
+                      right: MediaQuery.of(context).size.width * 0.128),
+                  child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    onPressed: () {},
+                    color: Color.fromRGBO(73, 101, 159, 1),
+                    child: SignInWithFacebook(
+                      onPressed: () {
+                        _handleSignInFacebook().then((user) {
+
+                        });
+                      },
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(5.0),
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.pushReplacementNamed(context, '/main');
+                    createSignIn(
+                        context, _emailController.text, _pwController.text);
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -182,6 +251,86 @@ class _RootPageState extends State<RootPage> {
       ),
     );
   }
+
+  Future createSignIn(
+    BuildContext context,
+    String id,
+    String password,
+  ) async {
+    final http.Response response = await http.post(
+      'http://34.80.151.71/sapoon/member/login',
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'id': '$id',
+        'password': "$password",
+        'macId': '10.22.33.453',
+      }),
+    );
+    if (response.statusCode == 200) {
+      Map<String, dynamic> headersDynamic = response.headers;
+      print('성공적이에요!');
+      print('Response body: ' + utf8.decode(response.bodyBytes));
+      Hive.box('image').put(
+          'nickname', json.decode(utf8.decode(response.bodyBytes))['nickname']);
+      Hive.box('image').put('headers', headersDynamic['authorization']);
+      Hive.box('image').put('loginWithSapoon', '1');
+      String value = Hive.box('image').get('headers');
+      Route route = MaterialPageRoute(builder: (context) => LandingPage());
+      Navigator.pushReplacement(context, route);
+    } else if (response.statusCode == 401) {
+      print(response.statusCode);
+      print('ID가 중복일때 나오는 에러');
+
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
+      showInSnackBar(utf8.decode(response.bodyBytes));
+    } else {
+      showInSnackBar(utf8.decode(response.bodyBytes));
+      print('Response status: ${response.statusCode}');
+      print('Response body: ' + utf8.decode(response.bodyBytes));
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      throw Exception();
+    }
+  }
+
+  Future<FirebaseUser> _handleSignIn() async {
+    GoogleSignInAccount googleUser;
+    FirebaseUser user;
+    try{
+      googleUser = await _googleSignIn.signIn();
+      GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      user = (await _auth.signInWithCredential(
+          GoogleAuthProvider.getCredential(
+              idToken: googleAuth.idToken,
+              accessToken: googleAuth.accessToken)))
+          .user;
+      print("signed in " + user.displayName);
+    }catch(response){
+      showInSnackBar(response.toString());
+    }
+    return user;
+  }
+  Future<FirebaseUser> _handleSignInFacebook() async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    FacebookLogin facebookLogin = FacebookLogin();
+    AuthResult authResult;
+    try{
+      FacebookLoginResult result =
+      await facebookLogin.logIn(['email', 'public_profile']);
+      AuthCredential credential = FacebookAuthProvider.getCredential(
+          accessToken: result.accessToken.token);
+      authResult = await auth.signInWithCredential(credential);
+    }catch(response){
+      showInSnackBar(response.toString());
+    }
+    FirebaseUser user = authResult.user;
+    return user;
+  }
+
 }
 
 InputDecoration getTextFieldDecor(String hint) {

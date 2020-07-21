@@ -130,8 +130,8 @@ class _ImageAndIconShowState extends State<ImageAndIconShow> {
                       ),
                     ],
                     image: DecorationImage(
-                      alignment: Alignment.centerLeft,
-                      fit: BoxFit.fitHeight,
+                      alignment: Alignment.center,
+                      fit: BoxFit.cover,
                       image: NetworkImage(widget.image),
                     ),
                   ),
@@ -165,7 +165,7 @@ class ImageDetailHome extends StatelessWidget {
                 tag: imageUrl,
                 child: Image(
                   image: NetworkImage(imageUrl),
-                  fit: BoxFit.fill,
+                  fit: BoxFit.fitWidth,
                 )),
           ),
         ),

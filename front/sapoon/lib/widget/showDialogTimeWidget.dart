@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_circular_slider/flutter_circular_slider.dart';
+import 'package:intl/intl.dart';
 
 class ShowDialogTime extends StatefulWidget {
   @override
@@ -18,12 +19,15 @@ class _ShowDialogTimeState extends State<ShowDialogTime> {
   int inWalkTime;
   int outWalkTime;
   int days = 0;
+  DateTime now = DateTime.now();
+  String formattedDate='';
 
   List<String> walkTime = ['','','',''];
   
   @override
   void initState() {
     super.initState();
+    formattedDate = DateFormat('yyyy-MM-dd').format(now);
     _shuffle();
   }
 
@@ -191,7 +195,7 @@ class _ShowDialogTimeState extends State<ShowDialogTime> {
     var hours = time ~/ 12;
     var minutes = (time % 12) * 5;
 
-    return '$hours:$minutes:00';
+    return formattedDate+' $hours:$minutes:00';
   }
 
   String _formatIntervalTime(int init, int end) {

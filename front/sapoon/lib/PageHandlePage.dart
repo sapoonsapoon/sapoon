@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:sapoon/pageFolder/CommunityBoardPage.dart';
 import 'package:sapoon/pageFolder/HomePage.dart';
 import 'package:sapoon/pageFolder/calendarPage.dart';
+import 'package:sapoon/pageFolder/googleMapPage.dart';
 import 'package:sapoon/pageFolder/settingPage.dart';
-import 'package:sapoon/pageFolder/webviewPage.dart';
-import 'package:sapoon/walkRoute/seokchunWalk.dart';
 
 class LandingPage extends StatefulWidget {
   @override
@@ -39,8 +38,8 @@ class _LandingPageState extends State<LandingPage> {
             },
             children: <Widget>[
               HomePage(),
-              Walks1(),
-              CalendarScreen(),
+              CommunityBoardPage(),
+              GoogleMapPage(),
               SettingsOnePage(),
             ],
           ),

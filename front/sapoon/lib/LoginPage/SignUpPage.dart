@@ -67,7 +67,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.all(20.0),
+                      padding: EdgeInsets.all(40.0),
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width * 0.744,
@@ -110,7 +110,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.all(2.0),
+                      padding: EdgeInsets.all(5.0),
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width * 0.744,
@@ -151,47 +151,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.all(2.0),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.744,
-                      height: MediaQuery.of(context).size.width * 0.13,
-                      child: TextFormField(
-                        style: TextStyle(
-                            fontFamily: "NanumSquareExtraBold",
-                            color: Colors.black45,
-                            fontWeight: FontWeight.bold),
-                        controller: _pwControllerCf,
-                        decoration: InputDecoration(
-                          hintText: '비밀번호 확인 ',
-                          hintStyle: TextStyle(color: Colors.black45),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.black12,
-                              width: 0.6,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.blueGrey,
-                              width: 1,
-                            ),
-                          ),
-                          fillColor: Colors.transparent,
-                          filled: true,
-                          prefixIcon: Icon(Icons.https),
-                        ),
-                        validator: (String value) {
-                          //pw input 조건
-                          if (value.isEmpty) {
-                            return "빈칸은 허용할 수 없어요:)";
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(2.0),
+                      padding: EdgeInsets.all(5.0),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -277,7 +237,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       ],
                     ),
                     Padding(
-                      padding: EdgeInsets.all(2.0),
+                      padding: EdgeInsets.all(5.0),
                     ),
                     InkWell(
                       onTap: () {
@@ -317,7 +277,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.all(2.0),
+                      padding: EdgeInsets.all(5.0),
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width * 0.744,
@@ -355,7 +315,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.all(2.0),
+                      padding: EdgeInsets.all(5.0),
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width * 0.744,
@@ -409,7 +369,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             _nicknameController.text,
                           );
                         } else {
-                          final snackbar = SnackBar(content: Text('계정이 없습니다.'));
+                          final snackbar = SnackBar(content: Text('전부 다 입력해주세요.'));
                           Scaffold.of(context).showSnackBar(snackbar);
                         }
                       },
@@ -489,11 +449,21 @@ Future createSignUp(
     }),
   );
   if (response.statusCode == 200) {
-    print('성공적이에요!');
+    final snackbar = SnackBar(content:  Text('회원가입이 정상적으로 되었습니다.'));
+    Scaffold.of(context).showSnackBar(snackbar);
+    Timer(Duration(seconds: 2), () {
+      Navigator.pop(context);
+      Navigator.pushReplacementNamed(context, '/');
+    });
+
+
   } else if(response.statusCode == 401){
     print('ID가 중복일때 나오는 에러');
+    final snackbar = SnackBar(content: Text('중복된 ID가 존재합니다.'));
+    Scaffold.of(context).showSnackBar(snackbar);
   } else{
-    print(name);
+    final snackbar = SnackBar(content:  Text(utf8.decode(response.bodyBytes)));
+    Scaffold.of(context).showSnackBar(snackbar);
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
     // If the server did not return a 201 CREATED response,

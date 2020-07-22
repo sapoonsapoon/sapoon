@@ -91,6 +91,35 @@ public class PromenadeService {
      */
     public List<DullegilVo> getMainDullegilInfoByGeo(double x, double y) {
 
+        String guName = getGuNameByGeo(x, y);
+
+        List<DullegilVo> dullegilVoList = promenadeMapper.getMainDullegilInfoByGeo(guName);
+
+        for(int i = 0; i < dullegilVoList.size(); i++){
+            dullegilVoList.get(i).setDullegilDetailVo(promenadeMapper.selectDullegilDetail(dullegilVoList.get(i).getSeq()));
+        }
+
+        return dullegilVoList;
+    }
+
+    /*
+        위치 정보로 둘레길 정보 가져오기
+     */
+    public List<DullegilVo> getDullegilInfoByGeo(double x, double y) {
+
+        String guName = getGuNameByGeo(x, y);
+
+        List<DullegilVo> dullegilVoList = promenadeMapper.getDullegilInfoByGeo(guName);
+
+        for(int i = 0; i < dullegilVoList.size(); i++){
+            dullegilVoList.get(i).setDullegilDetailVo(promenadeMapper.selectDullegilDetail(dullegilVoList.get(i).getSeq()));
+        }
+
+        return dullegilVoList;
+    }
+
+    public String getGuNameByGeo(double x, double y){
+
         String guName = "종로구"; // default
 
         // x, y 가 0 처리
@@ -105,8 +134,7 @@ public class PromenadeService {
                     .queryParam("type", "ROAD")
                     .queryParam("point", locationCoords);
 
-            Map<String, Object> response =
-                    restTemplate.getForObject(url.toUriString(), Map.class);
+            Map<String, Object> response = restTemplate.getForObject(url.toUriString(), Map.class);
 
             // 구 이름 추출
             Map<String, Object> tmpResponse = (Map)response.get("response");
@@ -115,12 +143,6 @@ public class PromenadeService {
             guName = structure.get("level2");
         }
 
-        List<DullegilVo> dullegilVoList = promenadeMapper.getMainDullegilInfoByGeo(guName);
-
-        for(int i = 0; i < dullegilVoList.size(); i++){
-            dullegilVoList.get(i).setDullegilDetailVo(promenadeMapper.selectDullegilDetail(dullegilVoList.get(i).getSeq()));
-        }
-
-        return dullegilVoList;
+        return guName;
     }
 }

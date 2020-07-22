@@ -38,4 +38,9 @@
         WHERE region1 LIKE CONCAT('%', #{guName}, '%')
         ORDER BY RAND() LIMIT 5
     </select>
+
+    <select id="getDullegilInfoByGeo" resultType="sapoon.promenadeservice.vo.DullegilVo">
+        SELECT * FROM sppromendas.dullegil_info
+        WHERE region1 LIKE CONCAT('%', #{guName}, '%')
+    </select>
 </mapper>

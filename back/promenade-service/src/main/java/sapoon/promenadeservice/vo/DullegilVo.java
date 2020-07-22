@@ -22,5 +22,7 @@ public class DullegilVo {
     private String drinkingWaterInfo;
     private String toiletInfo;
     private String cafeteriaInfo;
+    private double latitude;
+    private double longitude;
     private DullegilDetailVo dullegilDetailVo;
 }

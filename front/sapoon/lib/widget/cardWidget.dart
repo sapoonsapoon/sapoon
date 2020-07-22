@@ -90,6 +90,8 @@ Card CardWidget({
                       MediaQuery.of(context).size.width *
                           0.03),
                   overflow: TextOverflow.ellipsis,
+                  maxLines: 3,
+
                 ),
               ],
             )

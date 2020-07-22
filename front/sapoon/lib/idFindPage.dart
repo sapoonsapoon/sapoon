@@ -243,11 +243,8 @@ Future createAlbum(
     String name,
     String birthday,
     String email,) async {
-  print(name);
-  print(birthday);
-  print(email);
   final http.Response response = await http.post(
-    'http://35.194.192.57/sapoon/member/find/id',
+    'http://34.80.151.71/sapoon/member/find/id',
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -268,8 +265,10 @@ Future createAlbum(
         builder: (context) => IdFindResultPage(user.id)));
 
   } else {
+    final snackbar = SnackBar(content: Text(utf8.decode(response.bodyBytes)));
+    Scaffold.of(context).showSnackBar(snackbar);
     print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
+    print('Response body: ${utf8.decode(response.bodyBytes)}');
     // If the server did not return a 201 CREATED response,
     // then throw an exception.
     throw Exception();

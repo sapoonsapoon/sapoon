@@ -73,11 +73,8 @@ class _PasswordFindResultPageState extends State<PasswordFindResultPage> {
                       ),
                       InkWell(
                         onTap: () {
-                          final snackbar = SnackBar(content: Text('계정이 없습니다.'));
-                          Scaffold.of(context).showSnackBar(snackbar);
-                          Navigator.push(context, MaterialPageRoute(
-                              builder: (context)=>RootPage()
-                          ));
+                          Navigator.pop(context);
+                          Navigator.pushReplacementNamed(context, '/');
                         },
                         child: Container(
                           decoration: BoxDecoration(

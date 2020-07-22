@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:intl/intl.dart';
 
 class CalendarScreen extends StatefulWidget {
   @override
@@ -93,7 +94,9 @@ class _CalendarScreenState extends State<CalendarScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(' 산책 Sapoon 달력', style: TextStyle(
+        elevation: 0,
+        brightness: Brightness.light,
+        title: Text(' Sapoon 달력', style: TextStyle(
         fontFamily: "NanumSquareExtraBold",
         fontSize: 21.0),)
       ),
@@ -113,32 +116,6 @@ class _CalendarScreenState extends State<CalendarScreen>
     );
   }
 
-  // Simple TableCalendar configuration (using Styles)
-  Widget _buildTableCalendar() {
-    return TableCalendar(
-      calendarController: _calendarController,
-      events: _events,
-      holidays: _holidays,
-      startingDayOfWeek: StartingDayOfWeek.monday,
-      calendarStyle: CalendarStyle(
-        selectedColor: Colors.deepOrange[400],
-        todayColor: Colors.deepOrange[200],
-        markersColor: Colors.brown[700],
-        outsideDaysVisible: false,
-      ),
-      headerStyle: HeaderStyle(
-        formatButtonTextStyle:
-            TextStyle().copyWith(color: Colors.white, fontSize: 15.0),
-        formatButtonDecoration: BoxDecoration(
-          color: Colors.deepOrange[400],
-          borderRadius: BorderRadius.circular(16.0),
-        ),
-      ),
-      onDaySelected: _onDaySelected,
-      onVisibleDaysChanged: _onVisibleDaysChanged,
-    );
-  }
-
   // More advanced TableCalendar configuration (using Builders & Styles)
   Widget _buildTableCalendarWithBuilders() {
     return TableCalendar(
@@ -154,7 +131,7 @@ class _CalendarScreenState extends State<CalendarScreen>
         CalendarFormat.week: '',
       },
       calendarStyle: CalendarStyle(
-        outsideDaysVisible: false,
+        outsideDaysVisible: true,
         weekendStyle: TextStyle().copyWith(color: Colors.blue[800]),
         holidayStyle: TextStyle().copyWith(color: Colors.blue[800]),
       ),
@@ -162,8 +139,16 @@ class _CalendarScreenState extends State<CalendarScreen>
         weekendStyle: TextStyle().copyWith(color: Colors.red[600]),
       ),
       headerStyle: HeaderStyle(
+        titleTextStyle: TextStyle(fontSize: 18),
+        leftChevronMargin: EdgeInsets.all(10),
+        rightChevronMargin: EdgeInsets.all(10),
+        leftChevronPadding: EdgeInsets.all(0),
+        rightChevronPadding: EdgeInsets.all(0),
+        decoration: BoxDecoration(color: Colors.green,
+            borderRadius:  BorderRadius.circular(30)),
         centerHeaderTitle: true,
         formatButtonVisible: false,
+        headerMargin: EdgeInsets.only(top:20,bottom: 30)
       ),
       builders: CalendarBuilders(
         selectedDayBuilder: (context, date, _) {
@@ -172,7 +157,7 @@ class _CalendarScreenState extends State<CalendarScreen>
             child: Container(
               margin: const EdgeInsets.all(4.0),
               padding: const EdgeInsets.only(top: 5.0, left: 6.0),
-              color: Colors.deepOrange[300],
+              color: Colors.green[300],
               width: 100,
               height: 100,
               child: Text(
@@ -235,10 +220,10 @@ class _CalendarScreenState extends State<CalendarScreen>
       decoration: BoxDecoration(
         shape: BoxShape.rectangle,
         color: _calendarController.isSelected(date)
-            ? Colors.brown[500]
+            ? Colors.green[500]
             : _calendarController.isToday(date)
-                ? Colors.brown[300]
-                : Colors.blue[400],
+                ? Colors.green[300]
+                : Colors.green[400],
       ),
       width: 16.0,
       height: 16.0,
@@ -258,7 +243,7 @@ class _CalendarScreenState extends State<CalendarScreen>
     return Icon(
       Icons.alarm,
       size: 40.0,
-      color: Colors.deepOrangeAccent,
+      color: Colors.green,
     );
   }
 

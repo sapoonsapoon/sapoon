@@ -13,5 +13,8 @@ public interface CommunityMapper {
     List<CommunityVo> selectCommunityList();
     List<CommunityVo> selectCommunityListByDulle(int dulleSeq);
 
+    int selectTotalCommunityCount(); //커뮤니티 전체 갯수 가져오기
+    int selectAvrCommunityCount(int dulleSeq); //해당 둘레길 관련된 커뮤니티의 평균점수.
+
     CommunityVo selectCommunity(int seq);
 }

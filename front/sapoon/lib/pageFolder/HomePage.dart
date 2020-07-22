@@ -1,31 +1,28 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:hive/hive.dart';
 import 'package:sapoon/pageFolder/data.dart';
 import 'package:sapoon/pageFolder/destinationPage.dart';
-import 'package:sapoon/pageFolder/productPage.dart';
 import 'package:sapoon/pageFolder/trailDetailPage.dart';
 import 'package:sapoon/pageFolder/trailEditPage.dart';
-import 'package:sapoon/walkRoute/seokchunWalk.dart';
 import 'package:http/http.dart' as http;
 import 'package:sapoon/widget/activityWidget.dart';
 import 'package:sapoon/widget/cardWidget.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
 
-Future<List<Post>> getPhotoUrl() async {
+Future<List<Post>> getRandomFiveTrail(dynamic lat, dynamic lon) async {
   final http.Response response = await http.get(
       Uri.encodeFull(
-          'http://34.80.151.71/sapoon/promenade/dullegil/main/recommend/random'),
+          'http://34.80.151.71/sapoon/promenade/dullegil/main/recommend?x='+lat+'&y='+lon),
       headers: {"Accept": "application/json"});
   if (response.statusCode == 200) {
     return makePostList(json.decode(utf8.decode(response.bodyBytes)));
@@ -36,31 +33,41 @@ Future<List<Post>> getPhotoUrl() async {
   }
 }
 
-Future<List<Post>> getWeather() async {
+Future<List<Activity>> getActivityRecent() async {
   final http.Response response = await http.get(
-      Uri.encodeFull(
-          'http://34.80.151.71/sapoon/promenade/dullegil/main/recommend/random'),
+      Uri.encodeFull('http://34.80.151.71/sapoon/community'),
       headers: {"Accept": "application/json"});
-  if (response.statusCode == 200) {;
-    return makePostList(json.decode(utf8.decode(response.bodyBytes)));
+  if (response.statusCode == 200) {
+    print('액티비티 만듭니다.');
+    Future<List<Activity>> activityLis = ActivityService.getAcitivys();
+    return activityLis;
   } else {
+    print('못만듭니다.');
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
-    // If the server did not return a 201 CREATED response,
-    // then throw an exception.
     throw Exception();
   }
 }
 
 Future<List> getPosition() async {
-  var currentPosition = await Geolocator()
-      .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+  var currentPosition;
   List latitudeLongitudes = new List();
-  print(currentPosition.latitude);
-  print(currentPosition.longitude);
-  latitudeLongitudes.add(currentPosition.latitude);
-  latitudeLongitudes.add(currentPosition.longitude);
-  return latitudeLongitudes;
+  try {
+    currentPosition = await Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    print(currentPosition.latitude);
+    print(currentPosition.longitude);
+    latitudeLongitudes.add(currentPosition.latitude);
+    latitudeLongitudes.add(currentPosition.longitude);
+    return latitudeLongitudes;
+  } catch (e) {
+    print(e);
+    latitudeLongitudes.add(0);
+    latitudeLongitudes.add(0);
+    print(latitudeLongitudes[0]);
+    print(latitudeLongitudes[1]);
+    return latitudeLongitudes;
+  }
 }
 
 class _HomePageState extends State<HomePage> {
@@ -68,9 +75,10 @@ class _HomePageState extends State<HomePage> {
   Map<String, dynamic> trailCard;
   Future<List<Post>> post;
   Future<List> geoResult;
-
+  Future<List<Activity>> activityList;
   List<String> myList = ["foo", "bar"];
-
+  String _nickName = Hive.box('image').get('nickname');
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Text _buildRatingStars(int rating) {
     String stars = '';
@@ -88,8 +96,24 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     // TODO: implement initState
-    post = getPhotoUrl();
+    activityList = getActivityRecent();
     geoResult = getPosition();
+    FutureBuilder(
+      future: geoResult,
+      // ignore: missing_return
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          List list = snapshot.data;
+          print('여기까지 접근했어요!!');
+          post = getRandomFiveTrail(list[0],list[1]);
+        } else if (snapshot.hasError) {
+          print('에러가 뿜뿜뿜');
+          post = getRandomFiveTrail(0,0);
+        }
+        return CircularProgressIndicator();
+      },
+    );
+    post = getRandomFiveTrail('0','0');
     super.initState();
   }
 
@@ -114,7 +138,6 @@ class _HomePageState extends State<HomePage> {
             ),
             InkWell(
               onTap: () {
-                getPhotoUrl();
               },
               child: Text(
                 'SAPOON',
@@ -126,14 +149,17 @@ class _HomePageState extends State<HomePage> {
             ),
             SizedBox(
               height: MediaQuery.of(context).size.width * 0.24,
-              width: MediaQuery.of(context).size.width * 0.16,
+              width: MediaQuery.of(context).size.width * 0.13,
             ),
             Container(
               width: MediaQuery.of(context).size.width * 0.54,
               height: MediaQuery.of(context).size.width * 0.1,
               child: Container(
                 child: TypeAheadField(
+
                   textFieldConfiguration: TextFieldConfiguration(
+                    maxLength: 20,
+                    minLines: 1,
                     cursorWidth: 1,
                     style: TextStyle(fontFamily: 'NanumSquareRegular'),
                     decoration: InputDecoration(
@@ -162,14 +188,22 @@ class _HomePageState extends State<HomePage> {
                         hintText: '마음에 드는 산책로가 있나요?'),
                   ),
                   suggestionsCallback: (pattern) async {
+                    print(pattern);
                     return await BackendService.getSuggestions(pattern);
                   },
                   itemBuilder: (context, suggestion) {
                     return ListTile(
                       leading: CachedNetworkImage(
-                          imageUrl: 'http://www.greenpostkorea.co.kr/news/photo/201910/110448_109048_423.jpg',
-                        progressIndicatorBuilder: (context, url, downloadProgress) =>
-                            CircularProgressIndicator(value: downloadProgress.progress, valueColor: AlwaysStoppedAnimation<Color>(Colors.blueAccent),),
+                        width: MediaQuery.of(context).size.width * 0.16,
+                        height: MediaQuery.of(context).size.height * 0.1,
+                        imageUrl: suggestion['trailUrl'],
+                        progressIndicatorBuilder:
+                            (context, url, downloadProgress) =>
+                                CircularProgressIndicator(
+                          value: downloadProgress.progress,
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.blueAccent),
+                        ),
                         errorWidget: (context, url, error) => Icon(Icons.error),
                       ),
                       title: Text(
@@ -186,8 +220,7 @@ class _HomePageState extends State<HomePage> {
                   },
                   onSuggestionSelected: (suggestion) {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) =>
-                            DestinationPage(
+                        builder: (context) => DestinationPage(
                               posts: suggestion['post'],
                             )));
                   },
@@ -218,7 +251,7 @@ class _HomePageState extends State<HomePage> {
                       width: MediaQuery.of(context).size.width * 0.08,
                     ),
                     Text(
-                      '홍길동님',
+                      _nickName + '님',
                       style: TextStyle(color: Colors.green),
                     ),
                   ],
@@ -298,8 +331,7 @@ class _HomePageState extends State<HomePage> {
                     } else if (snapshot.hasError) {
                       return Text("${snapshot.error}");
                     }
-                    return CircularProgressIndicator(
-                    );
+                    return CircularProgressIndicator();
                   },
                 ),
               ),
@@ -328,9 +360,9 @@ class _HomePageState extends State<HomePage> {
               ),
               Container(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.6,
+                height: MediaQuery.of(context).size.height * 0.45,
                 child: FutureBuilder(
-                  future: post,
+                  future: activityList,
                   // ignore: missing_return
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
@@ -340,57 +372,78 @@ class _HomePageState extends State<HomePage> {
                           scrollDirection: Axis.vertical,
                           itemCount: 3,
                           itemBuilder: (context, index) {
-                            Post posts = snapshot.data[0];
-                            Activity activity = posts.activities[index];
+                            print(snapshot.data[index]);
+                            Activity activity = snapshot.data[index];
                             return GestureDetector(
                               onTap: () => Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => TrailDetailPage(
-                                        activity: activity,
-                                      ))),
+                                            activity: activity,
+                                          ))),
                               child: Stack(
+
                                 children: <Widget>[
                                   Container(
-                                    margin: EdgeInsets.fromLTRB(40.0, 5.0, 20.0, 5.0),
-                                    height: MediaQuery.of(context).size.height*0.17,
+                                    margin: EdgeInsets.fromLTRB(
+                                        MediaQuery.of(context).size.width *
+                                            0.14,
+                                        MediaQuery.of(context).size.width *
+                                            0.01,
+                                        10.0,
+                                        0),
+                                    height: MediaQuery.of(context).size.height *
+                                        0.14,
                                     width: double.infinity,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(20.0),
                                     ),
                                     child: Padding(
-                                      padding: EdgeInsets.fromLTRB(100.0, 20.0, 20.0, 20.0),
+                                      padding: EdgeInsets.fromLTRB(
+                                          MediaQuery.of(context).size.width *
+                                              0.2,
+                                          20.0,
+                                          MediaQuery.of(context).size.width *
+                                              0.01,
+                                          0.0),
                                       child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: <Widget>[
                                           Row(
                                             mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: <Widget>[
                                               Container(
                                                 width: 170.0,
                                                 child: Text(
-                                                  activity.name,
+                                                  activity.contents,
                                                   style: TextStyle(
                                                     fontSize: 12.0,
                                                     fontWeight: FontWeight.w600,
                                                   ),
-                                                  overflow: TextOverflow.ellipsis,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                   maxLines: 2,
                                                 ),
                                               ),
                                               Column(
                                                 children: <Widget>[
                                                   Text(
-                                                    '${activity.price}'+'점',
+                                                    '${activity.totalScore}' +
+                                                        '점',
                                                     style: TextStyle(
                                                       fontSize: 17.0,
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                     ),
-                                                    overflow: TextOverflow.ellipsis,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
                                                   ),
                                                 ],
                                               ),
@@ -399,7 +452,7 @@ class _HomePageState extends State<HomePage> {
                                           Container(
                                             width: 170.0,
                                             child: Text(
-                                              activity.type,
+                                              activity.writer,
                                               style: TextStyle(
                                                 color: Colors.grey,
                                                 fontSize: 11.0,
@@ -411,17 +464,23 @@ class _HomePageState extends State<HomePage> {
                                           SizedBox(height: 2.0),
                                           Row(
                                             mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                                MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
                                             children: <Widget>[
-                                              _buildRatingStars(activity.rating),
+                                              _buildRatingStars(
+                                                  activity.rating.toInt()),
                                               Container(
                                                 padding: EdgeInsets.all(5.0),
-                                                width: 100.0,
-                                                alignment: Alignment.centerRight,
+                                                width: MediaQuery.of(context).size.width*0.3,
+                                                alignment:
+                                                    Alignment.centerRight,
                                                 child: Text(
-                                                  activity.startTimes[0] +'~' +activity.startTimes[1],
-                                                  style: TextStyle(fontSize: 10),
+                                                  activity.startTimes[0] +
+                                                      '~' +
+                                                      activity.startTimes[1],
+                                                  style:
+                                                      TextStyle(fontSize: 10),
                                                 ),
                                               ),
                                             ],
@@ -431,17 +490,28 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                   ),
                                   Positioned(
-                                    left: 20.0,
+                                    left: MediaQuery.of(context).size.width *
+                                        0.05,
                                     top: 15.0,
                                     bottom: 15.0,
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(20.0),
-                                      child: Image(
-                                        width: 110.0,
-                                        image: AssetImage(
-                                          activity.imageUrl,
+                                      child: CachedNetworkImage(
+                                        imageUrl: activity.imgUrl,
+                                        progressIndicatorBuilder:
+                                            (context, url, downloadProgress) =>
+                                                CircularProgressIndicator(
+                                          value: downloadProgress.progress,
+                                          valueColor:
+                                              AlwaysStoppedAnimation<Color>(
+                                                  Colors.blueAccent),
                                         ),
+                                        errorWidget: (context, url, error) =>
+                                            Icon(Icons.error),
                                         fit: BoxFit.cover,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.27,
                                       ),
                                     ),
                                   ),
@@ -452,14 +522,9 @@ class _HomePageState extends State<HomePage> {
                     } else if (snapshot.hasError) {
                       return Text("${snapshot.error}");
                     }
-                    return CircularProgressIndicator(
-                    );
+                    return CircularProgressIndicator();
                   },
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[],
               ),
             ],
           ),
@@ -468,4 +533,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-

@@ -84,6 +84,7 @@ public class CommunityService {
         return resultMap;
     }
 
+
     public Map<String, Object> getCommunityListByDulle(int dulleSeq) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
 
@@ -98,6 +99,32 @@ public class CommunityService {
                 resultMap.put("resultCode","1");
                 resultMap.put("resultDesc","success");
             }
+        }catch ( Exception e ){
+            LOGGER.error(String.valueOf(e));
+            resultMap.put("resultCode","3");
+            resultMap.put("resultDesc","parsing error");
+        }
+
+        return resultMap;
+    }
+
+    public Map<String, Object> getTotalCommunityCount(int dulleSeq) {
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        Map<String, Object> result = new HashMap<String, Object>();
+
+        resultMap.put("result",null);
+        int totalCount = 0;
+        int avgScore = 0;
+
+        try{
+            totalCount = communityMapper.selectTotalCommunityCount(); //에러 절대 안남.
+            avgScore = communityMapper.selectAvrCommunityCount(dulleSeq);//dulleSeq가 없으면 0으로 리턴
+            result.put("totalCount" , totalCount);
+            result.put("avgScore" , avgScore);
+            result.put("dulleSeq" , dulleSeq);
+
+            resultMap.put("result",result);
+
         }catch ( Exception e ){
             LOGGER.error(String.valueOf(e));
             resultMap.put("resultCode","3");

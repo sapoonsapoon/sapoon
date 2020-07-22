@@ -43,4 +43,16 @@
        FROM community WHERE dulle_seq = #{dulleSeq}
        ORDER BY reg_date DESC LIMIT 5;
     </select>
+
+    <!--전체 갯수가져오기-->
+    <!--SELECT MAX(seq) FROM community;-->
+    <select id="selectTotalCommunityCount"  parameterType="int" resultType="int">
+        SELECT COUNT(*) FROM community
+    </select>
+
+    <!--둘레길로 평균 값 구하는거.-->
+    <select id="selectAvrCommunityCount"  parameterType="int" resultType="int">
+        SELECT IFNULL(AVG(total_score),0)  FROM  community WHERE dulle_seq =#{dulleSeq};
+    </select>
+
 </mapper>

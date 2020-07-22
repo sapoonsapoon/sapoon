@@ -26,8 +26,14 @@ class _PersonRatingEditState extends State<PersonRatingEdit> {
   List<String> walkTimes = ['','','',''];
   String walkTimeSign ='산책시간을 입력해주세요';
   Timer _everySecond;
+  String _now;
   int recommandValue =0;
-
+  int _totalNumber=0;
+  int iconValue1=0;
+  int iconValue2=0;
+  int iconValue3=0;
+  int iconValue4=0;
+  int iconValue5=0;
   DateTime now = DateTime.now();
 
 
@@ -47,12 +53,20 @@ class _PersonRatingEditState extends State<PersonRatingEdit> {
         composing: TextRange.empty,);
     });
 
-
+    _now = DateTime.now().second.toString();
     // defines a timer
     _everySecond = Timer.periodic(Duration(seconds: 1), (Timer t) {
       setState(() {
+        _now = DateTime.now().second.toString();
         recommandValue = Hive.box('image').get('recommend');
         _buildRatingStars(recommandValue);
+        iconValue1 = Hive.box('image').get('sun');
+        iconValue2 = Hive.box('image').get('health');
+        iconValue3 = Hive.box('image').get('sight');
+        iconValue4 = Hive.box('image').get('windy');
+        iconValue5 = Hive.box('image').get('recommend');
+        _totalNumber= 4*(iconValue1+iconValue2+iconValue3+iconValue4+iconValue5);
+        Hive.box('image').put('totalNumber',_totalNumber);
       });
     });
 
@@ -61,11 +75,9 @@ class _PersonRatingEditState extends State<PersonRatingEdit> {
   @override
   void dispose() {
     // TODO: implement dispose
-
     _everySecond.cancel();
-    super.dispose();
     _controller.dispose();
-
+    super.dispose();
   }
 
   void _updateLabels(String init, String end,String initServer, String endServer) {
@@ -114,7 +126,7 @@ class _PersonRatingEditState extends State<PersonRatingEdit> {
               ),
               Spacer(),
               Text(
-                "${widget.price}"+"점",
+                _totalNumber.toString()+"점",
                 style: Theme.of(context)
                     .textTheme
                     .headline5

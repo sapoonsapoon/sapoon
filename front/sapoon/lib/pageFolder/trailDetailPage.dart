@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sapoon/pageFolder/trailEditPage.dart';
 import 'package:sapoon/widget/activityWidget.dart';
 import 'package:sapoon/widget/iconCard.dart';
 import 'package:sapoon/widget/imageAndIconShowWidget.dart';
@@ -15,6 +16,13 @@ class TrailDetailPage extends StatefulWidget {
 }
 
 class _TrailDetailPageState extends State<TrailDetailPage> {
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
@@ -24,16 +32,16 @@ class _TrailDetailPageState extends State<TrailDetailPage> {
             children: <Widget>[
               ImageAndIconShow(
                 size: size,
-                image: widget.activity.imageUrl,
+                image: widget.activity.imgUrl,
               ),
               SizedBox(
                 height: 20,
               ),
               PersonRatingShow(
-                title: widget.activity.name,
-                country: widget.activity.type,
-                price: widget.activity.price,
-                rating: widget.activity.rating,
+                title: widget.activity.contents,
+                country: widget.activity.writer,
+                price: widget.activity.totalScore.toInt(),
+                rating: widget.activity.rating.toInt(),
                 startTime: widget.activity.startTimes[0],
                 endTime: widget.activity.startTimes[1],
               ),
@@ -88,7 +96,14 @@ class _TrailDetailPageState extends State<TrailDetailPage> {
                           ),
                         ),
                         color: Colors.white,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => TrailEditPage(
+                                   seq: widget.activity.dulleSeq,
+                                  )));
+                        },
                         child: Text(
                           "산책로 작성하기",
                           style: TextStyle(

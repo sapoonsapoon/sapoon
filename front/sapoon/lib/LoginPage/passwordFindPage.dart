@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:sapoon/LoginPage/passwordFindResultPage.dart';
 
 class PasswordFindPage extends StatefulWidget {
   @override
@@ -51,7 +52,6 @@ class _PasswordFindPageState extends State<PasswordFindPage> {
         ),
         body: Builder(builder: (BuildContext context) {
           return SingleChildScrollView(
-
             child: SafeArea(
               child:  Center(
                   child: Column(
@@ -237,7 +237,7 @@ class _PasswordFindPageState extends State<PasswordFindPage> {
                       ),
                       InkWell(
                         onTap: () {
-                          final snackbar = SnackBar(content: Text('계정이 없습니다.'));
+                          final snackbar = SnackBar(content: Text('비밀번호 초기화 중!'));
                           Scaffold.of(context).showSnackBar(snackbar);
                           createAlbum(context,
                             _idController.text,
@@ -245,9 +245,6 @@ class _PasswordFindPageState extends State<PasswordFindPage> {
                               show_log,
                             _emailController.text,
                           );
-//                          Navigator.push(context, MaterialPageRoute(
-//                              builder: (context)=>PasswordFindResultPage()
-//                          ));
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -318,14 +315,16 @@ Future createAlbum(BuildContext context,
     }),
   );
   if (response.statusCode == 200) {
-    // If the server did return a 201 CREATED response,
-    // then parse the JSON.
-    print('성공적이에요!');
-
+    final snackbar = SnackBar(content: Text('비밀번호 초기화 중'));
+    Scaffold.of(context).showSnackBar(snackbar);
+     Navigator.push(context, MaterialPageRoute(
+       builder: (context)=>PasswordFindResultPage()
+    ));
   } else {
+    final snackbar = SnackBar(content: Text(utf8.decode(response.bodyBytes)));
+    Scaffold.of(context).showSnackBar(snackbar);
     print(name);
     print('Response status: ${response.statusCode}');
-    print("한글 원인이에요:  "+utf8.decode(response.bodyBytes)); // 한
     // If the server did not return a 201 CREATED response,
     // then throw an exception.
     throw Exception();

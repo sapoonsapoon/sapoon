@@ -66,7 +66,7 @@
             }
 
             function guMouseOut (d) {
-                d3.select(this).style('fill', '#efefef');
+                d3.select(this).style('fill', '#ECF6CE');
             }
 
             map
@@ -99,8 +99,12 @@
     /*    height: 512px;*/
     /*}*/
 
+    body {
+        background-color: #eeeeee;
+    }
+
     svg path {
-        fill: #efefef;
+        fill: #ECF6CE;
         stroke: white;
     }
 

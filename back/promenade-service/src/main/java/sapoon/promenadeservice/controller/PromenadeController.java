@@ -75,9 +75,16 @@ public class PromenadeController {
         서울 구 이름으로 정보 가져오기
      */
     @GetMapping("/dullegil/search/gu")
-    public List<DullegilVo> getDullegilInfobyGu(String guName){
+    public List<DullegilVo> getDullegilInfoByGu(String guName){
         List<DullegilVo> dullegilVoList = new ArrayList<>();
         dullegilVoList = promenadeService.getDullegilInfoByGu(guName);
+        return dullegilVoList;
+    }
+
+    @GetMapping("/dullegil/search/gu/geo")
+    public List<DullegilVo> getDullegilinfoByGeo(double x, double y) {
+        List<DullegilVo> dullegilVoList = promenadeService.getMainDullegilInfoByGeo(x, y);
+
         return dullegilVoList;
     }
 }

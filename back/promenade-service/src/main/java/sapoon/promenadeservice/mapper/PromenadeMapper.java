@@ -15,4 +15,5 @@ public interface PromenadeMapper {
     int getDullegilCount(String guName);
     List<DullegilVo> getDullegilInfoByGu(String guName);
     List<DullegilVo> getMainDullegilInfoByGeo(String guName);
+    List<DullegilVo> getDullegilInfoByGeo(String guName);
 }

@@ -35,6 +35,7 @@
 
     <select id="selectCommunityListByDulle"  parameterType="int" resultType="sapoon.communityservice.vo.CommunityVo">
        SELECT seq, writer, contents, score1, score2, score3, score4,
+            star_score as starScore,
             total_score as totalScore,
             DATE_FORMAT(start_time,'%h:%i%p') as startTime,
             DATE_FORMAT(end_time,'%h:%i%p') as endTime,

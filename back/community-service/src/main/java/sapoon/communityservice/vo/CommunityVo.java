@@ -14,12 +14,13 @@ public class CommunityVo {
     private int seq;
     private String writer;
     private String contents;
-    private int score1;
-    private int score2;
-    private int score3;
-    private int score4;
-    private int starScore;
-    private int totalScore;
+    private double score1;
+    private double score2;
+    private double score3;
+    private double score4;
+    private double starScore;
+    private double totalScore;
+    private String userDulleWrite;
     private String startTime;
     private String endTime;
     private String imgUrl; //실제 이미지 url

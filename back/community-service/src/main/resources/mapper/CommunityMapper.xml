@@ -4,9 +4,9 @@
 <mapper namespace="sapoon.communityservice.mapper.CommunityMapper">
 
     <insert id="insertCommuity" parameterType="CommunityVo">
-        INSERT INTO community (writer, contents, score1, score2, score3, score4, star_score, total_score,
+        INSERT INTO community (writer, contents, score1, score2, score3, score4, star_score, total_score, user_dulle_write
             start_time, end_time, img_url, dulle_seq)
-        VALUES (#{writer}, #{contents}, #{score1}, #{score2}, #{score3}, #{score4}, #{starScore}, #{totalScore},
+        VALUES (#{writer}, #{contents}, #{score1}, #{score2}, #{score3}, #{score4}, #{starScore}, #{totalScore}, #{userDulleWrite}
             #{startTime}, #{endTime}, #{imgUrl}, #{dulleSeq});
     </insert>
 
@@ -15,6 +15,7 @@
        SELECT seq, writer, contents, score1, score2, score3, score4,
             star_score as starScore,
             total_score as totalScore,
+            user_dulle_write as userDulleWrite,
             DATE_FORMAT(start_time,'%h:%i%p') as startTime,
             DATE_FORMAT(end_time,'%h:%i%p') as endTime,
             img_url as imgUrl, reg_date as regDate,
@@ -26,6 +27,7 @@
         SELECT seq, writer, contents, score1, score2, score3, score4,
             total_score as totalScore,
             star_score as starScore,
+            user_dulle_write as userDulleWrite,
             DATE_FORMAT(start_time,'%h:%i%p') as startTime,
             DATE_FORMAT(end_time,'%h:%i%p') as endTime,
             img_url as imgUrl, reg_date as regDate,
@@ -37,6 +39,7 @@
        SELECT seq, writer, contents, score1, score2, score3, score4,
             star_score as starScore,
             total_score as totalScore,
+            user_dulle_write as userDulleWrite,
             DATE_FORMAT(start_time,'%h:%i%p') as startTime,
             DATE_FORMAT(end_time,'%h:%i%p') as endTime,
             img_url as imgUrl, reg_date as regDate,

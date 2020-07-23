@@ -4,9 +4,9 @@
 <mapper namespace="sapoon.communityservice.mapper.CommunityMapper">
 
     <insert id="insertCommuity" parameterType="CommunityVo">
-        INSERT INTO community (writer, contents, score1, score2, score3, score4, star_score, total_score, user_dulle_write
+        INSERT INTO community (writer, contents, score1, score2, score3, score4, star_score, total_score, user_dulle_write,
             start_time, end_time, img_url, dulle_seq)
-        VALUES (#{writer}, #{contents}, #{score1}, #{score2}, #{score3}, #{score4}, #{starScore}, #{totalScore}, #{userDulleWrite}
+        VALUES (#{writer}, #{contents}, #{score1}, #{score2}, #{score3}, #{score4}, #{starScore}, #{totalScore}, #{userDulleWrite},
             #{startTime}, #{endTime}, #{imgUrl}, #{dulleSeq});
     </insert>
 

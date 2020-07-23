@@ -21,6 +21,7 @@ class Activity {
     this.score2,
     this.score3,
     this.score4,
+    this.starScore,
     this.rating,
     this.totalScore,
     this.startTimes,

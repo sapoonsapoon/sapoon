@@ -13,8 +13,8 @@ Card CardWidget({
       margin: EdgeInsets.only(
         left: 10.0, right: 10.0, top: 0.0, bottom: 1.0),
       child: Container(
-        width: MediaQuery.of(context).size.width * 0.55,
-        height: MediaQuery.of(context).size.width * 0.9,
+        width: MediaQuery.of(context).size.width * 0.45,
+        height: MediaQuery.of(context).size.width * 0.53,
         child: Column(
           children: <Widget>[
             ClipRRect(
@@ -25,13 +25,13 @@ Card CardWidget({
                       CircularProgressIndicator(value: downloadProgress.progress, valueColor: AlwaysStoppedAnimation<Color>(Colors.blueAccent),),
                   errorWidget: (context, url, error) => Icon(Icons.error),
                   height:
-                  MediaQuery.of(context).size.width * 0.55,
+                  MediaQuery.of(context).size.width * 0.45,
                   fit: BoxFit.fill,
                   width:
-                  MediaQuery.of(context).size.width * 0.55),
+                  MediaQuery.of(context).size.width * 0.45),
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.width * 0.03,
+              height: MediaQuery.of(context).size.width * 0.023,
             ),
             Row(
               children: <Widget>[
@@ -40,12 +40,11 @@ Card CardWidget({
                   MediaQuery.of(context).size.width * 0.02,
                 ),
                 Column(
-
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Container(
-                      width:  MediaQuery.of(context).size.width * 0.3,
-                      height:  MediaQuery.of(context).size.width * 0.09,
+                      width:  MediaQuery.of(context).size.width * 0.23,
+                      height:  MediaQuery.of(context).size.width * 0.08,
                       child: Text(
                         '$trailName',
                         style: TextStyle(
@@ -54,7 +53,7 @@ Card CardWidget({
                             fontSize: MediaQuery.of(context)
                                 .size
                                 .width *
-                                0.04),
+                                0.03),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
                       ),
@@ -62,10 +61,10 @@ Card CardWidget({
                     SizedBox(
                       height:
                       MediaQuery.of(context).size.width *
-                          0.01,
+                          0.002,
                     ),
                     Text(
-                      ' $trailDistance',
+                      '$trailDistance',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.green,
@@ -73,7 +72,7 @@ Card CardWidget({
                           fontSize: MediaQuery.of(context)
                               .size
                               .width *
-                              0.04),
+                              0.034),
                     ),
                   ],
                 ),
@@ -88,7 +87,7 @@ Card CardWidget({
                       fontFamily: "NanumSquareRegular",
                       fontSize:
                       MediaQuery.of(context).size.width *
-                          0.03),
+                          0.023),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 3,
 

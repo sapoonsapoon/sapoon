@@ -70,8 +70,8 @@ class _LandingPageState extends State<LandingPage> {
                 textAlign:TextAlign.center,
                 activeColor: Colors.redAccent,
                 inactiveColor: Colors.black12,
-                title: Text('산책 달력'),
-                icon: Icon(Icons.calendar_today)
+                title: Text('지역구 산책'),
+                icon: Icon(Icons.trip_origin)
             ),
             BottomNavyBarItem(
                 textAlign:TextAlign.center,

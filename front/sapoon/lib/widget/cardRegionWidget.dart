@@ -14,7 +14,7 @@ Card cardRegionWidget({
         left: 10.0, right: 10.0, top: 0.0, bottom: 1.0),
     child: Container(
       width: MediaQuery.of(context).size.width * 0.3,
-      height: MediaQuery.of(context).size.height * 0.18,
+      height: MediaQuery.of(context).size.width * 0.39,
       child: Column(
         children: <Widget>[
           ClipRRect(
@@ -45,7 +45,7 @@ Card cardRegionWidget({
                 children: <Widget>[
                   Container(
                     width:  MediaQuery.of(context).size.width * 0.26,
-                    height:  MediaQuery.of(context).size.height * 0.035,
+                    height:  MediaQuery.of(context).size.width * 0.07,
                     child: Text(
                       '$trailName',
                       style: TextStyle(
@@ -60,10 +60,10 @@ Card cardRegionWidget({
                     ),
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.002,
+                    height: MediaQuery.of(context).size.width * 0.001,
                   ),
                   Text(
-                    ' $trailDistance',
+                    '$trailDistance',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.green,

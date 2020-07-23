@@ -323,7 +323,7 @@ class _HomePageState extends State<HomePage> {
               ),
               Container(
                 width: 20000,
-                height: MediaQuery.of(context).size.width * 0.75,
+                height: MediaQuery.of(context).size.width * 0.61,
                 child: FutureBuilder(
                   future: post,
                   // ignore: missing_return

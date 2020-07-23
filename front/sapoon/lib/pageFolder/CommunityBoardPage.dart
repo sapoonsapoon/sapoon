@@ -228,7 +228,7 @@ class _CommunityBoardPageState extends State<CommunityBoardPage> {
               ),
               Container(
                   width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * 0.18,
+                  height: MediaQuery.of(context).size.width * 0.36,
                 child: futureBuilder(),
               ),
               Divider(
@@ -257,7 +257,7 @@ class _CommunityBoardPageState extends State<CommunityBoardPage> {
               ),
               Container(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.18,
+                height: MediaQuery.of(context).size.height * 0.19,
                 child: regionFutureBuilder(),
               ),
             ],

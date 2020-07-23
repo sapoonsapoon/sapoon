@@ -79,7 +79,7 @@ class _TrailEditPageState extends State<TrailEditPage> {
 
   @override
   void dispose() {
-    _everySecond.cancel();
+
     super.dispose();
   }
 

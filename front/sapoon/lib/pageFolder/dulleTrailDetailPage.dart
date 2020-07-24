@@ -36,7 +36,7 @@ class _DulleTrailDetailPageState extends State<DulleTrailDetailPage> {
   }
 
   double avgScore = Hive.box('image').get('avgScore');
-  int totalCount = Hive.box('image').get('totalCount');
+  double totalCount = Hive.box('image').get('totalCount');
   String dulleSeq = Hive.box('image').get('dulleSeq');
 
   Future<totalPointAvg> totalAvgPoint;
@@ -143,10 +143,11 @@ class _DulleTrailDetailPageState extends State<DulleTrailDetailPage> {
                     shopeName(name: widget.posts.trailName),
                     TitlePriceRating(
                       name: widget.posts.trailShortName,
-                      numOfReviews: totalCount,
+                      numOfReviews: totalCount.toInt(),
                       rating: avgScore,
                       price: widget.posts.trailDistanceDetail,
                       onRatingChanged: (value) {},
+                      isread: true,
                     ),
                     Center(
                       child: Text(

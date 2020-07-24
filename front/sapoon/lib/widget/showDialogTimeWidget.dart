@@ -53,7 +53,7 @@ class _ShowDialogTimeState extends State<ShowDialogTime> {
     return AlertDialog(
       backgroundColor: Colors.lightBlue,
       content: SizedBox(
-        height: MediaQuery.of(context).size.height*0.7,
+        height: MediaQuery.of(context).size.height*0.56,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [

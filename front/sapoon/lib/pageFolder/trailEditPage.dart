@@ -36,14 +36,12 @@ class _TrailEditPageState extends State<TrailEditPage> {
         .showSnackBar(new SnackBar(content: new Text(value)));
   }
 
-  TextEditingController _whereGoTextController = TextEditingController();
-
-  int iconValue1=0;
-  int iconValue2=0;
-  int iconValue3=0;
-  int iconValue4=0;
-  int iconValue5=0;
-  int totalNumber=0;
+  double iconValue1=0;
+  double iconValue2=0;
+  double iconValue3=0;
+  double iconValue4=0;
+  double iconValue5=0;
+  double totalNumber=0;
 
   List<String> walkTimes = ['','','',''];
 
@@ -56,7 +54,12 @@ class _TrailEditPageState extends State<TrailEditPage> {
 
   File _image;
   PopupMenu menu;
-  String walkTimeSign ='산책시간을 입력해주세요';
+  String walkTimeSign ='둘레길 산책한 시간을 입력해주세요.\n산책 예측은 다음 업데이트에 적용예정입니다!';
+
+  final _textEditingController = TextEditingController();
+  final _textEditingUserController=TextEditingController();
+  String writerContents;
+
 
   @override
   void initState() {
@@ -68,8 +71,8 @@ class _TrailEditPageState extends State<TrailEditPage> {
     setState(() {
       Hive.box('image').put('walkInit',initServer);
       Hive.box('image').put('walkEnd',endServer);
-      walkTimes[0] = init;
-      walkTimes[1] = end;
+      walkInit = initServer;
+      walkEnd = endServer;
       walkTimes[2] = initServer;
       walkTimes[3] = endServer;
       walkTimeSign = walkTimes[0] +' ~ '+walkTimes[1];
@@ -79,7 +82,8 @@ class _TrailEditPageState extends State<TrailEditPage> {
 
   @override
   void dispose() {
-
+    _textEditingController.dispose();
+    _textEditingUserController.dispose();
     super.dispose();
   }
 
@@ -178,21 +182,44 @@ class _TrailEditPageState extends State<TrailEditPage> {
                 ),
                 child: Column(
                   children: <Widget>[
-
-
-                    shopeName(name: '어디를 산책하셨나요?'),
                     TitlePriceRatingCommunity(
                       name: _nickName,
                       numOfReviews: 4,
                       rating: 3,
                       price: 3,
+                      onRatingChanged: (value){
+                        iconValue5 = value;
+                        print(iconValue5);
+                      },
                       isread: false,
                     ),
+                    Divider(
+                      color: Colors.grey,
+                    ),
+                    SizedBox(height: size.width * 0.03),
+                    Center(
+                      child: Text(
+                        '그늘점수',
+                        style: TextStyle(
+                          height: 0.7,
+                          color: Colors.green,
+                          fontFamily: 'NanumSquareExtraBold',
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: size.width * 0.01),
+                    Text(
+                      '둘레길에 그늘이 많았나요?',
+                      style: TextStyle(
+                        height: 1.5,
+                      ),
+                    ),
+                    SizedBox(height: size.width * 0.02),
                     Center(
                       child: Padding(
                         padding: const EdgeInsets.all(0.0),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Text(
                               '그늘점수',
@@ -203,13 +230,47 @@ class _TrailEditPageState extends State<TrailEditPage> {
                             ),
                             SmoothStarRating(
                               color: Colors.lightGreen,
-                              borderColor: Colors.greenAccent,
+                              borderColor: Colors.indigoAccent,
                               rating: 0,
-                              isReadOnly: true,
+                              isReadOnly: false,
+                              onRated:  (value) {
+                                iconValue1 =value;
+                                print("rating value -> $value");
+                              },
                             ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.02,
-                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: size.width * 0.01),
+                    Divider(
+                      color: Colors.grey,
+                    ),
+                    SizedBox(height: size.width * 0.03),
+                    Center(
+                      child: Text(
+                        '위치점수',
+                        style: TextStyle(
+                          height: 0.7,
+                          color: Colors.green,
+                          fontFamily: 'NanumSquareExtraBold',
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: size.width * 0.01),
+                    Text(
+                      '둘레길은 접근성이 괜찮았나요?',
+                      style: TextStyle(
+                        height: 1.5,
+                      ),
+                    ),
+                    SizedBox(height: size.width * 0.02),
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(0.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
                             Text(
                               '위치점수',
                               style: TextStyle(
@@ -219,19 +280,48 @@ class _TrailEditPageState extends State<TrailEditPage> {
                             ),
                             SmoothStarRating(
                               color: Colors.deepOrangeAccent,
-                              borderColor: Colors.greenAccent,
+                              borderColor: Colors.orange,
                               rating: 0,
-                              isReadOnly: true,
+                              isReadOnly: false,
+                              onRated:  (value) {
+                                iconValue2 =value;
+                                print("rating value -> $value");
+                              },
                             ),
                           ],
                         ),
                       ),
                     ),
+                    SizedBox(height: size.width * 0.01),
+                    Divider(
+                      color: Colors.grey,
+                    ),
+
+
+                    SizedBox(height: size.width * 0.03),
+                    Center(
+                      child: Text(
+                        '전망점수',
+                        style: TextStyle(
+                          height: 0.7,
+                          color: Colors.green,
+                          fontFamily: 'NanumSquareExtraBold',
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: size.width * 0.01),
+                    Text(
+                      '둘레길은 전망이 괜찮았나요?',
+                      style: TextStyle(
+                        height: 1.5,
+                      ),
+                    ),
+                    SizedBox(height: size.width * 0.02),
                     Center(
                       child: Padding(
                         padding: const EdgeInsets.all(0.0),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Text(
                               '전망점수',
@@ -242,13 +332,49 @@ class _TrailEditPageState extends State<TrailEditPage> {
                             ),
                             SmoothStarRating(
                               color: Colors.yellow,
-                              borderColor: Colors.greenAccent,
+                              borderColor: Colors.pinkAccent,
                               rating: 0,
-                              isReadOnly: true,
+                              isReadOnly: false,
+                              onRated:  (value) {
+                                iconValue3 =value;
+                                print("rating value -> $value");
+                              },
                             ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.02,
-                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: size.width * 0.01),
+                    Divider(
+                      color: Colors.grey,
+                    ),
+
+
+                    SizedBox(height: size.width * 0.03),
+                    Center(
+                      child: Text(
+                        '관리점수',
+                        style: TextStyle(
+                          height: 0.7,
+                          color: Colors.green,
+                          fontFamily: 'NanumSquareExtraBold',
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: size.width * 0.01),
+                    Text(
+                      '둘레길은 관리가 잘 되었나요?',
+                      style: TextStyle(
+                        height: 1.5,
+                      ),
+                    ),
+                    SizedBox(height: size.width * 0.02),
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(0.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
                             Text(
                               '관리점수',
                               style: TextStyle(
@@ -258,15 +384,56 @@ class _TrailEditPageState extends State<TrailEditPage> {
                             ),
                             SmoothStarRating(
                               color: Colors.blue,
-                              borderColor: Colors.greenAccent,
+                              borderColor: Colors.blueAccent,
                               rating: 0,
-                              isReadOnly: true,
+                              isReadOnly: false,
+                              onRated:  (value) {
+                                iconValue4 =value;
+                                print("rating value -> $value");
+                              },
                             ),
                           ],
                         ),
                       ),
                     ),
-                    SizedBox(height: size.height * 0.04),
+                    SizedBox(height: size.width * 0.01),
+                    Divider(
+                      color: Colors.grey,
+                    ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.location_on,
+                      color: Colors.green,
+                    ),
+                    SizedBox(width: 10),
+                    Text(
+                      '걸었던 곳을 적어주세요',
+                      style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.green,
+                          fontFamily: 'NanumSquareExtraBold'
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+                    SizedBox(height: size.height * 0.02),
+                    TextField(
+                      controller: _textEditingUserController,
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.black,
+                          fontFamily: 'NanumSquareExtraBold'
+                      ),
+                    ),
+                    SizedBox(height: size.width * 0.02),
+                    Divider(
+                      color: Colors.grey,
+                    ),
+
+                    SizedBox(height: size.height * 0.02),
                     Center(
                       child: Text(
                         '작성자 한줄평',
@@ -278,10 +445,11 @@ class _TrailEditPageState extends State<TrailEditPage> {
                       ),
                     ),
                     SizedBox(height: size.height * 0.02),
-                    Text(
-                      '',
+                    TextField(
+                      controller: _textEditingController,
                       style: TextStyle(
-                        height: 1.5,
+                        fontSize: 14,
+                        fontFamily: 'NanumSquareExtraBold'
                       ),
                     ),
                     SizedBox(height: size.height * 0.04),
@@ -296,122 +464,107 @@ class _TrailEditPageState extends State<TrailEditPage> {
                       ),
                     ),
                     SizedBox(height: size.height * 0.02),
+                    GestureDetector(
+                      onTap: (){
+                        showDialog(
+                            context: context,
+                            builder: (_) {
+                              return ShowDialogTime();
+                            }).then((value){
+                          walkTimes = value;
+                          print(walkTimes);
+                          _updateLabels(walkTimes[0],walkTimes[1],walkTimes[2],walkTimes[3]);
+                        }
+                        );
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(1.0),
+                        width: MediaQuery.of(context).size.width,
+                        alignment: Alignment.center,
+                        child: Text(
+                          walkTimeSign,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.black,
+                            fontFamily: 'NanumSquareExtraBold',
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    SizedBox(height: size.height * 0.05),
 
                   ],
                 ),
               ),
+              Row(
+                children: <Widget>[
+                  SizedBox(
+                      width: size.width / 2,
+                      height: 84,
+                      child: FlatButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                          ),
+                        ),
+                        color: Colors.greenAccent,
+                        onPressed: () {
 
-              GestureDetector(
-                onTap: (){
-                  showDialog(
-                      context: context,
-                      builder: (_) {
-                        return ShowDialogTime();
-                      }).then((value){
-                    walkTimes = value;
-                    print(walkTimes);
-                    _updateLabels(walkTimes[0],walkTimes[1],walkTimes[2],walkTimes[3]);
-                  }
-                  );
-                },
-                child: Container(
-                  padding: EdgeInsets.all(1.0),
-                  width: 150.0,
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    walkTimeSign,
-                    style: TextStyle(fontSize: 11),
-                  ),
-                ),
+                          print(_textEditingController.text);
+                          createSignUp(
+                            context,
+                            _nickName,
+                            _textEditingController.text,
+                            iconValue1,
+                            iconValue2,
+                            iconValue3,
+                            iconValue4,
+                            iconValue5,
+                            iconValue1*4+iconValue2*4+iconValue3*4
+                                +iconValue4*4+iconValue5*4,
+                            _textEditingUserController.text,
+                            walkInit,
+                            walkEnd,
+                            widget.seq,
+                          );
+                        },
+                        child: Text(
+                          "저장하기",
+                          style: TextStyle(
+                            color: Colors.black54,
+                            fontSize: 16,
+                          ),
+                        ),
+                      )),
+                  SizedBox(
+                      width: size.width / 2,
+                      height: 84,
+                      child: FlatButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(20),
+                          ),
+                        ),
+                        color: Colors.redAccent,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          "작성취소",
+                          style: TextStyle(
+                            color: Colors.black54,
+                            fontSize: 16,
+                          ),
+                        ),
+                      )),
+                ],
               ),
-//              SizedBox(
-//                height: 10,
-//              ),
-//              PersonRatingEdit(
-//                title: '입력해주세요!',
-//                country: '작성자 본인',
-//                price: 0,
-//                rating: 0,
-//                startTime: '20202',
-//                endTime: '20202',
-//              ),
-//              Container(
-//                margin: EdgeInsets.only(left: 10, right: 10),
-//                height: MediaQuery.of(context).size.height * 0.12,
-//                child: Row(
-//                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                  children: <Widget>[
-//                    SvgPicture.asset("assets/icons/sun.svg",height: 23,width: 23,),
-//                    Text(':⭐ '+iconValue1.toString()+'개'),
-//                    SvgPicture.asset("assets/icons/icon_2.svg",height: 23,width: 23),
-//                    Text(':⭐ '+iconValue2.toString()+'개'),
-//                    SvgPicture.asset("assets/icons/icon_3.svg",height: 23,width: 23),
-//                    Text(':⭐ '+iconValue3.toString()+'개'),
-//                    SvgPicture.asset("assets/icons/icon_4.svg",height: 18,width: 14),
-//                    Text(':⭐ '+iconValue4.toString()+'개'),
-//                  ],
-//                ),
-//              ),
-//              Row(
-//                children: <Widget>[
-//                  SizedBox(
-//                    width: size.width / 2,
-//                    height: 84,
-//                    child: FlatButton(
-//                      shape: RoundedRectangleBorder(
-//                        borderRadius: BorderRadius.only(
-//                          topRight: Radius.circular(20),
-//                        ),
-//                      ),
-//                      color: Color(0xFF0C9869),
-//                      onPressed: () {
-//                        createSignUp(
-//                          context,
-//                          _nickName,
-//                          textController,
-//                          iconValue1,
-//                          iconValue2,
-//                          iconValue3,
-//                          iconValue4,
-//                          iconValue5,
-//                          totalNumber,
-//                          walkInit,
-//                          walkEnd,
-//                          widget.seq,
-//                        );
-//                      },
-//                      child: Text(
-//                        "저장하기",
-//                        style: TextStyle(
-//                          color: Colors.white,
-//                          fontSize: 16,
-//                        ),
-//                      ),
-//                    ),
-//                  ),
-//                  SizedBox(
-//                      width: size.width / 2,
-//                      height: 84,
-//                      child: FlatButton(
-//                        shape: RoundedRectangleBorder(
-//                          borderRadius: BorderRadius.only(
-//                            topLeft: Radius.circular(20),
-//                          ),
-//                        ),
-//                        color: Colors.white,
-//                        onPressed: () {
-//                          Navigator.pop(context);
-//                        },
-//                        child: Text(
-//                          "삭제하기",
-//                          style: TextStyle(
-//                            color: Colors.black54,
-//                            fontSize: 16,
-//                          ),
-//                        ),
-//                      )),
-//                ],
-//              ),
+
+
+
+
+
             ],
           ),
         ),
@@ -422,12 +575,13 @@ class _TrailEditPageState extends State<TrailEditPage> {
       BuildContext context,
       String writer,
       String contents,
-      int score1,
-      int score2,
-      int score3,
-      int score4,
-      int starScore,
-      int totalScore,
+      double score1,
+      double score2,
+      double score3,
+      double score4,
+      double starScore,
+      double totalScore,
+      String userDulleWrite,
       String startTime,
       String endTime,
       int seq,
@@ -446,8 +600,8 @@ class _TrailEditPageState extends State<TrailEditPage> {
       print(startTime);
       print(endTime);
       print(seq);
-      String walkInit = Hive.box('image').get('walkInit');
-      String walkEnd = Hive.box('image').get('walkEnd');
+      print(userDulleWrite);
+      print(imageData);
       ///[1] CREATING INSTANCE
       var dioRequest = dio.Dio();
       dioRequest.options.baseUrl = 'http://34.80.151.71/sapoon/community';
@@ -468,14 +622,32 @@ class _TrailEditPageState extends State<TrailEditPage> {
         "score4" : score4,
         "starScore" : starScore,
         "totalScore" : totalScore,
-        "startTime" : walkInit,
-        "endTime" : walkEnd,
-        "imgFile" : await MultipartFile.fromFile(imageData, filename: 'sapoon.jpg'),
+        "userDulleWrite" : userDulleWrite,
+        "startTime" : startTime,
+        "endTime" : endTime,
+        "imgFile" :await MultipartFile.fromFile(imageData, filename: 'sapoon.jpg'),
         "dulleSeq" : seq,
+
+
+
       });
 
 
-      //[5] SEND TO SERVER
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //[5] SEND TO SERVER
       var response = await dioRequest.post(
         dioRequest.options.baseUrl,
         data: formData,
@@ -491,6 +663,7 @@ class _TrailEditPageState extends State<TrailEditPage> {
       showInSnackBar('값을 전부 입력해주세요!');
       print('ERROR  $err');
 
+
     }
   }
 
@@ -504,18 +677,6 @@ class _TrailEditPageState extends State<TrailEditPage> {
     });
   }
 
-  Row shopeName({String name}) {
-    return Row(
-      children: <Widget>[
-        Icon(
-          Icons.location_on,
-          color: Colors.green,
-        ),
-        SizedBox(width: 10),
-        
-      ],
-    );
-  }
 }
 
 

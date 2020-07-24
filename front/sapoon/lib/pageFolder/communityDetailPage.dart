@@ -47,7 +47,7 @@ Future<Post> detailPost(int seq) async {
 
 class _TrailDetailPageState extends State<TrailDetailPage> {
   double avgScore = Hive.box('image').get('avgScore');
-  int totalCount = Hive.box('image').get('totalCount');
+  double totalCount = Hive.box('image').get('totalCount');
   String dulleSeq = Hive.box('image').get('dulleSeq');
 
   Future<totalPointAvg> totalAvgPoint;
@@ -137,13 +137,11 @@ class _TrailDetailPageState extends State<TrailDetailPage> {
                       setState(() {
                         likeiconClickSet = likeiconClick;
                       });
-
                     }
                   else{
                     setState(() {
                       likeiconClickSet = likeiconNClick;
                     });
-
                   }
 
                 },
@@ -214,10 +212,10 @@ class _TrailDetailPageState extends State<TrailDetailPage> {
                   ),
                   child: Column(
                     children: <Widget>[
-                      shopeName(name: '골못길~~'),
+                      shopeName(name: widget.activity.userDulleWrite),
                       TitlePriceRatingCommunity(
                         name: widget.activity.writer,
-                        numOfReviews: widget.activity.score4,
+                        numOfReviews: widget.activity.score4.toInt(),
                         rating: widget.activity.totalScore.toDouble(),
                         price: widget.activity.score2.toDouble(),
                         isread: true,

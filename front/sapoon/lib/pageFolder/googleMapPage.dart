@@ -14,56 +14,33 @@ class GoogleMapPage extends StatefulWidget {
 
 
 class _GoogleMapPageState extends State<GoogleMapPage> {
+
+
+
+
+
   GoogleMapController _controller;
 
   List<Marker> allMarkers = [];
+
   PageController _pageController;
+
   int prevPage;
-  List<Post> googlePost;
-
-  Future<List<Post>> getRegionMark() async {
-    double lat =Hive.box('image').get('latitude');
-    double lon =Hive.box('image').get('longitude');
-    final http.Response response = await http.get(
-        Uri.encodeFull(
-            'http://34.80.151.71/sapoon/promenade/dullegil/search/gu/geo?x='+lon.toString()+'&y='+lat.toString()),
-        headers: {"Accept": "application/json"});
-    if (response.statusCode == 200) {
-      return makePostList(json.decode(utf8.decode(response.bodyBytes)));
-    } else {
-      print('http://34.80.151.71/sapoon/promenade/dullegil/search/gu/geo?x='+lon.toString()+'&y='+lat.toString());
-      print('Response status: ${response.statusCode}');
-      print('Response body: ${response.body}');
-      throw Exception();
-    }
-  }
-
-
 
   @override
-  void initState() async {
+  void initState() {
     // TODO: implement initState
     super.initState();
-    try{
-      googlePost =  await getRegionMark();
-      googlePost.forEach((element) {
-        allMarkers.add(Marker(
-            markerId: MarkerId(element.trailName),
-            draggable: false,
-            infoWindow:
-            InfoWindow(title: element.trailNameshort, snippet: element.trailBriefContents),
-            position: LatLng(element.latitude,element.longitude)));
-      });
-
-
-    }catch(e){
-        print(e);
-    }finally{
-      _pageController = PageController(initialPage: 0, viewportFraction: 0.8)
-        ..addListener(_onScroll);
-    }
-
-
+    dulleTrail.forEach((element) {
+      allMarkers.add(Marker(
+          markerId: MarkerId(element.trailName),
+          draggable: false,
+          infoWindow:
+          InfoWindow(title: element.trailName, snippet: element.trailCourseDescription),
+          position: LatLng(element.latitude,element.longitude)));
+    });
+    _pageController = PageController(initialPage: 1, viewportFraction: 0.8)
+      ..addListener(_onScroll);
   }
 
   void _onScroll() {
@@ -72,6 +49,7 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
       moveCamera();
     }
   }
+
 
   _coffeeShopList(index) {
     return AnimatedBuilder(
@@ -126,7 +104,7 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
                                       topLeft: Radius.circular(10.0)),
                                   image: DecorationImage(
                                       image: NetworkImage(
-                                          googlePost[index].trailUrl),
+                                          dulleTrail[index].trailUrl),
                                       fit: BoxFit.cover))),
                           SizedBox(width: 5.0),
                           Column(
@@ -134,26 +112,23 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  googlePost[index].trailNameshort,
+                                  dulleTrail[index].trailName,
                                   style: TextStyle(
                                       fontSize: 12.5,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                Container(
-                                  width: MediaQuery.of(context).size.width*0.45,
-                                  child: Text(
-                                    googlePost[index].trailBriefContents,
-                                    style: TextStyle(
-                                        fontSize: 12.0,
-                                        fontWeight: FontWeight.w600),
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1,
-                                  ),
+                                Text(
+                                  dulleTrail[index].trailBriefContents,
+                                  style: TextStyle(
+                                      fontSize: 12.0,
+                                      fontWeight: FontWeight.w600),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
                                 ),
                                 Container(
                                   width: MediaQuery.of(context).size.width*0.45,
                                   child: Text(
-                                    googlePost[index].trailCourseDescription,
+                                    dulleTrail[index].trailCourseDescription,
                                     style: TextStyle(
                                         fontSize: 11.0,
                                         fontWeight: FontWeight.w300),
@@ -170,7 +145,7 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-          appBar: AppBar(
+        appBar: AppBar(
           elevation: 0,
           brightness: Brightness.light,
           title: Row(
@@ -197,7 +172,7 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
               width: MediaQuery.of(context).size.width,
               child: GoogleMap(
                 initialCameraPosition: CameraPosition(
-                    target: LatLng(0.0,0.0), zoom: 14.0),
+                    target: LatLng(37.594061, 126.99562), zoom: 14.0),
                 markers: Set.from(allMarkers),
                 onMapCreated: mapCreated,
               ),
@@ -209,7 +184,7 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
                 width: MediaQuery.of(context).size.width,
                 child: PageView.builder(
                   controller: _pageController,
-                  itemCount: 5,
+                  itemCount: dulleTrail.length,
                   itemBuilder: (BuildContext context, int index) {
                     return _coffeeShopList(index);
                   },
@@ -228,7 +203,7 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
 
   moveCamera() {
     _controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-        target: LatLng(googlePost[_pageController.page.toInt()].latitude,googlePost[_pageController.page.toInt()].longitude),
+        target: LatLng(dulleTrail[_pageController.page.toInt()].latitude,dulleTrail[_pageController.page.toInt()].longitude),
         zoom: 14.0,
         bearing: 45.0,
         tilt: 45.0)));

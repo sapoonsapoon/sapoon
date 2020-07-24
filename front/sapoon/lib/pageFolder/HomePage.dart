@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hive/hive.dart';
 import 'package:sapoon/pageFolder/data.dart';
@@ -13,6 +14,7 @@ import 'package:sapoon/pageFolder/trailEditPage.dart';
 import 'package:http/http.dart' as http;
 import 'package:sapoon/widget/activityWidget.dart';
 import 'package:sapoon/widget/cardWidget.dart';
+import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -137,7 +139,7 @@ class _HomePageState extends State<HomePage> {
     activityList = getActivityRecent();
     post = getRandomFiveTrail('0','0');
     Hive.box('image').put('avgScore',0.0);
-    Hive.box('image').put('totalCount',0);
+    Hive.box('image').put('totalCount',0.0);
     Hive.box('image').put('dulleSeq','');
     Future<String> a=getPositionXY();
     super.initState();
@@ -283,33 +285,36 @@ class _HomePageState extends State<HomePage> {
               ),
               Container(
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     SizedBox(
-                      height: MediaQuery.of(context).size.width * 0.14,
-                      width: MediaQuery.of(context).size.width * 0.08,
+                      height: MediaQuery.of(context).size.width * 0.02,
+                      width: MediaQuery.of(context).size.width * 0.04,
                     ),
                     Text(
-                      '산책하기 \n정말 좋은 날씨에요!',
+                      '비가 내리는 \n날이에요 가볍게 걸어볼까요?',
                       style: TextStyle(
                           color: Colors.black87,
                           fontFamily: "NanumSquareRegular",
-                          fontSize: MediaQuery.of(context).size.width * 0.06),
+                          fontSize: MediaQuery.of(context).size.width * 0.04),
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.08,
                     ),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.08,
                     ),
                     Icon(
-                      Icons.wb_sunny,
-                      color: Colors.orangeAccent,
-                      size: 70,
+                      FontAwesomeIcons.cloudRain,
+                      color: Colors.blueAccent,
+                      size: MediaQuery.of(context).size.width*0.1,
                     ),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.01,
                     ),
                     Text(
-                      '\n영등포구 \n대체로 맑음\n 강수 13%',
+                      '종로구 \n강수량 많음\n 온도 23°C',
                       style: TextStyle(
                           color: Colors.black87,
                           fontFamily: "NanumSquareRegular",
@@ -320,6 +325,25 @@ class _HomePageState extends State<HomePage> {
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.06,
+              ),
+              Container(
+                child: Row(
+                  children: <Widget>[
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.04,
+                    ),
+                    Text(
+                      '\t가볍게 걸을 수 있는 산책로',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: "NanumSquareExtraBold",
+                          fontSize: MediaQuery.of(context).size.width * 0.035),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.width * 0.02,
               ),
               Container(
                 width: 20000,
@@ -367,20 +391,20 @@ class _HomePageState extends State<HomePage> {
                 child: Row(
                   children: <Widget>[
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.01,
+                      width: MediaQuery.of(context).size.width * 0.04,
                     ),
                     Text(
-                      '\t 최근 산책 후기',
+                      '\t 비 오는 날 산책후기',
                       style: TextStyle(
                           color: Colors.black,
-                          fontFamily: "NanumSquareRegular",
-                          fontSize: MediaQuery.of(context).size.width * 0.05),
+                          fontFamily: "NanumSquareExtraBold",
+                          fontSize: MediaQuery.of(context).size.width * 0.035),
                     ),
                   ],
                 ),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.01,
+                height: MediaQuery.of(context).size.width * 0.01,
               ),
               Container(
                 width: MediaQuery.of(context).size.width,
@@ -488,8 +512,12 @@ class _HomePageState extends State<HomePage> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,
                                             children: <Widget>[
-                                              _buildRatingStars(
-                                                  activity.rating.toInt()),
+                                              SmoothStarRating(
+                                                color: Colors.lightGreen,
+                                                borderColor: Colors.white70,
+                                                rating: activity.starScore,
+                                                isReadOnly: true,
+                                              ),
                                               Container(
                                                 padding: EdgeInsets.all(5.0),
                                                 width: MediaQuery.of(context).size.width*0.3,

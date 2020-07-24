@@ -126,6 +126,7 @@ class TitlePriceRatingCommunity extends StatelessWidget {
                       rating: rating,
                       onRated: onRatingChanged,
                       isReadOnly: isread,
+
                     ),
 
                   ],

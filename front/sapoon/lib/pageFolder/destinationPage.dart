@@ -76,18 +76,29 @@ class _DestinationPageState extends State<DestinationPage> {
                       borderRadius: BorderRadius.only(
                           bottomRight: Radius.circular(20.0),
                           bottomLeft: Radius.circular(20.0)),
-                      child: CachedNetworkImage(
-                        imageUrl: widget.posts.trailUrl,
-                        progressIndicatorBuilder:
-                            (context, url, downloadProgress) =>
-                                CircularProgressIndicator(
-                          value: downloadProgress.progress,
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(Colors.blueAccent),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => DulleTrailDetailPage(
+                                        posts: widget.posts,
+                                      )));
+                        },
+                        child: CachedNetworkImage(
+                          imageUrl: widget.posts.trailUrl,
+                          progressIndicatorBuilder:
+                              (context, url, downloadProgress) =>
+                                  CircularProgressIndicator(
+                            value: downloadProgress.progress,
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.blueAccent),
+                          ),
+                          errorWidget: (context, url, error) =>
+                              Icon(Icons.error),
+                          fit: BoxFit.cover,
+                          width: MediaQuery.of(context).size.width,
                         ),
-                        errorWidget: (context, url, error) => Icon(Icons.error),
-                        fit: BoxFit.cover,
-                        width: MediaQuery.of(context).size.width,
                       ),
                     ),
                   ),
@@ -124,7 +135,15 @@ class _DestinationPageState extends State<DestinationPage> {
                             icon: Icon(FontAwesomeIcons.sortAmountDown),
                             iconSize: 25.0,
                             color: Colors.white,
-                            onPressed: () => Navigator.pop(context),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          DulleTrailDetailPage(
+                                            posts: widget.posts,
+                                          )));
+                            },
                           ),
                         ],
                       ),

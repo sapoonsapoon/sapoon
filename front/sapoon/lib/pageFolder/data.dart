@@ -1,5 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'dart:convert';
 
 import 'package:sapoon/widget/activityWidget.dart';
@@ -91,7 +92,7 @@ class Post {
 
 class totalPointAvg{
   int dulleSeq;
-  int totalCount;
+  double totalCount;
   double avgScore;
 
   totalPointAvg({
@@ -106,7 +107,7 @@ totalPointAvg makeTotalPointAvgList(List<dynamic> json){
   totalPointAvg values = totalPointAvg();
 
     double avgScore = json[0]['avgScore'];
-    int totalCount = json[0]['totalCount'];
+    double totalCount = json[0]['totalCount'];
     int dulleSeq = json[0]['dulleSeq'];
 
   Hive.box('image').put('avgScore',avgScore);
@@ -243,9 +244,11 @@ List<Activity> makeActivityList(Map<String,dynamic> json) {
       score4: json['result'][i]['score4'],
       rating: json['result'][i]['starScore'],
       totalScore: json['result'][i]['totalScore'],
+      starScore: json['result'][i]['starScore'],
       startTimes: [json['result'][i]['startTime'], json['result'][i]['endTime']],
       imgUrl: json['result'][i]['imgUrl'],
       dulleSeq: json['result'][i]['dulleSeq'],
+      userDulleWrite: json['result'][i]['userDulleWrite'],
     ));
   }
   return values;

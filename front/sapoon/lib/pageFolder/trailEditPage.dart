@@ -118,7 +118,7 @@ class _TrailEditPageState extends State<TrailEditPage> {
               Column(
                 children: <Widget>[
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.13,
+                    height: MediaQuery.of(context).size.height * 0.17,
                     width: MediaQuery.of(context).size.width * 0.75,
                     child:
                     (_image != null) ? Image.file(_image, width: MediaQuery.of(context).size.width * 0.75, height: MediaQuery.of(context).size.height * 0.13,) : Container(
@@ -142,7 +142,7 @@ class _TrailEditPageState extends State<TrailEditPage> {
                         BoxShadow(
                           offset: Offset(0, 10),
                           blurRadius: 60,
-                          color: Color(0xFF0C9869).withOpacity(0.29),
+                          color: Colors.white,
                         ),
                       ],
                     ),
@@ -505,10 +505,10 @@ class _TrailEditPageState extends State<TrailEditPage> {
                       child: FlatButton(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20),
+                            topLeft: Radius.circular(0),
                           ),
                         ),
-                        color: Colors.greenAccent,
+                        color: Colors.green,
                         onPressed: () {
 
                           print(_textEditingController.text);
@@ -532,8 +532,9 @@ class _TrailEditPageState extends State<TrailEditPage> {
                         child: Text(
                           "저장하기",
                           style: TextStyle(
-                            color: Colors.black54,
+                            color: Colors.white,
                             fontSize: 16,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       )),
@@ -543,18 +544,19 @@ class _TrailEditPageState extends State<TrailEditPage> {
                       child: FlatButton(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(20),
+                            topRight: Radius.circular(0),
                           ),
                         ),
-                        color: Colors.redAccent,
+                        color: Colors.orange,
                         onPressed: () {
                           Navigator.pop(context);
                         },
                         child: Text(
                           "작성취소",
                           style: TextStyle(
-                            color: Colors.black54,
+                            color: Colors.white,
                             fontSize: 16,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       )),

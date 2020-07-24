@@ -226,6 +226,16 @@ class _CommunityBoardPageState extends State<CommunityBoardPage> {
               Padding(
                 padding: EdgeInsets.only(top: MediaQuery.of(context).size.width * 0.03, ),
               ),
+              Padding(
+                padding: const EdgeInsets.only(left: 15,bottom: 10),
+                child: Text(
+                  '날씨에 맞는 산책로에요!(추천순)',
+                  style: TextStyle(
+                      color: Colors.black87,
+                      fontFamily: "NanumSquareExtraBold",
+                      fontSize: MediaQuery.of(context).size.width * 0.035),
+                ),
+              ),
               Container(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.width * 0.36,
@@ -243,7 +253,7 @@ class _CommunityBoardPageState extends State<CommunityBoardPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(
-                      " 실시간 인기 산책로 (Top 5) " ,
+                      "실시간 인기 산책로 (조회가 많은 Top 5) " ,
                       style: TextStyle(
                           color: Colors.redAccent,
                           fontFamily: "NanumSquareExtraBold",

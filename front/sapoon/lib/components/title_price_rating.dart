@@ -150,7 +150,7 @@ class TitlePriceRatingCommunity extends StatelessWidget {
         width: 65,
         color: Color(0xFFFFC61F),
         child: Text(
-          "$price\km",
+          "둘레길",
           style: Theme.of(context)
               .textTheme
               .title

@@ -5,6 +5,7 @@ import sapoon.promenadeservice.vo.DullegilDetailVo;
 import sapoon.promenadeservice.vo.DullegilVo;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface PromenadeMapper {
@@ -16,4 +17,5 @@ public interface PromenadeMapper {
     List<DullegilVo> getDullegilInfoByGu(String guName);
     List<DullegilVo> getMainDullegilInfoByGeo(String guName);
     List<DullegilVo> getDullegilInfoByGeo(String guName);
+    List<DullegilVo> getMainDullegilInfoByTheme(Map params);
 }

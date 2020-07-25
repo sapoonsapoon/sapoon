@@ -76,15 +76,33 @@ public class PromenadeController {
      */
     @GetMapping("/dullegil/search/gu")
     public List<DullegilVo> getDullegilInfoByGu(String guName){
-        List<DullegilVo> dullegilVoList = new ArrayList<>();
-        dullegilVoList = promenadeService.getDullegilInfoByGu(guName);
+        List<DullegilVo> dullegilVoList = promenadeService.getDullegilInfoByGu(guName);
+
         return dullegilVoList;
     }
 
+
+    /*
+        위치 좌표로 구에 해당하는 모든 산책로 불러오기
+     */
     @GetMapping("/dullegil/search/gu/geo")
-    public List<DullegilVo> getDullegilinfoByGeo(double x, double y) {
-        List<DullegilVo> dullegilVoList = promenadeService.getMainDullegilInfoByGeo(x, y);
+    public List<DullegilVo> getDullegilInfoByGeo(double x, double y) {
+        List<DullegilVo> dullegilVoList = promenadeService.getDullegilInfoByGeo(x, y);
 
         return dullegilVoList;
     }
+
+    /*
+        메인화면 테마별 산책로 정보 가져오기
+     */
+    @GetMapping("/dullegil/main/theme")
+    public List<DullegilVo> getDullegilInfoByTheme(
+            @RequestParam("theme") String theme,
+            @RequestParam("x") double x,
+            @RequestParam("y") double y) {
+        List<DullegilVo> dullegilVoList = promenadeService.getMainDullegilInfoByTheme(theme, x, y);
+
+        return dullegilVoList;
+    }
+
 }

@@ -31,16 +31,40 @@
     <select id="getDullegilInfoByGu" resultType="sapoon.promenadeservice.vo.DullegilVo">
         SELECT * FROM sppromendas.dullegil_info
         WHERE region1 LIKE CONCAT('%', #{guName}, '%')
+        ORDER BY distance_detail ASC
     </select>
 
     <select id="getMainDullegilInfoByGeo" resultType="sapoon.promenadeservice.vo.DullegilVo">
         SELECT * FROM sppromendas.dullegil_info
         WHERE region1 LIKE CONCAT('%', #{guName}, '%')
-        ORDER BY RAND() LIMIT 5
+        AND (SEQ = 23
+        OR SEQ = 39
+        OR SEQ = 62
+        OR SEQ = 148
+        OR SEQ = 149)
+        -- ORDER BY seq ASC
+        -- LIMIT 5
+        -- ORDER BY RAND() LIMIT 5
     </select>
 
     <select id="getDullegilInfoByGeo" resultType="sapoon.promenadeservice.vo.DullegilVo">
         SELECT * FROM sppromendas.dullegil_info
         WHERE region1 LIKE CONCAT('%', #{guName}, '%')
+    </select>
+
+    <select id="getMainDullegilInfoByTheme" parameterType="map" resultType="sapoon.promenadeservice.vo.DullegilVo">
+        SELECT * FROM sppromendas.dullegil_info
+        WHERE 1 = 1
+        AND region1 LIKE CONCAT('%', #{guName}, '%')
+        <if test="theme != null and theme == '01'">
+            AND drinking_water_info IS NOT NULL AND drinking_water_info != ''
+        </if>
+        <if test="theme != null and theme == '02'">
+            AND toilet_info IS NOT NULL AND toilet_info != ''
+        </if>
+        <if test="theme != null and theme == '03'">
+            AND cafeteria_info IS NOT NULL AND cafeteria_info != ''
+        </if>
+        ORDER BY RAND() LIMIT 5
     </select>
 </mapper>

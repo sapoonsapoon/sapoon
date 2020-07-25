@@ -1,13 +1,24 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hive/hive.dart';
 import 'package:sapoon/pageFolder/dulle_model.dart';
+import 'package:http/http.dart' as http;
+import 'data.dart';
 
 class GoogleMapPage extends StatefulWidget {
   @override
   _GoogleMapPageState createState() => _GoogleMapPageState();
 }
 
+
 class _GoogleMapPageState extends State<GoogleMapPage> {
+
+
+
+
+
   GoogleMapController _controller;
 
   List<Marker> allMarkers = [];
@@ -22,11 +33,11 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
     super.initState();
     dulleTrail.forEach((element) {
       allMarkers.add(Marker(
-          markerId: MarkerId(element.shopName),
+          markerId: MarkerId(element.trailName),
           draggable: false,
           infoWindow:
-          InfoWindow(title: element.shopName, snippet: element.address),
-          position: element.locationCoords));
+          InfoWindow(title: element.trailName, snippet: element.trailCourseDescription),
+          position: LatLng(element.latitude,element.longitude)));
     });
     _pageController = PageController(initialPage: 1, viewportFraction: 0.8)
       ..addListener(_onScroll);
@@ -38,6 +49,7 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
       moveCamera();
     }
   }
+
 
   _coffeeShopList(index) {
     return AnimatedBuilder(
@@ -92,7 +104,7 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
                                       topLeft: Radius.circular(10.0)),
                                   image: DecorationImage(
                                       image: NetworkImage(
-                                          dulleTrail[index].thumbNail),
+                                          dulleTrail[index].trailUrl),
                                       fit: BoxFit.cover))),
                           SizedBox(width: 5.0),
                           Column(
@@ -100,31 +112,28 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  dulleTrail[index].shopName,
+                                  dulleTrail[index].trailName,
                                   style: TextStyle(
                                       fontSize: 12.5,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                Container(
-                                  width: MediaQuery.of(context).size.width*0.45,
-                                  child: Text(
-                                    dulleTrail[index].address,
-                                    style: TextStyle(
-                                        fontSize: 12.0,
-                                        fontWeight: FontWeight.w600),
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1,
-                                  ),
+                                Text(
+                                  dulleTrail[index].trailBriefContents,
+                                  style: TextStyle(
+                                      fontSize: 12.0,
+                                      fontWeight: FontWeight.w600),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
                                 ),
                                 Container(
                                   width: MediaQuery.of(context).size.width*0.45,
                                   child: Text(
-                                    dulleTrail[index].description,
+                                    dulleTrail[index].trailCourseDescription,
                                     style: TextStyle(
                                         fontSize: 11.0,
                                         fontWeight: FontWeight.w300),
                                     overflow: TextOverflow.ellipsis,
-                                    maxLines: 3,
+                                    maxLines: 2,
                                   ),
                                 )
                               ])
@@ -137,8 +146,24 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('둘레길 지도'),
-          centerTitle: true,
+          elevation: 0,
+          brightness: Brightness.light,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              SizedBox(
+                height: MediaQuery.of(context).size.width * 0.24,
+                width: MediaQuery.of(context).size.width * 0.04,
+              ),
+              Text(
+                '가까운 둘레길 정보 ',
+                style: TextStyle(
+                  fontFamily: "NanumSquareExtraBold",
+                  fontSize: 21.0,
+                ),
+              ),
+            ],
+          ),
         ),
         body: Stack(
           children: <Widget>[
@@ -147,7 +172,7 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
               width: MediaQuery.of(context).size.width,
               child: GoogleMap(
                 initialCameraPosition: CameraPosition(
-                    target: LatLng(37.5287883,126.7998117), zoom: 14.0),
+                    target: LatLng(37.594061, 126.99562), zoom: 14.0),
                 markers: Set.from(allMarkers),
                 onMapCreated: mapCreated,
               ),
@@ -178,7 +203,7 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
 
   moveCamera() {
     _controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-        target: dulleTrail[_pageController.page.toInt()].locationCoords,
+        target: LatLng(dulleTrail[_pageController.page.toInt()].latitude,dulleTrail[_pageController.page.toInt()].longitude),
         zoom: 14.0,
         bearing: 45.0,
         tilt: 45.0)));

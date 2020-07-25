@@ -142,29 +142,7 @@ class _PersonRatingEditState extends State<PersonRatingEdit> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 _buildRatingStars(recommandValue),
-                GestureDetector(
-                  onTap: (){
-                    showDialog(
-                        context: context,
-                        builder: (_) {
-                          return ShowDialogTime();
-                        }).then((value){
-                        walkTimes = value;
-                        print(walkTimes);
-                        _updateLabels(walkTimes[0],walkTimes[1],walkTimes[2],walkTimes[3]);
-                        }
-                    );
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(1.0),
-                    width: 150.0,
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      walkTimeSign,
-                      style: TextStyle(fontSize: 11),
-                    ),
-                  ),
-                ),
+
               ],
             ),
           ),

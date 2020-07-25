@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
+import 'package:provider/provider.dart';
+import 'package:sapoon/provider/regionProvider.dart';
 import 'package:sapoon/rootPage.dart';
 
 import 'package:sapoon/routes.dart';
@@ -19,14 +21,22 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print('MyApp created');
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        primaryColor: Colors.white,
-        accentColor: Colors.white,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<RegionProvider>(
+          create: (_)=> RegionProvider(),
+        )
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          primaryColor: Colors.white,
+          accentColor: Colors.white,
+        ),
+        home: RootPage(),
       ),
-      home: RootPage(),
     );
   }
 }

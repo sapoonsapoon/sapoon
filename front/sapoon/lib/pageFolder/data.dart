@@ -1,4 +1,6 @@
+import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'dart:convert';
 
 import 'package:sapoon/widget/activityWidget.dart';
@@ -31,7 +33,7 @@ class BackendService {
         });
       }
     } else {
-      return List.generate(0, (index) {
+      return List.generate(1, (index) {
         return {'name': '해당 요청의 데이터가 없습니다', 'trailDistance': '추천 리스트가 없습니다'};
       });
     }
@@ -55,9 +57,12 @@ class Post {
   String trailToiletInfo;
   String trailCafeteriaInfo;
   String trailKakaoMapImgUrl;
+  double latitude;
+  double longitude;
   String trailUrl2;
   String trailUrl3;
   String trailUrl4;
+  String trailNameshort;
 
   Post({
     this.seq,
@@ -76,10 +81,46 @@ class Post {
     this.trailToiletInfo,
     this.trailCafeteriaInfo,
     this.trailKakaoMapImgUrl,
+    this.longitude,
+    this.latitude,
     this.trailUrl2,
     this.trailUrl3,
     this.trailUrl4,
+    this.trailNameshort,
   });
+}
+
+class totalPointAvg{
+  int dulleSeq;
+  double totalCount;
+  double avgScore;
+
+  totalPointAvg({
+    this.dulleSeq,
+    this.totalCount,
+    this.avgScore,
+    });
+}
+
+totalPointAvg makeTotalPointAvgList(List<dynamic> json){
+
+  totalPointAvg values = totalPointAvg();
+
+    double avgScore = json[0]['avgScore'];
+    double totalCount = json[0]['totalCount'];
+    int dulleSeq = json[0]['dulleSeq'];
+
+  Hive.box('image').put('avgScore',avgScore);
+  Hive.box('image').put('totalCount',totalCount);
+  Hive.box('image').put('dulleSeq',dulleSeq.toString());
+
+
+  values.dulleSeq = dulleSeq;
+  values.avgScore = avgScore;
+  values.totalCount = totalCount;
+
+  return values;
+
 }
 
 List<Post> makePostList(List<dynamic> json) {
@@ -111,10 +152,11 @@ List<Post> makePostList(List<dynamic> json) {
       trailUrl2:trailUrl['imgPath2'],
       trailUrl3:trailUrl['imgPath3'],
       trailUrl4:trailUrl['imgPath4'],
-      activities: activities,
+      latitude: json[i]['latitude'],
+      longitude: json[i]['longitude'],
+      trailNameshort: json[i]['courseName'],
     ));
   }
-  print(values[0].trailUrl2);
   return values;
 }
 
@@ -125,12 +167,13 @@ class ActivityService {
             'http://34.80.151.71/sapoon/community'),
         headers: {"Accept": "application/json"});
     if (response.statusCode == 200) {
-      print(json.decode(utf8.decode(response.bodyBytes)));
       Map<String,dynamic> returnValue = json.decode(utf8.decode(response.bodyBytes));
       List<Activity> listActivity = makeActivityList(returnValue);
       return listActivity;
     } else {
-      throw Exception();
+      print('이상한 결과');
+      throw Exception(
+      );
     }
   }
 }
@@ -138,27 +181,59 @@ class ActivityService {
 
 class ActivityCommunityService {
   static Future<List<Activity>> getCommunityAcitivys(String url) async {
+    print(url);
     final http.Response response = await http.get(
         Uri.encodeFull(url),
         headers: {"Accept": "application/json"});
     if (response.statusCode == 200) {
-      print(json.decode(utf8.decode(response.bodyBytes)));
       Map<String,dynamic> returnValue = json.decode(utf8.decode(response.bodyBytes));
       List<Activity> listActivity = makeActivityList(returnValue);
-     print('커뮤니티 것 만들었어요!!!');
       return listActivity;
     } else {
+      print("예외가 발생!!!!!!!!!!!!!");
       throw Exception();
     }
   }
 }
 
+Post makePost(Map<String,dynamic> json){
+  Post values = Post();
+  if(json != null){
+    Map<String, dynamic> trailUrl = json['dullegilDetailVo'];
+    String trailsJsonName = json['name'];
+    String trailCourseName = json['courseName'];
+    String trailDistance = json['distance'];
+    values =Post(
+      seq: json['seq'],
+      trailUrl: trailUrl['thumbnail'],
+      trailName: trailsJsonName + '\n' + trailCourseName,
+      trailDistance: trailDistance,
+      trailBriefContents: json['region1'],
+      trailShortName: json['name'],
+      trailDescription:json['description'],
+      trailCourseDescription:json['courseDescription'],
+      trailDifficulty:json['difficulty'],
+      trailDistanceDetail:json['distanceDetail'],
+      trailLeadTime:json['leadTime'],
+      trailDrinkingWaterInfo:json['drinkingWaterInfo'],
+      trailToiletInfo:json['toiletInfo'],
+      trailCafeteriaInfo:json['cafeteriaInfo'],
+      trailKakaoMapImgUrl:trailUrl['imgPath1'],
+      trailUrl2:trailUrl['imgPath2'],
+      trailUrl3:trailUrl['imgPath3'],
+      trailUrl4:trailUrl['imgPath4'],
+      latitude: json['latitude'],
+      longitude: json['longitude'],
+      trailNameshort: json['courseName'],
+    );
+    return values;
+  }
+  return values;
+}
 
 List<Activity> makeActivityList(Map<String,dynamic> json) {
   List<Activity> values = List<Activity>();
-  print("###############################");
-  print(json.length);
-  for (int i = 0; i < json.length; i++) {
+  for (int i = 0; i < json['result'].length; i++) {
     values.add(Activity(
       seq: json['result'][i]['seq'],
       writer: json['result'][i]['writer'],
@@ -169,27 +244,13 @@ List<Activity> makeActivityList(Map<String,dynamic> json) {
       score4: json['result'][i]['score4'],
       rating: json['result'][i]['starScore'],
       totalScore: json['result'][i]['totalScore'],
+      starScore: json['result'][i]['starScore'],
       startTimes: [json['result'][i]['startTime'], json['result'][i]['endTime']],
       imgUrl: json['result'][i]['imgUrl'],
       dulleSeq: json['result'][i]['dulleSeq'],
+      userDulleWrite: json['result'][i]['userDulleWrite'],
     ));
   }
   return values;
 }
 
-List<Activity> activities = [
-  Activity(
-    seq: 222,
-    imgUrl: 'lib/assets/images/dulle2.jpeg',
-    contents: '태양이 나뭇잎에 가려져서 느껴지는 따뜻한 온기와 산책로에서 불어오는 바람이 좋았다.',
-    writer: '사푼 여신 사푼사푼',
-    score1: 1,
-    score2: 3,
-    score3: 4,
-    score4: 2,
-    rating: 4,
-    startTimes: ['12:30 pm', '2:00 pm'],
-    totalScore: 125,
-    dulleSeq: 3,
-  ),
-];

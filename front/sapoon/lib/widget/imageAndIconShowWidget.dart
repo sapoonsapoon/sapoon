@@ -58,7 +58,7 @@ class _ImageAndIconShowState extends State<ImageAndIconShow> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 0),
       child: SizedBox(
-        height: widget.size.height * 0.61,
+        height: widget.size.height * 0.68,
         child: Row(
           children: <Widget>[
             Expanded(

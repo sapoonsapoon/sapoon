@@ -120,7 +120,7 @@ public class CommunityController {
         }
 
     }
-
+    // test
     /**
      * 커뮤니티 게시글 리스트 가져오기 by 둘레길별로.
      *

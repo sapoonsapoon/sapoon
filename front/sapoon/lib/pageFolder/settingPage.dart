@@ -63,7 +63,6 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
           ],
         ),
         body: Stack(
-          fit: StackFit.expand,
           children: <Widget>[
             SingleChildScrollView(
               padding: const EdgeInsets.all(16.0),
@@ -209,7 +208,7 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
       margin: const EdgeInsets.symmetric(
         horizontal: 8.0,
       ),
-      width: double.infinity,
+      width: MediaQuery.of(context).size.width,
       height: 1.0,
       color: Colors.grey.shade400,
     );

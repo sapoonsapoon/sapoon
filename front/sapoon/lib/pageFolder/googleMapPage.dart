@@ -1,10 +1,12 @@
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hive/hive.dart';
 import 'package:sapoon/pageFolder/dulle_model.dart';
 import 'package:http/http.dart' as http;
+import '../rootPage.dart';
 import 'data.dart';
 
 class GoogleMapPage extends StatefulWidget {
@@ -14,10 +16,6 @@ class GoogleMapPage extends StatefulWidget {
 
 
 class _GoogleMapPageState extends State<GoogleMapPage> {
-
-
-
-
 
   GoogleMapController _controller;
 
@@ -62,8 +60,8 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
         }
         return Center(
           child: SizedBox(
-            height: Curves.easeInOut.transform(value) * 125.0,
-            width: Curves.easeInOut.transform(value) * 350.0,
+            height: 125.0,
+            width:  350.0,
             child: widget,
           ),
         );
@@ -167,6 +165,18 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
         ),
         body: Stack(
           children: <Widget>[
+            ListTile(
+              leading: Icon(
+                Icons.check_circle_outline,
+                color: Colors.green,
+              ),
+              title: Text("로그아웃", style: TextStyle(color: Colors.blueAccent),),
+              onTap: () {
+                FirebaseAuth.instance.signOut();
+                Route route = MaterialPageRoute(builder: (context) => RootPage());
+                Navigator.pushReplacement(context, route);
+              },
+            ),
             Container(
               height: MediaQuery.of(context).size.height - 50.0,
               width: MediaQuery.of(context).size.width,

@@ -4,6 +4,8 @@ PODS:
     - AppAuth/ExternalUserAgent (= 1.4.0)
   - AppAuth/Core (1.4.0)
   - AppAuth/ExternalUserAgent (1.4.0)
+  - apple_sign_in (0.0.1):
+    - Flutter
   - FBSDKCoreKit (5.15.1):
     - FBSDKCoreKit/Basics (= 5.15.1)
     - FBSDKCoreKit/Core (= 5.15.1)
@@ -14,8 +16,6 @@ PODS:
     - FBSDKLoginKit/Login (= 5.15.1)
   - FBSDKLoginKit/Login (5.15.1):
     - FBSDKCoreKit (~> 5.0)
-  - Firebase/Analytics (6.28.1):
-    - Firebase/Core
   - Firebase/Auth (6.28.1):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 6.7.0)
@@ -24,26 +24,16 @@ PODS:
     - FirebaseAnalytics (= 6.6.2)
   - Firebase/CoreOnly (6.28.1):
     - FirebaseCore (= 6.9.1)
-  - Firebase/Storage (6.28.1):
-    - Firebase/CoreOnly
-    - FirebaseStorage (~> 3.8.0)
-  - firebase_analytics (0.0.1):
-    - Firebase/Analytics (~> 6.0)
-    - Firebase/Core
-    - Flutter
-  - firebase_analytics_web (0.1.0):
-    - Flutter
   - firebase_auth (0.0.1):
-    - Firebase/Auth (~> 6.0)
+    - Firebase/Auth (~> 6.3)
     - Firebase/Core
+    - Flutter
+  - firebase_auth_web (0.1.0):
     - Flutter
   - firebase_core (0.0.1):
     - Firebase/Core
     - Flutter
   - firebase_core_web (0.1.0):
-    - Flutter
-  - firebase_storage (0.0.1):
-    - Firebase/Storage
     - Flutter
   - FirebaseAnalytics (6.6.2):
     - FirebaseCore (~> 6.8)
@@ -73,9 +63,6 @@ PODS:
     - GoogleUtilities/Environment (~> 6.7)
     - GoogleUtilities/UserDefaults (~> 6.7)
     - PromisesObjC (~> 1.2)
-  - FirebaseStorage (3.8.0):
-    - FirebaseCore (~> 6.8)
-    - GTMSessionFetcher/Core (~> 1.1)
   - Flutter (1.0.0)
   - flutter_facebook_login (0.0.1):
     - FBSDKCoreKit (~> 5.5)
@@ -84,6 +71,8 @@ PODS:
   - flutter_keyboard_visibility (0.0.1):
     - Flutter
   - flutter_plugin_android_lifecycle (0.0.1):
+    - Flutter
+  - flutter_share (0.0.1):
     - Flutter
   - flutter_webview_plugin (0.0.1):
     - Flutter
@@ -170,6 +159,8 @@ PODS:
     - Flutter
   - shared_preferences_web (0.0.1):
     - Flutter
+  - sign_in_with_apple (0.0.1):
+    - Flutter
   - sqflite (0.0.1):
     - Flutter
     - FMDB (~> 2.7.2)
@@ -177,16 +168,16 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
-  - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
-  - firebase_analytics_web (from `.symlinks/plugins/firebase_analytics_web/ios`)
+  - apple_sign_in (from `.symlinks/plugins/apple_sign_in/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
+  - firebase_auth_web (from `.symlinks/plugins/firebase_auth_web/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_core_web (from `.symlinks/plugins/firebase_core_web/ios`)
-  - firebase_storage (from `.symlinks/plugins/firebase_storage/ios`)
   - Flutter (from `Flutter`)
   - flutter_facebook_login (from `.symlinks/plugins/flutter_facebook_login/ios`)
   - flutter_keyboard_visibility (from `.symlinks/plugins/flutter_keyboard_visibility/ios`)
   - flutter_plugin_android_lifecycle (from `.symlinks/plugins/flutter_plugin_android_lifecycle/ios`)
+  - flutter_share (from `.symlinks/plugins/flutter_share/ios`)
   - flutter_webview_plugin (from `.symlinks/plugins/flutter_webview_plugin/ios`)
   - geolocator (from `.symlinks/plugins/geolocator/ios`)
   - google_api_availability (from `.symlinks/plugins/google_api_availability/ios`)
@@ -202,6 +193,7 @@ DEPENDENCIES:
   - shared_preferences_linux (from `.symlinks/plugins/shared_preferences_linux/ios`)
   - shared_preferences_macos (from `.symlinks/plugins/shared_preferences_macos/ios`)
   - shared_preferences_web (from `.symlinks/plugins/shared_preferences_web/ios`)
+  - sign_in_with_apple (from `.symlinks/plugins/sign_in_with_apple/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
   - webview_flutter (from `.symlinks/plugins/webview_flutter/ios`)
 
@@ -216,7 +208,6 @@ SPEC REPOS:
     - FirebaseCore
     - FirebaseCoreDiagnostics
     - FirebaseInstallations
-    - FirebaseStorage
     - FMDB
     - GoogleAppMeasurement
     - GoogleDataTransport
@@ -229,18 +220,16 @@ SPEC REPOS:
     - PromisesObjC
 
 EXTERNAL SOURCES:
-  firebase_analytics:
-    :path: ".symlinks/plugins/firebase_analytics/ios"
-  firebase_analytics_web:
-    :path: ".symlinks/plugins/firebase_analytics_web/ios"
+  apple_sign_in:
+    :path: ".symlinks/plugins/apple_sign_in/ios"
   firebase_auth:
     :path: ".symlinks/plugins/firebase_auth/ios"
+  firebase_auth_web:
+    :path: ".symlinks/plugins/firebase_auth_web/ios"
   firebase_core:
     :path: ".symlinks/plugins/firebase_core/ios"
   firebase_core_web:
     :path: ".symlinks/plugins/firebase_core_web/ios"
-  firebase_storage:
-    :path: ".symlinks/plugins/firebase_storage/ios"
   Flutter:
     :path: Flutter
   flutter_facebook_login:
@@ -249,6 +238,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_keyboard_visibility/ios"
   flutter_plugin_android_lifecycle:
     :path: ".symlinks/plugins/flutter_plugin_android_lifecycle/ios"
+  flutter_share:
+    :path: ".symlinks/plugins/flutter_share/ios"
   flutter_webview_plugin:
     :path: ".symlinks/plugins/flutter_webview_plugin/ios"
   geolocator:
@@ -279,6 +270,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/shared_preferences_macos/ios"
   shared_preferences_web:
     :path: ".symlinks/plugins/shared_preferences_web/ios"
+  sign_in_with_apple:
+    :path: ".symlinks/plugins/sign_in_with_apple/ios"
   sqflite:
     :path: ".symlinks/plugins/sqflite/ios"
   webview_flutter:
@@ -286,25 +279,24 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
+  apple_sign_in: 7716c7ddfa195aeab7dec0dc374ef4ff45d1adb4
   FBSDKCoreKit: 1d5acf7c9d7a2f92bb1a242dc60cae5b7adb91df
   FBSDKLoginKit: f1ea8026a58b52d30c9f2e6a58ca7d813619fb83
   Firebase: ed042590caa0029392257529a8003c25ee82bc18
-  firebase_analytics: 9118044ffb98bee71d84733fc594f5134fe4bc1b
-  firebase_analytics_web: 7d539061ea4af07563a0e21044af89cab70efec0
-  firebase_auth: d99b993c1405096e66c58211b1cd956c23eed1c5
+  firebase_auth: af8784c4d8d87c36f730a305f97bfbcb24db024b
+  firebase_auth_web: 0955c07bcc06e84af76b9d4e32e6f31518f2d7de
   firebase_core: 335c02abd48672b7c83c683df833d0488a72e73e
   firebase_core_web: d501d8b946b60c8af265428ce483b0fff5ad52d1
-  firebase_storage: 22966fce4aa6e8848cbaa017df62107cee29f327
   FirebaseAnalytics: 5fa308e1b13f838d0f6dc74719ac2a72e8c5afc4
   FirebaseAuth: 06feef26ff3a98323677c76c4102146b872cd6b7
   FirebaseCore: 687b8e6a0a4337b898a6326d68254c2f80c143af
   FirebaseCoreDiagnostics: 7535fe695737f8c5b350584292a70b7f8ff0357b
   FirebaseInstallations: 3c520c951305cbf9ca54eb891ff9e6d1fd384881
-  FirebaseStorage: 3ef81ca5fa7817f85451ca09d516a34d2c7542a7
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_facebook_login: cfb5659f686b1c575ef205c6b6fd20db9679d3c4
   flutter_keyboard_visibility: 0339d06371254c3eb25eeb90ba8d17dca8f9c069
   flutter_plugin_android_lifecycle: dc0b544e129eebb77a6bfb1239d4d1c673a60a35
+  flutter_share: 4be0208963c60b537e6255ed2ce1faae61cd9ac2
   flutter_webview_plugin: ed9e8a6a96baf0c867e90e1bce2673913eeac694
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   geolocator: f7622e0e7e2a24718285b73916d60c4a54b9f5b6
@@ -330,6 +322,7 @@ SPEC CHECKSUMS:
   shared_preferences_linux: afefbfe8d921e207f01ede8b60373d9e3b566b78
   shared_preferences_macos: f3f29b71ccbb56bf40c9dd6396c9acf15e214087
   shared_preferences_web: 141cce0c3ed1a1c5bf2a0e44f52d31eeb66e5ea9
+  sign_in_with_apple: 34f3f5456a45fd7ac5fb42905e2ad31dae061b4a
   sqflite: 4001a31ff81d210346b500c55b17f4d6c7589dd0
   webview_flutter: d2b4d6c66968ad042ad94cbb791f5b72b4678a96
 

@@ -1,6 +1,12 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:apple_sign_in/apple_id_credential.dart';
+import 'package:apple_sign_in/apple_id_request.dart';
+import 'package:apple_sign_in/apple_sign_in.dart' as apple;
+import 'package:apple_sign_in/apple_sign_in.dart';
+import 'package:apple_sign_in/scope.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_awesome_buttons/flutter_awesome_buttons.dart';
+import 'package:flutter_awesome_buttons/flutter_awesome_buttons.dart' as fontawsome;
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:hive/hive.dart';
 import 'package:sapoon/LoginPage/SignUpPage.dart';
@@ -25,7 +31,6 @@ class _LoginPageState extends State<LoginPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
   void showInSnackBar(String value) {
     _scaffoldKey.currentState
         .showSnackBar(new SnackBar(content: new Text(value)));
@@ -34,6 +39,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
+    Hive.box('image').put('apple','0');
   }
 
   @override
@@ -130,7 +136,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     color: Colors.blue,
                     onPressed: () {},
-                    child: SignInWithGoogle(
+                    child: fontawsome.SignInWithGoogle(
                       onPressed: () {
                         _handleSignIn().then((user) {
                           print(user);
@@ -152,9 +158,31 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     onPressed: () {},
                     color: Color.fromRGBO(73, 101, 159, 1),
-                    child: SignInWithFacebook(
+                    child: fontawsome.SignInWithFacebook(
                       onPressed: () {
                         _handleSignInFacebook().then((user) {
+                        });
+                      },
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(5.0),
+                ),
+
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width * 0.128,
+                      right: MediaQuery.of(context).size.width * 0.128),
+                  child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    onPressed: () {},
+                    color: Color.fromRGBO(51, 51, 51, 1),
+                    child: fontawsome.SignInWithApple(
+                      onPressed: () {
+                        _handleSignInApple().then((user) {
 
                         });
                       },
@@ -164,6 +192,8 @@ class _LoginPageState extends State<LoginPage> {
                 Padding(
                   padding: EdgeInsets.all(5.0),
                 ),
+
+
                 InkWell(
                   onTap: () {
                     createSignIn(
@@ -297,10 +327,25 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  Future<FirebaseUser> _handleSignInApple() async {
+    AuthorizationRequest authorizationRequest = AppleIdRequest(requestedScopes: [Scope.email, Scope.fullName]);
+    AuthorizationResult authorizationResult = await AppleSignIn.performRequests([authorizationRequest]);
+    AppleIdCredential appleCredential = authorizationResult.credential;
+    OAuthProvider provider = new OAuthProvider(providerId: "apple.com");
+    AuthCredential credential = provider.getCredential( idToken: String.fromCharCodes(appleCredential.identityToken),
+      accessToken: String.fromCharCodes(appleCredential.authorizationCode), );
+    FirebaseAuth auth = FirebaseAuth.instance;
+    AuthResult authResult = await auth.signInWithCredential(credential);
+    Hive.box('image').put('apple','1');
+    FirebaseUser user = authResult.user;
+    return user;
+  }
+
   Future<FirebaseUser> _handleSignIn() async {
     GoogleSignInAccount googleUser;
     FirebaseUser user;
     try{
+      Hive.box('image').put('apple','0');
       googleUser = await _googleSignIn.signIn();
       GoogleSignInAuthentication googleAuth = await googleUser.authentication;
       user = (await _auth.signInWithCredential(
@@ -309,6 +354,7 @@ class _LoginPageState extends State<LoginPage> {
               accessToken: googleAuth.accessToken)))
           .user;
       print("signed in " + user.displayName);
+
     }catch(response){
       showInSnackBar(response.toString());
     }
@@ -319,6 +365,7 @@ class _LoginPageState extends State<LoginPage> {
     FacebookLogin facebookLogin = FacebookLogin();
     AuthResult authResult;
     try{
+      Hive.box('image').put('apple','0');
       FacebookLoginResult result =
       await facebookLogin.logIn(['email', 'public_profile']);
       AuthCredential credential = FacebookAuthProvider.getCredential(
@@ -330,6 +377,8 @@ class _LoginPageState extends State<LoginPage> {
     FirebaseUser user = authResult.user;
     return user;
   }
+
+
 
 }
 

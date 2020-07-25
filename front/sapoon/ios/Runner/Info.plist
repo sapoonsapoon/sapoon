@@ -15,7 +15,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>$(FLUTTER_BUILD_NAME)</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -36,7 +36,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>FacebookAppID</key>
 	<string>648002276143264</string>
 	<key>FacebookDisplayName</key>
@@ -62,17 +62,11 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Sapoon에서 카메라 권한이 필요합니다.</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Sapoon에서 위치 권한이 필요합니다.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Sapoon에서 위치 권한이 필요합니다.</string>
+	<string>Enable Sapoon to access your camera roll to upload your photos and save ones you&apos;ve taken with the app</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Sapoon에서 위치 권한이 필요합니다.</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Sapoon에서 카메라 권한이 필요합니다</string>
+	<string>This allows us to use your location to provide your certain features like provide the closest tour list</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Sapoon에서 카메라 권한이 필요합니다</string>
+	<string>Sapoon request this permission to take pictures of the trails</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -92,5 +86,12 @@
 	<false/>
 	<key>io.flutter.embedded_views_preview</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+        <key>NSAllowsArbitraryLoadsInWebContent</key>
+            <true/>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 </dict>
 </plist>

@@ -1,11 +1,13 @@
 import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sapoon/pageFolder/data.dart';
 import 'package:sapoon/pageFolder/destinationPage.dart';
 import 'package:sapoon/provider/regionProvider.dart';
+import 'package:sapoon/rootPage.dart';
 import 'package:sapoon/widget/activityWidget.dart';
 import 'package:sapoon/widget/cardRegionWidget.dart';
 import 'package:sapoon/widget/cardWidget.dart';
@@ -187,17 +189,28 @@ class _CommunityBoardPageState extends State<CommunityBoardPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+//              Container(
+//                  height: MediaQuery.of(context).size.height*0.45,
+//                  width: MediaQuery.of(context).size.width,
+//                  child:   WebView(
+//                    initialUrl: "http://34.80.151.71/sapoon/web/promenade/seoul",
+//                    javascriptMode: JavascriptMode.unrestricted,
+//                    javascriptChannels: <JavascriptChannel>[
+//                      jsChannels(context , _regionProvider),
+//                    ].toSet(),
+//                  )
+//              ),
               Container(
-                  height: MediaQuery.of(context).size.height*0.45,
-                  child:   WebView(
+                height: 400,
+                child:  WebView(
                     initialUrl: "http://34.80.151.71/sapoon/web/promenade/seoul",
-                    javascriptMode: JavascriptMode.unrestricted,
-                    javascriptChannels: <JavascriptChannel>[
-                      jsChannels(context , _regionProvider),
-                    ].toSet(),
-                  )
-              ),
+                  javascriptMode: JavascriptMode.unrestricted,
+                  javascriptChannels: <JavascriptChannel>[
+                    jsChannels(context , _regionProvider),
+                  ].toSet(),
+                ),
 
+              ),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.01,
                 width: 300,
@@ -219,7 +232,8 @@ class _CommunityBoardPageState extends State<CommunityBoardPage> {
                       setState(() {
                         _seconds++;
                       });
-                    }, icon: Icon(Icons.search ,color: Colors.green,), label: Text("\("+_regionProvider.currentRegion() +"\)"+' 조회하기', style: TextStyle(color: Colors.green),) ),
+                    }, icon: Icon(Icons.search ,color: Colors.green,),
+                        label: Text("\("+_regionProvider.currentRegion() +"\)"+' 조회하기', style: TextStyle(color: Colors.green),) ),
                   ],
                 ),
               ),
@@ -240,9 +254,6 @@ class _CommunityBoardPageState extends State<CommunityBoardPage> {
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.width * 0.36,
                 child: futureBuilder(),
-              ),
-              Divider(
-
               ),
               Padding(
                 padding: EdgeInsets.only(top: MediaQuery.of(context).size.width * 0.01, ),

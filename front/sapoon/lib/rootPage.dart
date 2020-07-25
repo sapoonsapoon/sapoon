@@ -26,8 +26,19 @@ class RootPage extends StatelessWidget {
         } else {
           if (snapshot.hasData) {
             user= snapshot.data;
-            Hive.box('image').put('nickname',user.displayName);
-            Hive.box('image').put('profilePhoto',user.photoUrl);
+            String apple = Hive.box('image').get('apple');
+            if(apple == '1')
+              {
+                Hive.box('image').put('nickname','Apple');
+                Hive.box('image').put('profilePhoto','https://picsum.photos/200/300');
+                Hive.box('image').put('loginWithSapoon','1');
+              }
+            else{
+              Hive.box('image').put('nickname',user.displayName);
+              Hive.box('image').put('profilePhoto',user.photoUrl);
+              Hive.box('image').put('loginWithSapoon','0');
+            }
+
             return LandingPage();
           }
           return LoginPage();

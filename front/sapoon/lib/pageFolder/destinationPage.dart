@@ -20,7 +20,7 @@ class DestinationPage extends StatefulWidget {
 class _DestinationPageState extends State<DestinationPage> {
   Future<List<Activity>> futureActivity;
   List<Activity> countActivity = new List<Activity>();
-
+  int seq=0;
   Future<List<Activity>> getActivityRecent() async {
     try {
       Future<List<Activity>> activityLis =
@@ -50,6 +50,12 @@ class _DestinationPageState extends State<DestinationPage> {
   }
 
   @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    futureActivity = getActivityRecent();
+    super.didChangeDependencies();
+  }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
@@ -78,6 +84,10 @@ class _DestinationPageState extends State<DestinationPage> {
                           bottomLeft: Radius.circular(20.0)),
                       child: GestureDetector(
                         onTap: () {
+                          setState(() {
+                            futureActivity = getActivityRecent();
+                          });
+
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -122,6 +132,11 @@ class _DestinationPageState extends State<DestinationPage> {
                             iconSize: 30.0,
                             color: Colors.white,
                             onPressed: () {
+                              futureActivity = getActivityRecent();
+                              setState(() {
+                                seq++;
+                              });
+
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -136,6 +151,11 @@ class _DestinationPageState extends State<DestinationPage> {
                             iconSize: 25.0,
                             color: Colors.white,
                             onPressed: () {
+
+                              setState(() {
+                                futureActivity = getActivityRecent();
+                                seq++;
+                              });
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -143,6 +163,9 @@ class _DestinationPageState extends State<DestinationPage> {
                                           DulleTrailDetailPage(
                                             posts: widget.posts,
                                           )));
+
+
+
                             },
                           ),
                         ],
@@ -409,6 +432,10 @@ class _DestinationPageState extends State<DestinationPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          setState(() {
+            futureActivity = getActivityRecent();
+            seq++;
+          });
           Navigator.push(
               context,
               MaterialPageRoute(

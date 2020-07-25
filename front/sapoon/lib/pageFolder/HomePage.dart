@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -12,6 +13,7 @@ import 'package:sapoon/pageFolder/destinationPage.dart';
 import 'package:sapoon/pageFolder/communityDetailPage.dart';
 import 'package:sapoon/pageFolder/trailEditPage.dart';
 import 'package:http/http.dart' as http;
+import 'package:sapoon/rootPage.dart';
 import 'package:sapoon/widget/activityWidget.dart';
 import 'package:sapoon/widget/cardWidget.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
@@ -25,6 +27,49 @@ Future<List<Post>> getRandomFiveTrail(dynamic lat, dynamic lon) async {
   final http.Response response = await http.get(
       Uri.encodeFull(
           'http://34.80.151.71/sapoon/promenade/dullegil/main/recommend?x='+lat.toString()+'&y='+lon.toString()),
+      headers: {"Accept": "application/json"});
+  if (response.statusCode == 200) {
+    return makePostList(json.decode(utf8.decode(response.bodyBytes)));
+  } else {
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+    throw Exception();
+  }
+}
+
+Future<List<Post>> getRandomWaterTrail() async {
+  final http.Response response = await http.get(
+      Uri.encodeFull(
+          'http://34.80.151.71/sapoon/promenade/dullegil/main/theme?x=0&y=0&theme=01'),
+      headers: {"Accept": "application/json"});
+  if (response.statusCode == 200) {
+    return makePostList(json.decode(utf8.decode(response.bodyBytes)));
+  } else {
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+    throw Exception();
+  }
+}
+
+
+Future<List<Post>> getRandomToiletTrail() async {
+  final http.Response response = await http.get(
+      Uri.encodeFull(
+          'http://34.80.151.71/sapoon/promenade/dullegil/main/theme?x=0&y=0&theme=02'),
+      headers: {"Accept": "application/json"});
+  if (response.statusCode == 200) {
+    return makePostList(json.decode(utf8.decode(response.bodyBytes)));
+  } else {
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+    throw Exception();
+  }
+}
+
+Future<List<Post>> getRandomCafeTrail() async {
+  final http.Response response = await http.get(
+      Uri.encodeFull(
+          'http://34.80.151.71/sapoon/promenade/dullegil/main/theme?x=0&y=0&theme=03'),
       headers: {"Accept": "application/json"});
   if (response.statusCode == 200) {
     return makePostList(json.decode(utf8.decode(response.bodyBytes)));
@@ -62,6 +107,7 @@ class _HomePageState extends State<HomePage> {
   List<String> myList = ["foo", "bar"];
   String _nickName = Hive.box('image').get('nickname');
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  int _seconds = 1;
 
   List latitudeLongitudes = new List();
   Future<List> saveLalon;
@@ -179,6 +225,7 @@ class _HomePageState extends State<HomePage> {
               height: MediaQuery.of(context).size.width * 0.24,
               width: MediaQuery.of(context).size.width * 0.13,
             ),
+
             Container(
               width: MediaQuery.of(context).size.width * 0.54,
               height: MediaQuery.of(context).size.width * 0.13,
@@ -328,6 +375,7 @@ class _HomePageState extends State<HomePage> {
               ),
               Container(
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.04,
@@ -339,6 +387,71 @@ class _HomePageState extends State<HomePage> {
                           fontFamily: "NanumSquareExtraBold",
                           fontSize: MediaQuery.of(context).size.width * 0.035),
                     ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.04,
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.04,
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.04,
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.04,
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.04,
+                    ),
+
+                    GestureDetector(
+                        onTap: () {
+                          post = getRandomFiveTrail(0,0);
+                          setState(() {
+                            _seconds++;
+                          });
+                        },
+                        child: Icon(Icons.perm_data_setting ,color: Colors.orange,)),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.01,
+                    ),
+                    GestureDetector(
+                        onTap: () {
+                          post = getRandomCafeTrail();
+                          setState(() {
+                            _seconds++;
+                          });
+                        },
+                        child: Icon(Icons.free_breakfast ,color: Colors.redAccent,)),
+
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.01,
+                    ),
+                    GestureDetector(
+                        onTap: () {
+                          post = getRandomWaterTrail();
+                          setState(() {
+                            _seconds++;
+                          });
+                        },
+                        child: Icon(Icons.local_drink ,color: Colors.lightBlue,)),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.01,
+                    ),
+
+
+                    GestureDetector(
+                        onTap: () {
+                          post = getRandomToiletTrail();
+                          setState(() {
+                            _seconds++;
+                          });
+                        },
+                        child: Icon(Icons.wc ,color: Colors.grey,)),
+
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.04,
+                    ),
+
                   ],
                 ),
               ),
@@ -406,6 +519,7 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.01,
               ),
+
               Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height * 0.55,
@@ -519,7 +633,7 @@ class _HomePageState extends State<HomePage> {
                                                 isReadOnly: true,
                                               ),
                                               Container(
-                                                padding: EdgeInsets.all(5.0),
+                                                padding: EdgeInsets.only(left: 6),
                                                 width: MediaQuery.of(context).size.width*0.3,
                                                 alignment:
                                                     Alignment.centerRight,
@@ -532,7 +646,8 @@ class _HomePageState extends State<HomePage> {
                                                 ),
                                               ),
                                             ],
-                                          )
+                                          ),
+                                          Icon(Icons.wb_sunny ,color: Colors.red),
                                         ],
                                       ),
                                     ),
